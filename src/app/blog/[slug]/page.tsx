@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Calendar, Clock, FolderOpen, Tag, ArrowLeft, ArrowRight } from "lucide-react";
+import { Calendar, Clock, FolderOpen, Tag, ArrowLeft, ArrowRight, Eye } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 async function getPost(slug: string) {
-  return (prisma as any).post.findUnique({
+  const post = await (prisma as any).post.findUnique({
     where: { slug, status: "PUBLISHED" },
     include: {
       category: { include: { parent: true } },
@@ -15,6 +15,16 @@ async function getPost(slug: string) {
       tags: { include: { tag: true } },
     },
   });
+
+  if (post) {
+    await (prisma as any).post.update({
+      where: { id: post.id },
+      data: { views: { increment: 1 } },
+    });
+    post.views += 1;
+  }
+
+  return post;
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -113,25 +123,39 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
         {/* Header */}
         <header className="mb-8">
-          <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-white/40">
+          <div className="mb-5 flex flex-wrap items-center gap-3 text-xs font-semibold text-white/50">
             <Link href={`/blog?cat=${post.category.slug}`} className="inline-flex items-center gap-1.5 rounded-full border border-red-600/30 bg-red-600/10 px-3 py-1 text-red-400 hover:bg-red-600/20 transition-colors">
-              <FolderOpen size={10} /> {post.category.name}
+              <FolderOpen size={12} /> {post.category.name}
             </Link>
-            <span className="inline-flex items-center gap-1"><Calendar size={10} /> {new Date(post.publishedAt).toLocaleDateString("en", { year: "numeric", month: "long", day: "numeric" })}</span>
-            <span className="inline-flex items-center gap-1"><Clock size={10} /> {mins} min read</span>
+            <span className="inline-flex items-center gap-1.5 bg-white/5 rounded-full px-3 py-1"><Calendar size={12} /> {new Date(post.publishedAt).toLocaleString("en", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" })}</span>
+            <span className="inline-flex items-center gap-1.5 bg-white/5 rounded-full px-3 py-1"><Eye size={12} /> {post.views} Views</span>
+            <span className="inline-flex items-center gap-1.5 bg-white/5 rounded-full px-3 py-1"><Clock size={12} /> {mins} min read</span>
           </div>
 
-          <h1 className="text-3xl font-black leading-tight tracking-tight text-white md:text-4xl">{post.title}</h1>
+          <h1 className="text-3xl font-black leading-tight tracking-tight text-white md:text-5xl">{post.title}</h1>
 
           {post.excerpt && (
-            <p className="mt-4 text-lg leading-relaxed text-white/50">{post.excerpt}</p>
+            <p className="mt-6 text-lg leading-relaxed text-white/60">{post.excerpt}</p>
           )}
 
-          <div className="mt-5 flex items-center gap-3 border-t border-white/5 pt-5 text-sm text-white/30">
-            <div className="grid h-8 w-8 place-items-center rounded-full bg-red-600 text-xs font-black text-white">
+          {post.tags.length > 0 && (
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              {post.tags.map((t: any) => (
+                <Link key={t.tag.slug} href={`/blog?tag=${t.tag.slug}`} className="text-sm font-bold text-red-400 hover:text-red-300 transition-colors">
+                  #{t.tag.name}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-8 flex items-center gap-3 border-t border-white/5 pt-6 text-sm text-white/30">
+            <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-sm font-black text-white shadow-lg">
               {post.author.name.slice(0, 2).toUpperCase()}
             </div>
-            <span>{post.author.name}</span>
+            <div className="flex flex-col">
+              <span className="font-bold text-white/80">{post.author.name}</span>
+              <span className="text-xs">HubWeld Expert</span>
+            </div>
           </div>
         </header>
 
@@ -148,27 +172,25 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           dangerouslySetInnerHTML={{ __html: post.body }}
         />
 
-        {/* Tags */}
-        {post.tags.length > 0 && (
-          <div className="mt-10 flex flex-wrap items-center gap-2 border-t border-white/5 pt-6">
-            <Tag size={13} className="text-white/30" />
-            {post.tags.map((t: any) => (
-              <Link key={t.tag.slug} href={`/blog?tag=${t.tag.slug}`} className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/40 hover:border-red-600/30 hover:text-red-400 transition-colors">
-                {t.tag.name}
-              </Link>
-            ))}
-          </div>
-        )}
-
         {/* Related */}
         {related.length > 0 && (
-          <aside className="mt-14">
-            <h2 className="mb-5 text-xs font-black uppercase tracking-widest text-white/30">Related Articles</h2>
-            <div className="grid gap-3 sm:grid-cols-3">
+          <aside className="mt-16 rounded-2xl border border-white/10 bg-gradient-to-br from-[#111315] to-[#0a0c0e] p-8 shadow-2xl">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="h-10 w-1 rounded-full bg-red-600" />
+              <h2 className="text-xl font-black tracking-tight text-white">Keep Reading</h2>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-3">
               {related.map((r: any) => (
-                <Link key={r.id} href={`/blog/${r.slug}`} className="group rounded-xl border border-white/10 bg-[#111315] p-4 hover:border-red-600/30 transition-colors">
-                  <div className="mb-1 text-xs text-white/30">{r.category.name}</div>
-                  <div className="text-sm font-semibold text-white group-hover:text-red-400 transition-colors line-clamp-2">{r.title}</div>
+                <Link key={r.id} href={`/blog/${r.slug}`} className="group relative overflow-hidden rounded-xl border border-white/5 bg-black/20 hover:border-red-600/30 hover:bg-black/40 transition-all">
+                  {r.coverImage && (
+                    <div className="h-32 w-full overflow-hidden">
+                      <img src={r.coverImage} alt={r.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    <div className="mb-2 text-xs font-bold text-red-400">{r.category.name}</div>
+                    <div className="text-sm font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{r.title}</div>
+                  </div>
                 </Link>
               ))}
             </div>

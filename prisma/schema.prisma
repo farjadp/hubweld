@@ -236,6 +236,7 @@ model Post {
   seoDesc       String      @default("")
   seoKeywords   String      @default("")   // comma-separated
   status        String      @default("DRAFT") // DRAFT | PUBLISHED
+  views         Int         @default(0)
   authorId      String
   author        User        @relation(fields: [authorId], references: [id])
   categoryId    String
