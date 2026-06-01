@@ -3,6 +3,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Install OpenSSL for Prisma
+RUN apk add --no-cache openssl libssl3
+
 # Copy package files
 COPY package*.json ./
 COPY prisma ./prisma/
@@ -13,8 +16,10 @@ RUN npm ci
 # Copy all files
 COPY . .
 
-# Generate Prisma client and build (no migrate here - will do at runtime)
+# Generate Prisma client and build
 ENV NEXT_TELEMETRY_DISABLED=1
+# Dummy DB URL for build - Prisma needs this to generate client
+ENV DATABASE_URL="file:/tmp/dev.db"
 RUN npx prisma generate
 RUN npm run build
 
@@ -30,8 +35,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Install required packages for runtime
-RUN apk add --no-cache libstdc++
+# Install required packages for runtime (OpenSSL needed for Prisma)
+RUN apk add --no-cache openssl libssl3 libstdc++
 
 # Copy necessary files
 COPY --from=builder /app/public ./public
