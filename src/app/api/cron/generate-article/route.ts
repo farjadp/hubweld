@@ -36,9 +36,9 @@ export async function GET(request: Request) {
     if (!category) {
       category = await prisma.postCategory.create({
         data: {
-          name: "مقالات تخصصی",
-          slug: "specialized-articles",
-          description: "مقالات تخصصی در حوزه جوشکاری و تجهیزات صنعتی",
+          name: "Industry Insights",
+          slug: "industry-insights",
+          description: "Specialized articles and insights in the welding and industrial equipment sector",
         },
       });
     }
@@ -47,7 +47,7 @@ export async function GET(request: Request) {
     const prompt = `
       You are an expert SEO content writer and industry specialist in Welding, Industrial Equipment, and B2B Marketplaces.
       Your task is to write a highly optimized article for GEO (Generative Engine Optimization) and SEO.
-      The target language is Persian (فارسی).
+      The target language is English.
 
       Focus on one of these topics randomly:
       - Advanced welding techniques (TIG, MIG, Stick)
@@ -65,9 +65,9 @@ export async function GET(request: Request) {
 
       Output MUST be a valid JSON object with the following schema:
       {
-        "title": "The main H1 title of the article (Persian)",
-        "seoTitle": "SEO optimized title under 60 chars (Persian)",
-        "seoDesc": "SEO optimized meta description under 160 chars (Persian)",
+        "title": "The main H1 title of the article (English)",
+        "seoTitle": "SEO optimized title under 60 chars (English)",
+        "seoDesc": "SEO optimized meta description under 160 chars (English)",
         "seoKeywords": "comma, separated, keywords",
         "excerpt": "A short 2-sentence summary",
         "body": "The full article content in HTML format. DO NOT include the <h1> title in the body, start with <p> or <h2>."
