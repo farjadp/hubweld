@@ -1,4 +1,5 @@
 import { Linkedin, Mail } from "lucide-react";
+import Image from "next/image";
 
 const teamMembers = [
   {
@@ -6,30 +7,35 @@ const teamMembers = [
     role: "Founder & CEO",
     description: "Driving the overall vision and strategy of HubWeld. Elyas brings extensive leadership experience and is dedicated to transforming the welding industry through innovative technology.",
     linkedin: "https://www.linkedin.com/in/elyaspournajaf/",
+    image: "/images/team/elyas.jpg",
   },
   {
     name: "Sarvenaz Alizadeh",
     role: "Co-founder & COO",
     description: "Overseeing daily operations and management. Sarvenaz ensures that the HubWeld ecosystem runs smoothly, focusing on user experience, support, and sustainable growth.",
     linkedin: "https://www.linkedin.com/in/sarvenaz-alizadeh-0228097a/",
+    image: "/images/team/sarvenaz.jpg",
   },
   {
     name: "Farid Mashak",
     role: "Co-founder & CBDO",
     description: "Leading business development and strategic partnerships. Farid connects HubWeld with top industry suppliers and enterprise clients to expand our B2B marketplace.",
     linkedin: "https://www.linkedin.com/in/farid-mashak/?skipRedirect=true",
+    image: "/images/team/farid.jpg",
   },
   {
     name: "Reza Sadeghi",
     role: "Co-founder & CPO",
     description: "Guiding product strategy and marketing. With deep industry knowledge, Reza ensures that our features directly address the real-world pain points of welders and contractors.",
     linkedin: "https://www.linkedin.com/in/reza-sadeghi-37b1b181/",
+    image: "/images/team/reza.jpg",
   },
   {
     name: "Farjad",
     role: "CTO - Staff Engineer",
     description: "Architecting the technical foundation of the platform. Farjad leads the engineering team, focusing on scalable infrastructure, security, and cutting-edge software solutions.",
     linkedin: "https://www.linkedin.com/in/farjadpourmohammad/",
+    image: "/images/team/farjad.jpg",
   },
 ];
 
@@ -59,9 +65,15 @@ export default function TeamPage() {
               const initial = member.name.charAt(0);
               return (
                 <div key={idx} className="group relative rounded-3xl border border-white/10 bg-[#0f1113] p-8 text-center transition-all hover:bg-white/[0.02] hover:border-white/20 hover:shadow-2xl hover:shadow-red-600/10 flex flex-col h-full">
-                  {/* Avatar Placeholder */}
-                  <div className="mx-auto mb-6 grid h-28 w-28 shrink-0 place-items-center rounded-full bg-gradient-to-tr from-red-600/20 to-red-500/10 ring-2 ring-red-500/20 group-hover:scale-105 transition-transform">
-                    <span className="text-4xl font-black text-red-400/50">{initial}</span>
+                  {/* Avatar */}
+                  <div className="mx-auto mb-6 relative h-28 w-28 shrink-0 rounded-full ring-2 ring-red-500/20 group-hover:scale-105 transition-transform overflow-hidden shadow-xl shadow-black/50">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover"
+                      sizes="112px"
+                    />
                   </div>
                   
                   <h3 className="text-2xl font-bold text-white mb-2">{member.name}</h3>
