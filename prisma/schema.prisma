@@ -1,0 +1,258 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  name          String
+  role          String   @default("CUSTOMER") // CUSTOMER | WELDER | SUPPLIER | ADMIN
+  city          String?
+  phone         String?
+  banned        Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  welderProfile   WelderProfile?
+  supplierProfile SupplierProfile?
+  jobs          Job[]    @relation("CustomerJobs")
+  bids          Bid[]
+  reviews       Review[] @relation("ReviewAuthor")
+  receivedReviews Review[] @relation("ReviewSubject")
+  messagesSent  Message[] @relation("MsgFrom")
+  messagesRecv  Message[] @relation("MsgTo")
+  products      Product[]
+  cart          Cart?
+  orders        Order[]
+  supplierOrderItems OrderItem[] @relation("SupplierItems")
+  posts         Post[]
+}
+
+model WelderProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio         String   @default("")
+  skills      String   @default("") // comma-separated: TIG,MIG,Stick,Pipe,Stainless,Aluminum
+  certifications String @default("") // AWS, CWB, etc.
+  serviceArea String   @default("") // city/region
+  hourlyRate  Int?
+  yearsExp    Int?
+  approved    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  customerId  String
+  customer    User     @relation("CustomerJobs", fields: [customerId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  city        String
+  category    String   // mobile | fabrication | repair | structural | other
+  budget      Int?
+  status      String   @default("OPEN") // OPEN | ASSIGNED | IN_PROGRESS | COMPLETED | CANCELLED
+  acceptedBidId String? @unique
+  createdAt   DateTime @default(now())
+  bids        Bid[]
+  reviews     Review[]
+  messages    Message[]
+}
+
+model Bid {
+  id        String   @id @default(cuid())
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  welderId  String
+  welder    User     @relation(fields: [welderId], references: [id], onDelete: Cascade)
+  amount    Int
+  message   String   @default("")
+  status    String   @default("PENDING") // PENDING | ACCEPTED | REJECTED
+  createdAt DateTime @default(now())
+  @@unique([jobId, welderId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation("ReviewAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  subjectId String
+  subject   User     @relation("ReviewSubject", fields: [subjectId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String   @default("")
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  fromId    String
+  from      User     @relation("MsgFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  toId      String
+  to        User     @relation("MsgTo", fields: [toId], references: [id], onDelete: Cascade)
+  body      String
+  createdAt DateTime @default(now())
+}
+
+// ============ B2B Marketplace ============
+
+model SupplierProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessName String  @default("")
+  description String   @default("")
+  website     String   @default("")
+  logoUrl     String   @default("")
+  approved    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model ProductCategory {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  parentId    String?
+  parent      ProductCategory?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children    ProductCategory[] @relation("CategoryTree")
+  sortOrder   Int      @default(0)
+  products    Product[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  supplierId  String
+  supplier    User     @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  categoryId  String
+  category    ProductCategory @relation(fields: [categoryId], references: [id])
+  slug        String   @unique
+  name        String
+  brand       String   @default("")
+  sku         String   @default("")
+  description String   @default("")
+  priceCents  Int      // in cents, USD
+  stock       Int      @default(0)
+  imageUrl    String   @default("")
+  specsJson   String   @default("{}") // JSON string for specs
+  status      String   @default("ACTIVE") // DRAFT | ACTIVE | ARCHIVED
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  cartItems   CartItem[]
+}
+
+model Cart {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+  createdAt DateTime @default(now())
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  @@unique([cartId, productId])
+}
+
+model Order {
+  id            String   @id @default(cuid())
+  buyerId       String
+  buyer         User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  status        String   @default("PENDING") // PENDING | PAID | SHIPPED | COMPLETED | CANCELLED
+  subtotalCents Int
+  shippingCents Int      @default(0)
+  taxCents      Int      @default(0)
+  totalCents    Int
+  shipName      String
+  shipCompany   String   @default("")
+  shipAddress   String
+  shipCity      String
+  shipRegion    String   @default("")
+  shipPostal    String   @default("")
+  shipCountry   String   @default("US")
+  shipPhone     String   @default("")
+  notes         String   @default("")
+  createdAt     DateTime @default(now())
+  items         OrderItem[]
+}
+
+model OrderItem {
+  id           String   @id @default(cuid())
+  orderId      String
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    String
+  supplierId   String
+  supplier     User     @relation("SupplierItems", fields: [supplierId], references: [id])
+  nameSnapshot String
+  priceCents   Int
+  quantity     Int
+  status       String   @default("PENDING") // PENDING | FULFILLED | CANCELLED
+}
+
+// ============ Blog ============
+
+model PostCategory {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  name        String
+  description String         @default("")
+  parentId    String?
+  parent      PostCategory?  @relation("PostCategoryTree", fields: [parentId], references: [id])
+  children    PostCategory[] @relation("PostCategoryTree")
+  sortOrder   Int            @default(0)
+  posts       Post[]
+  createdAt   DateTime       @default(now())
+}
+
+model PostTag {
+  id    String         @id @default(cuid())
+  slug  String         @unique
+  name  String
+  posts PostToTag[]
+}
+
+model Post {
+  id            String      @id @default(cuid())
+  slug          String      @unique
+  title         String
+  excerpt       String      @default("")
+  body          String      @default("")   // HTML / markdown content
+  coverImage    String      @default("")   // main hero image URL
+  seoTitle      String      @default("")
+  seoDesc       String      @default("")
+  seoKeywords   String      @default("")   // comma-separated
+  status        String      @default("DRAFT") // DRAFT | PUBLISHED
+  authorId      String
+  author        User        @relation(fields: [authorId], references: [id])
+  categoryId    String
+  category      PostCategory @relation(fields: [categoryId], references: [id])
+  tags          PostToTag[]
+  publishedAt   DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model PostToTag {
+  postId String
+  post   Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tagId  String
+  tag    PostTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  @@id([postId, tagId])
+}
+
+// extend User with blog posts
+// (relation added inline above via authorId)
