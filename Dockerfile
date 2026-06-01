@@ -13,12 +13,9 @@ RUN npm ci
 # Copy all files
 COPY . .
 
-# Generate Prisma client, migrate DB and build
+# Generate Prisma client and build (no migrate here - will do at runtime)
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV DATABASE_URL="file:/app/data/dev.db"
-RUN mkdir -p /app/data
 RUN npx prisma generate
-RUN npx prisma migrate deploy || npx prisma db push
 RUN npm run build
 
 # Production stage
@@ -33,12 +30,22 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Install required packages for runtime
+RUN apk add --no-cache libstdc++
+
 # Copy necessary files
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/data ./data
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.bin ./node_modules/.bin
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder --chown=nextjs:nodejs /app/package*.json ./
+COPY --from=builder --chown=nextjs:nodejs /app/docker-entrypoint.sh ./
+
+# Make entrypoint executable and create data volume directory
+RUN chmod +x /app/docker-entrypoint.sh && mkdir -p /app/data && chown nextjs:nodejs /app/data
 
 USER nextjs
 
@@ -48,4 +55,5 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 ENV DATABASE_URL="file:/app/data/dev.db"
 
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["node", "server.js"]
