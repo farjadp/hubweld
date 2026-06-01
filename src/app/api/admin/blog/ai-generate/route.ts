@@ -8,7 +8,14 @@ async function guard() {
   return (s?.user as any)?.role === "ADMIN";
 }
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// Lazy initialization - only create client when needed
+let openaiClient: OpenAI | null = null;
+function getOpenAI() {
+  if (!openaiClient) {
+    openaiClient = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return openaiClient;
+}
 
 // ── Prompt builder ──────────────────────────────────────────────────────────
 function buildPrompt(opts: {
@@ -112,7 +119,7 @@ export async function POST(req: NextRequest) {
   const prompt = buildPrompt({ mode, input, focus, length });
 
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
