@@ -92,6 +92,77 @@ function SolutionsMenu() {
   );
 }
 
+const aboutLinks = [
+  {
+    label: "About Us",
+    href: "/about",
+    icon: Users,
+    desc: "Discover our mission and vision",
+  },
+  {
+    label: "Our Product",
+    href: "/about/product",
+    icon: Cpu,
+    desc: "Explore the HubWeld platform features",
+  },
+  {
+    label: "Team",
+    href: "/about/team",
+    icon: Shield,
+    desc: "Meet our founders and leadership",
+  },
+];
+
+function AboutMenu() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const path = usePathname();
+  const active = path.startsWith("/about");
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className={`flex items-center gap-1 py-1 text-sm font-medium transition-colors hover:text-white ${active || open ? "text-white" : "text-white/50"}`}
+      >
+        Company
+        <ChevronDown size={13} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {open && (
+        <div className="absolute left-0 top-[calc(100%+16px)] z-50 w-72 overflow-hidden rounded-2xl border border-white/10 bg-[#0f1113] shadow-2xl shadow-black/70 ring-1 ring-white/5">
+          <div className="p-2">
+            {aboutLinks.map(({ label, href, icon: Icon, desc }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                className="group flex items-start gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/5"
+              >
+                <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-600/10 text-red-400 ring-1 ring-red-600/20 transition-colors group-hover:bg-red-600/20">
+                  <Icon size={15} />
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-white/90 group-hover:text-white">{label}</div>
+                  <div className="mt-0.5 text-xs text-white/40">{desc}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function UserMenu({ name, role, onSignOut }: { name: string; role: string; onSignOut: () => void }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -179,6 +250,7 @@ export function Navbar() {
           {/* Center nav */}
           <nav className="hidden items-center gap-7 md:flex">
             <SolutionsMenu />
+            <AboutMenu />
             <NavLink href="/blog">Blog</NavLink>
             <NavLink href="/shop">Shop</NavLink>
             <NavLink href="/jobs">Jobs</NavLink>
@@ -229,6 +301,12 @@ export function Navbar() {
           <div className="border-t border-white/5 bg-[#0a0c0e] px-6 pb-5 pt-4 md:hidden">
             <div className="flex flex-col gap-1">
               {solutions.map(({ label, href, icon: Icon }) => (
+                <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
+                  <Icon size={15} className="text-red-400" /> {label}
+                </Link>
+              ))}
+              <div className="my-1 h-px bg-white/5" />
+              {aboutLinks.map(({ label, href, icon: Icon }) => (
                 <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
                   <Icon size={15} className="text-red-400" /> {label}
                 </Link>
