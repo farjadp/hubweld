@@ -42,7 +42,16 @@ The database has several interconnected entities:
   - Server-side: use `getServerSession()`.
   - Check `role` for authorization (e.g., only `ADMIN` can access `/admin`).
 
-## 5. Directory Structure
+## 5. Automated AI Blog Generation
+- **Endpoint:** `/api/cron/generate-article`
+- **Function:** Uses OpenAI API (`gpt-4o`) to automatically write and publish SEO/GEO/AIO optimized articles in Persian.
+- **Trigger:** Configured to run automatically 3 times a week (Mon, Wed, Fri at 08:00 UTC) via GitHub Actions (`.github/workflows/blog-cron.yml`).
+- **Required Secrets:**
+  - `OPENAI_API_KEY`: Must be set in `.env` and Railway.
+  - `CRON_SECRET`: Must be set in `.env` and Railway, matching the secret used in GitHub Actions.
+  - `PRODUCTION_DOMAIN`: Must be set in GitHub Secrets for the Action to ping the right URL.
+
+## 6. Directory Structure
 - `src/app/`: Next.js pages and API routes (`/api/...`).
 - `src/components/`: Reusable React components (e.g., `Navbar.tsx`, `Footer.tsx`, UI elements).
 - `src/lib/`: Utility functions and shared instances (e.g., Prisma client instantiation).

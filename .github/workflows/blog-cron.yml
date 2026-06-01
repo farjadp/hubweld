@@ -1,0 +1,32 @@
+name: AI Blog Generation Cron
+
+on:
+  schedule:
+    # Runs at 08:00 UTC on Monday, Wednesday, and Friday.
+    - cron: '0 8 * * 1,3,5'
+  workflow_dispatch: # Allows manual triggering from the GitHub Actions UI
+
+jobs:
+  generate-article:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API to generate AI article
+        env:
+          # You must set these secrets in your GitHub Repository settings:
+          # PRODUCTION_DOMAIN: e.g. "hubweld-production.up.railway.app" (no https:// or trailing slash)
+          # CRON_SECRET: the same secret you set in your Railway environment variables
+          PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$PRODUCTION_DOMAIN" ] || [ -z "$CRON_SECRET" ]; then
+            echo "Error: PRODUCTION_DOMAIN or CRON_SECRET is missing from GitHub Secrets."
+            exit 1
+          fi
+
+          echo "Pinging HubWeld generation endpoint..."
+          
+          # We use -f to fail on HTTP errors (like 401 or 500)
+          # We use -s for silent mode but capture output if needed.
+          curl -f -X GET "https://${PRODUCTION_DOMAIN}/api/cron/generate-article?secret=${CRON_SECRET}"
+          
+          echo "Successfully triggered AI generation."

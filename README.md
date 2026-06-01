@@ -20,6 +20,34 @@ npm install
 npm run dev
 ```
 
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Required Environment Variables
+
+To fully utilize all features (including Automated AI Blog Generation), you need the following in your `.env`:
+
+```env
+DATABASE_URL="file:./dev.db" # SQLite URL
+NEXTAUTH_SECRET="your-super-secret"
+NEXTAUTH_URL="http://localhost:3000"
+
+# For Automated AI Article Generation
+OPENAI_API_KEY="sk-..."
+CRON_SECRET="your-secure-random-string"
+```
+
 ## Build for production
 
 ```bash
