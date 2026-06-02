@@ -4,8 +4,8 @@ set -e
 # Ensure data directory exists
 mkdir -p /app/data
 
-# Set database URL
-export DATABASE_URL="file:/app/data/dev.db"
+# Ensure data directory exists (if needed for other local file uploads)
+mkdir -p /app/data
 
 # Run migrations (creates DB if doesn't exist)
 echo "Running database migrations..."

@@ -19,7 +19,7 @@ COPY . .
 # Generate Prisma client and build
 ENV NEXT_TELEMETRY_DISABLED=1
 # Dummy DB URL for build - Prisma needs this to generate client
-ENV DATABASE_URL="file:/tmp/dev.db"
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 RUN npx prisma generate
 RUN npm run build
 
@@ -58,7 +58,6 @@ EXPOSE 3000
 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-ENV DATABASE_URL="file:/app/data/dev.db"
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["node", "server.js"]
