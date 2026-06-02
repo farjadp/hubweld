@@ -2,10 +2,6 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export const dynamic = "force-dynamic"; // Ensure it's not cached
 export const maxDuration = 60; // Max duration for Vercel/Railway (if supported)
 
@@ -21,6 +17,10 @@ export async function GET(request: Request) {
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json({ error: "OPENAI_API_KEY is missing" }, { status: 500 });
     }
+
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
     // 1. Find an Admin user to be the author
     const admin = await prisma.user.findFirst({
