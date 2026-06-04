@@ -53,6 +53,10 @@ function SolutionsMenu() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  useEffect(() => {
+    setOpen(false);
+  }, [path]);
+
   return (
     <div ref={ref} className="relative">
       <button
@@ -70,7 +74,6 @@ function SolutionsMenu() {
               <Link
                 key={href}
                 href={href}
-                onClick={() => setOpen(false)}
                 className="group flex items-start gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/5"
               >
                 <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-600/10 text-red-400 ring-1 ring-red-600/20 transition-colors group-hover:bg-red-600/20">
@@ -127,6 +130,10 @@ function AboutMenu() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  useEffect(() => {
+    setOpen(false);
+  }, [path]);
+
   return (
     <div ref={ref} className="relative">
       <button
@@ -144,7 +151,6 @@ function AboutMenu() {
               <Link
                 key={href}
                 href={href}
-                onClick={() => setOpen(false)}
                 className="group flex items-start gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/5"
               >
                 <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-600/10 text-red-400 ring-1 ring-red-600/20 transition-colors group-hover:bg-red-600/20">
@@ -168,6 +174,8 @@ function UserMenu({ name, role, onSignOut }: { name: string; role: string; onSig
   const ref = useRef<HTMLDivElement>(null);
   const initials = name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
 
+  const path = usePathname();
+
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
@@ -175,6 +183,10 @@ function UserMenu({ name, role, onSignOut }: { name: string; role: string; onSig
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [path]);
 
   return (
     <div ref={ref} className="relative">
@@ -194,14 +206,14 @@ function UserMenu({ name, role, onSignOut }: { name: string; role: string; onSig
             <div className="text-xs text-white/30 capitalize">{role.toLowerCase()}</div>
           </div>
           <div className="p-2">
-            <Link href="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 transition-colors hover:bg-white/5 hover:text-white">
+            <Link href="/dashboard" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 transition-colors hover:bg-white/5 hover:text-white">
               <LayoutDashboard size={14} /> Dashboard
             </Link>
-            <Link href="/orders" onClick={() => setOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 transition-colors hover:bg-white/5 hover:text-white">
+            <Link href="/orders" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 transition-colors hover:bg-white/5 hover:text-white">
               <ShoppingBag size={14} /> Orders
             </Link>
             {role === "ADMIN" && (
-              <Link href="/admin" onClick={() => setOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-red-400 transition-colors hover:bg-red-600/10">
+              <Link href="/admin" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-red-400 transition-colors hover:bg-red-600/10">
                 <Shield size={14} /> Admin Panel
               </Link>
             )}
@@ -226,6 +238,11 @@ export function Navbar() {
   const name = session?.user?.name ?? "User";
   const [cartCount, setCartCount] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const path = usePathname();
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [path]);
 
   useEffect(() => {
     if (!session) { setCartCount(0); return; }
@@ -301,27 +318,27 @@ export function Navbar() {
           <div className="border-t border-white/5 bg-[#0a0c0e] px-6 pb-5 pt-4 md:hidden">
             <div className="flex flex-col gap-1">
               {solutions.map(({ label, href, icon: Icon }) => (
-                <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
+                <Link key={href} href={href} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
                   <Icon size={15} className="text-red-400" /> {label}
                 </Link>
               ))}
               <div className="my-1 h-px bg-white/5" />
               {aboutLinks.map(({ label, href, icon: Icon }) => (
-                <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
+                <Link key={href} href={href} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
                   <Icon size={15} className="text-red-400" /> {label}
                 </Link>
               ))}
               <div className="my-1 h-px bg-white/5" />
               {[{ href: "/blog", label: "Blog" }, { href: "/shop", label: "Shop" }, { href: "/jobs", label: "Jobs" }, { href: "/directory", label: "Welders" }].map(({ href, label }) => (
-                <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
+                <Link key={href} href={href} className="rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
                   {label}
                 </Link>
               ))}
               {!session && (
                 <>
                   <div className="my-1 h-px bg-white/5" />
-                  <Link href="/login" onClick={() => setMobileOpen(false)} className="rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">Login</Link>
-                  <Link href="/register" onClick={() => setMobileOpen(false)} className="rounded-xl bg-red-600 px-3 py-2.5 text-sm font-semibold text-white text-center">Get Started</Link>
+                  <Link href="/login" className="rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">Login</Link>
+                  <Link href="/register" className="rounded-xl bg-red-600 px-3 py-2.5 text-sm font-semibold text-white text-center">Get Started</Link>
                 </>
               )}
             </div>

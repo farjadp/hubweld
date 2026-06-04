@@ -59,7 +59,7 @@ export default async function JobDetailPage({ params }: { params: { id: string }
         {!session && (<><p className="text-white/70">Sign in to bid or message.</p><Link href={`/login?callbackUrl=/jobs/${job.id}`} className="btn-primary w-full">Sign in</Link></>)}
         {isWelder && job.status === "OPEN" && !myBid && <BidForm jobId={job.id} />}
         {myBid && <p className="text-sm text-white/70">You bid <span className="text-amber font-bold">${myBid.amount}</span> ({myBid.status}).</p>}
-        {isOwner && <Link href="/dashboard/jobs" className="btn-secondary w-full">Manage my jobs</Link>}
+        {isOwner && <Link href="/dashboard" className="btn-secondary w-full">Manage my jobs</Link>}
       </aside>
     </div>
   );
