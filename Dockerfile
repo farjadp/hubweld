@@ -20,6 +20,8 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 # Dummy DB URL for build - Prisma needs this to generate client
 ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
+# Switch Prisma provider to postgresql for production
+RUN sed -i 's/provider = "sqlite"/provider = "postgresql"/g' prisma/schema.prisma
 RUN npx prisma generate
 RUN npm run build
 
