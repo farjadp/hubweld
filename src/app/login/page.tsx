@@ -36,11 +36,6 @@ function LoginInner() {
         <button className="btn-primary w-full" disabled={loading}>{loading ? "Signing in..." : "Sign in"}</button>
         <p className="text-center text-sm text-white/60">No account? <Link href="/register" className="text-amber hover:underline">Create one</Link></p>
       </form>
-      <div className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4 text-xs text-white/60">
-        <strong className="text-white/80">Demo accounts (after seeding):</strong>
-        <div>admin@hubweld.com · customer@hubweld.com · welder@hubweld.com</div>
-        <div>Password: <code>password123</code></div>
-      </div>
     </div>
   );
 }
