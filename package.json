@@ -8,7 +8,7 @@
     "start": "npx prisma db push && next start",
     "lint": "next lint",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts",
+    "db:seed": "tsx prisma/seed.ts && tsx prisma/seed-blog.ts && tsx prisma/seed-welders-jobs.ts && tsx prisma/seed-more-blogs.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
