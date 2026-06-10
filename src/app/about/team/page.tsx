@@ -1,5 +1,5 @@
-import { Linkedin, Mail } from "lucide-react";
-import Image from "next/image";
+import { Linkedin, Users, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const teamMembers = [
   {
@@ -8,104 +8,113 @@ const teamMembers = [
     description: "Driving the overall vision and strategy of HubWeld. Elyas brings extensive leadership experience and is dedicated to transforming the welding industry through innovative technology.",
     linkedin: "https://www.linkedin.com/in/elyaspournajaf/",
     image: "/images/team/elyas.jpg",
+    initials: "EP",
   },
   {
     name: "Sarvenaz Alizadeh",
     role: "Co-founder & Marketing Manager",
-    description: "Driving the marketing strategy and brand growth. Sarvenaz crafts compelling campaigns to increase HubWeld's market presence and ensure strong engagement with both suppliers and contractors across the industry.",
+    description: "Driving the marketing strategy and brand growth. Sarvenaz crafts compelling campaigns to increase HubWeld's market presence and ensure strong engagement across the industry.",
     linkedin: "https://www.linkedin.com/in/sarvenaz-alizadeh-0228097a/",
     image: "/images/team/sarvenaz.jpg",
+    initials: "SA",
   },
   {
     name: "Farid Mashak",
     role: "Co-founder, Product Manager & R&D",
-    description: "Spearheading product development and research. Farid focuses on innovating the HubWeld platform by analyzing market trends, researching new technologies, and ensuring the product continuously meets user needs.",
+    description: "Spearheading product development and research. Farid focuses on innovating the HubWeld platform by analyzing market trends and ensuring the product continuously meets user needs.",
     linkedin: "https://www.linkedin.com/in/farid-mashak/?skipRedirect=true",
-    image: "/images/team/reza.jpg",
+    image: "/images/team/farid.jpg",
+    initials: "FM",
   },
   {
     name: "Reza Sadeghi",
     role: "Co-founder & Project Manager",
-    description: "Overseeing the successful execution of platform initiatives. Reza coordinates between engineering, design, and business teams to deliver key features on time, maintaining a high standard of quality and efficiency.",
+    description: "Overseeing successful execution of platform initiatives. Reza coordinates between engineering, design, and business teams to deliver key features on time.",
     linkedin: "https://www.linkedin.com/in/reza-sadeghi-37b1b181/",
-    image: "/images/team/farid.jpg",
+    image: "/images/team/reza.jpg",
+    initials: "RS",
   },
   {
-    name: "Farjad",
-    role: "CTO - Staff Engineer",
+    name: "Farjad Pourmohammad",
+    role: "CTO — Staff Engineer",
     description: "Architecting the technical foundation of the platform. Farjad leads the engineering team, focusing on scalable infrastructure, security, and cutting-edge software solutions.",
     linkedin: "https://www.linkedin.com/in/farjadpourmohammad/",
     image: "/images/team/farjad.jpg",
+    initials: "FP",
   },
 ];
 
 export default function TeamPage() {
   return (
-    <main className="min-h-screen bg-[#0a0c0e] text-white">
-      {/* Header */}
-      <section className="relative px-6 pt-32 pb-20 overflow-hidden text-center">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-red-600/10 blur-[120px] rounded-full pointer-events-none" />
-        
-        <div className="relative z-10 mx-auto max-w-3xl">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-6">
-            Meet the <span className="text-red-400">HubWeld Team</span>
-          </h1>
-          <p className="text-lg text-white/60 leading-relaxed">
-            We are a blend of engineering, industrial, and technology experts who have come together with a shared mission to revolutionize the welding industry.
-          </p>
-        </div>
+    <div>
+      {/* Hero */}
+      <section className="py-16 border-b border-white/8">
+        <span className="section-label"><Users size={14} /> Our Team</span>
+        <h1 className="mt-4 text-4xl font-black tracking-tight text-white md:text-6xl max-w-3xl">
+          The people behind<br />
+          <span className="bg-gradient-to-r from-red-400 to-red-300 bg-clip-text text-transparent">HubWeld.</span>
+        </h1>
+        <p className="mt-5 max-w-2xl text-lg text-white/55 leading-relaxed">
+          A blend of engineering, industrial, and technology experts united by a single mission — to modernize the welding industry.
+        </p>
       </section>
 
       {/* Team Grid */}
-      <section className="px-6 pb-32 relative z-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-            {teamMembers.map((member, idx) => {
-              // Creating a placeholder initial for the avatar
-              const initial = member.name.charAt(0);
-              return (
-                <div key={idx} className="group relative rounded-3xl border border-white/10 bg-[#0f1113] p-8 text-center transition-all hover:bg-white/[0.02] hover:border-white/20 hover:shadow-2xl hover:shadow-red-600/10 flex flex-col h-full">
-                  {/* Avatar */}
-                  <div className="mx-auto mb-6 relative h-28 w-28 shrink-0 rounded-full ring-2 ring-red-500/20 group-hover:scale-105 transition-transform overflow-hidden shadow-xl shadow-black/50">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                      sizes="112px"
-                    />
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold text-white mb-2">{member.name}</h3>
-                  <div className="inline-block rounded-full bg-red-500/10 px-3 py-1 text-sm font-medium text-red-400 mb-4 mx-auto">
-                    {member.role}
-                  </div>
-                  
-                  <p className="text-white/50 text-sm leading-relaxed mb-8 flex-grow">
-                    {member.description}
-                  </p>
-                  
-                  <div className="flex justify-center gap-4 mt-auto pt-6 border-t border-white/5">
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-white/50 transition-colors hover:bg-[#0077b5] hover:text-white"
-                      title={`${member.name} LinkedIn`}
-                    >
-                      <Linkedin size={18} />
-                    </a>
-                    {/* Placeholder for Email if needed */}
-                    <button className="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-white/50 transition-colors hover:bg-red-500 hover:text-white" title="Send Email">
-                      <Mail size={18} />
-                    </button>
+      <section className="py-16">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {teamMembers.map((member) => (
+            <article key={member.name} className="group flex flex-col rounded-xl border border-white/8 bg-[#111315] p-7 transition-all hover:border-red-500/30 hover:shadow-xl hover:shadow-red-600/10">
+              {/* Avatar */}
+              <div className="mb-5 flex items-center gap-4">
+                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-white/5">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="h-full w-full object-cover"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center text-lg font-black text-white/20 select-none">
+                    {member.initials}
                   </div>
                 </div>
-              );
-            })}
+                <div>
+                  <h3 className="font-black text-white group-hover:text-red-400 transition-colors">{member.name}</h3>
+                  <div className="mt-1 inline-flex items-center rounded border border-red-500/20 bg-red-600/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-widest text-red-400">
+                    {member.role}
+                  </div>
+                </div>
+              </div>
+
+              {/* Description */}
+              <p className="flex-1 text-sm leading-relaxed text-white/50">{member.description}</p>
+
+              {/* Footer */}
+              <div className="mt-6 flex items-center gap-2 border-t border-white/5 pt-5">
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold text-white/50 transition-colors hover:border-[#0077b5]/40 hover:bg-[#0077b5]/10 hover:text-[#0077b5]"
+                >
+                  <Linkedin size={13} /> LinkedIn
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-16 border-t border-white/8">
+        <div className="rounded-xl border border-red-500/20 bg-red-600/5 p-10 text-center">
+          <h2 className="text-2xl font-black text-white mb-3">Want to join us?</h2>
+          <p className="text-white/55 mb-7 max-w-lg mx-auto">We're always looking for talented people who are passionate about the welding industry and technology.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href="/register" className="btn-primary">Join HubWeld <ArrowRight size={16} /></Link>
+            <Link href="/about/product" className="btn-secondary">Learn about our product</Link>
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
