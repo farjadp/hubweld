@@ -34,7 +34,7 @@ export default async function AdminJobsPage() {
               </div>
               <div className="mt-0.5 text-xs text-white/40">{j.customer.name} · {j.city} · {j.category} · {j._count.bids} bids</div>
             </div>
-            <JobRow id={j.id} />
+            <JobRow id={j.id} currentStatus={j.status} />
           </div>
         ))}
         {jobs.length === 0 && <div className="rounded-xl border border-white/10 bg-[#111315] p-10 text-center text-sm text-white/30">No jobs yet.</div>}
