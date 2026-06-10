@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import SupplierRow from "./SupplierRow";
 
 export const dynamic = "force-dynamic";
@@ -23,9 +24,12 @@ export default async function AdminSuppliersPage() {
 
   return (
     <div>
-      <div className="mb-7">
-        <h1 className="text-3xl font-black tracking-tight text-white">Suppliers</h1>
-        <p className="mt-1 text-sm text-white/40">{profiles.length} suppliers · approve verified vendor badges</p>
+      <div className="mb-7 flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black tracking-tight text-white">Suppliers</h1>
+          <p className="mt-1 text-sm text-white/40">{profiles.length} suppliers · approve verified vendor badges</p>
+        </div>
+        <Link href="/admin/suppliers/new" className="btn-primary shrink-0">+ New Supplier</Link>
       </div>
       <ul className="grid gap-2">
         {profiles.map((p: any) => (
