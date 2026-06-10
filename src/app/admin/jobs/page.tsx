@@ -20,9 +20,12 @@ export default async function AdminJobsPage() {
   };
   return (
     <div>
-      <div className="mb-7">
-        <h1 className="text-3xl font-black tracking-tight text-white">Jobs</h1>
-        <p className="mt-1 text-sm text-white/40">{jobs.length} total job postings</p>
+      <div className="mb-7 flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black tracking-tight text-white">Jobs</h1>
+          <p className="mt-1 text-sm text-white/40">{jobs.length} total job postings</p>
+        </div>
+        <Link href="/admin/jobs/new" className="btn-primary shrink-0">+ New Job</Link>
       </div>
       <div className="grid gap-2">
         {jobs.map((j) => (
