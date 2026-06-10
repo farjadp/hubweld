@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, BadgeCheck, Clock3, Factory, HardHat, MapPin, ShieldCheck, Truck, Wrench, Flame, Zap } from "lucide-react";
+import { ArrowRight, BadgeCheck, Clock3, Factory, HardHat, MapPin, ShieldCheck, Truck, Wrench, Flame, Zap, BookOpen } from "lucide-react";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "HubWeld | Industrial Welding Parts, Distribution & Fabrication Network",
@@ -57,7 +58,13 @@ const faqs = [
   { q: "Is HubWeld for welders or customers?", a: "Both. Customers post jobs and receive bids; welders join the network to receive job opportunities." },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const latestPosts = await prisma.post.findMany({
+    where: { status: "PUBLISHED" },
+    orderBy: { createdAt: "desc" },
+    take: 3,
+    include: { category: true },
+  });
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -219,6 +226,51 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── LATEST BLOG POSTS ── */}
+      {latestPosts.length > 0 && (
+        <section className="py-14">
+          <div className="mb-10 flex items-end justify-between gap-4">
+            <div>
+              <span className="section-label"><BookOpen size={14} /> From the Blog</span>
+              <h2 className="mt-3 text-4xl font-black tracking-tight text-white md:text-5xl">
+                Latest insights
+              </h2>
+            </div>
+            <Link href="/blog" className="btn-secondary shrink-0">View all <ArrowRight size={15} /></Link>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            {latestPosts.map((post) => (
+              <Link key={post.id} href={`/blog/${post.slug}`}
+                className="group flex flex-col overflow-hidden rounded-xl border border-white/8 bg-[#111315] transition-all hover:border-red-500/30 hover:shadow-xl hover:shadow-red-600/10">
+                <div className="relative h-44 w-full overflow-hidden bg-white/5">
+                  {(post as any).coverImage ? (
+                    <img src={(post as any).coverImage} alt={post.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <BookOpen size={40} className="text-white/10" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#111315] via-transparent to-transparent" />
+                  {post.category && (
+                    <span className="absolute bottom-3 left-3 rounded-full border border-red-500/30 bg-red-600/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-red-400">
+                      {post.category.name}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <h3 className="font-bold leading-snug text-white transition-colors group-hover:text-red-400 line-clamp-2">{post.title}</h3>
+                  {post.excerpt && <p className="mt-2 text-sm leading-relaxed text-white/50 line-clamp-2">{post.excerpt}</p>}
+                  <div className="mt-auto pt-4 flex items-center justify-between text-xs text-white/30">
+                    <span>{new Date(post.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                    <span className="text-red-400 group-hover:underline">Read more →</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ── FAQ ── */}
       <section className="py-14">
