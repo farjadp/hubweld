@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, BadgeCheck, Clock3, Factory, HardHat, MapPin, ShieldCheck, Truck, Wrench, Flame, Zap, BookOpen } from "lucide-react";
+import { ArrowRight, BadgeCheck, Briefcase, Clock3, Factory, HardHat, MapPin, Package, ShieldCheck, Truck, Wrench, Flame, Zap, BookOpen } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { formatCents } from "@/lib/money";
 
 export const metadata: Metadata = {
   title: "HubWeld | Industrial Welding Parts, Distribution & Fabrication Network",
@@ -59,6 +60,21 @@ const faqs = [
 ];
 
 export default async function HomePage() {
+  const [latestProducts, latestJobs] = await Promise.all([
+    prisma.product.findMany({
+      where: { status: "ACTIVE" },
+      orderBy: { createdAt: "desc" },
+      take: 4,
+      include: { category: true },
+    }),
+    prisma.job.findMany({
+      where: { status: "OPEN" },
+      orderBy: { createdAt: "desc" },
+      take: 4,
+      include: { _count: { select: { bids: true } } },
+    }),
+  ]);
+
   const latestPosts = await prisma.post.findMany({
     where: { status: "PUBLISHED" },
     orderBy: { createdAt: "desc" },
@@ -226,6 +242,76 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── LATEST PRODUCTS ── */}
+      {latestProducts.length > 0 && (
+        <section className="py-14">
+          <div className="mb-10 flex items-end justify-between gap-4">
+            <div>
+              <span className="section-label"><Package size={14} /> Marketplace</span>
+              <h2 className="mt-3 text-4xl font-black tracking-tight text-white md:text-5xl">Latest products</h2>
+            </div>
+            <Link href="/shop" className="btn-secondary shrink-0">View all <ArrowRight size={15} /></Link>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {latestProducts.map((p) => (
+              <Link key={p.id} href={`/shop/p/${p.slug}`}
+                className="group flex flex-col overflow-hidden rounded-xl border border-white/8 bg-[#111315] transition-all hover:border-red-500/30 hover:shadow-xl hover:shadow-red-600/10">
+                <div className="relative h-40 w-full overflow-hidden bg-white/5">
+                  {p.imageUrl ? (
+                    <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center"><Package size={36} className="text-white/10" /></div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#111315] via-transparent to-transparent" />
+                </div>
+                <div className="flex flex-1 flex-col p-4">
+                  <div className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-1">{p.category.name}</div>
+                  <h3 className="font-bold text-white line-clamp-2 text-sm group-hover:text-red-400 transition-colors">{p.name}</h3>
+                  {p.brand && <div className="mt-1 text-xs text-white/40">{p.brand}</div>}
+                  <div className="mt-auto pt-3 flex items-center justify-between">
+                    <span className="text-lg font-black text-white">{formatCents(p.priceCents)}</span>
+                    <span className="text-xs text-white/30">Stock {p.stock}</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── LATEST JOBS ── */}
+      {latestJobs.length > 0 && (
+        <section className="py-14">
+          <div className="mb-10 flex items-end justify-between gap-4">
+            <div>
+              <span className="section-label"><Briefcase size={14} /> Open Jobs</span>
+              <h2 className="mt-3 text-4xl font-black tracking-tight text-white md:text-5xl">Latest job postings</h2>
+            </div>
+            <Link href="/jobs" className="btn-secondary shrink-0">View all <ArrowRight size={15} /></Link>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {latestJobs.map((j) => (
+              <Link key={j.id} href={`/jobs/${j.id}`}
+                className="group flex items-center justify-between gap-4 rounded-xl border border-white/8 bg-[#111315] px-5 py-4 transition-all hover:border-red-500/30 hover:shadow-lg hover:shadow-red-600/10">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="inline-flex items-center rounded border border-green-600/25 bg-green-600/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-widest text-green-400">OPEN</span>
+                    <span className="text-xs text-white/30 truncate">{j.category}</span>
+                  </div>
+                  <h3 className="font-bold text-white group-hover:text-red-400 transition-colors line-clamp-1">{j.title}</h3>
+                  <div className="mt-1 flex items-center gap-3 text-xs text-white/40">
+                    <span className="flex items-center gap-1"><MapPin size={11} />{j.city}</span>
+                    {j.budget ? <span>${j.budget.toLocaleString()} budget</span> : null}
+                    <span>{j._count.bids} bid{j._count.bids !== 1 ? "s" : ""}</span>
+                  </div>
+                </div>
+                <ArrowRight size={16} className="shrink-0 text-white/20 group-hover:text-red-400 transition-colors" />
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ── LATEST BLOG POSTS ── */}
       {latestPosts.length > 0 && (
