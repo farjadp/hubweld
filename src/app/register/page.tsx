@@ -21,7 +21,9 @@ function RegisterInner() {
     setLoading(true); setErr(null);
     const res = await fetch("/api/auth/register", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
     if (!res.ok) { const data = await res.json().catch(() => ({})); setErr(data.error || "Failed to register"); setLoading(false); return; }
-    await signIn("credentials", { email: form.email, password: form.password, redirect: false });
+    const signInRes = await signIn("credentials", { email: form.email, password: form.password, redirect: false });
+    setLoading(false);
+    if (signInRes?.error) { setErr("Account created but sign-in failed. Please log in manually."); return; }
     router.push("/dashboard");
   }
 
