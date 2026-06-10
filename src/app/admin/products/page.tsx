@@ -30,8 +30,13 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
 
   return (
     <div>
-      <h1 className="mb-2 text-3xl font-black tracking-tight">Products</h1>
-      <p className="mb-6 text-white/60">{products.length} listings shown.</p>
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black tracking-tight">Products</h1>
+          <p className="text-white/60">{products.length} listings shown.</p>
+        </div>
+        <Link href="/admin/products/new" className="btn-primary shrink-0">+ New Product</Link>
+      </div>
       <form className="card mb-4 flex flex-wrap items-end gap-3">
         <div className="flex-1 min-w-[200px]"><label className="label">Search</label><input className="input" name="q" defaultValue={q} placeholder="Name, SKU, brand" /></div>
         <div><label className="label">Status</label>

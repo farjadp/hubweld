@@ -34,9 +34,10 @@ export default function AdminProductRow({ product, formattedPrice }: { product: 
       </div>
       <span className="badge bg-white/10 text-xs">{product.status}</span>
       <div className="flex gap-1">
+        <Link href={`/admin/products/${product.id}/edit`} className="btn-secondary text-xs">Edit</Link>
         {product.status !== "ACTIVE" && <button disabled={busy} onClick={() => setStatus("ACTIVE")} className="btn-primary text-xs">Activate</button>}
         {product.status !== "ARCHIVED" && <button disabled={busy} onClick={() => setStatus("ARCHIVED")} className="btn-secondary text-xs">Archive</button>}
-        <button disabled={busy} onClick={del} className="btn-secondary text-xs">Delete</button>
+        <button disabled={busy} onClick={del} className="btn-secondary text-xs text-red-400 hover:text-red-300">Delete</button>
       </div>
     </li>
   );
