@@ -36,8 +36,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Install required packages for runtime (OpenSSL needed for Prisma)
-RUN apk add --no-cache openssl libssl3 libstdc++
+# Install required packages for runtime (OpenSSL for Prisma, su-exec to drop privileges)
+RUN apk add --no-cache openssl libssl3 libstdc++ su-exec
 
 # Copy necessary files
 COPY --from=builder /app/public ./public
@@ -54,7 +54,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/docker-entrypoint.sh ./
 # Make entrypoint executable and create data volume directory
 RUN chmod +x /app/docker-entrypoint.sh && mkdir -p /app/data && chown nextjs:nodejs /app/data
 
-USER nextjs
+# NOTE: We intentionally do NOT set `USER nextjs` here. The entrypoint must run
+# as root to chown the Railway volume (mounted at /app/data as root), then it
+# drops privileges to the nextjs user via su-exec before starting the server.
 
 EXPOSE 3000
 
