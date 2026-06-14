@@ -60,6 +60,8 @@ EXPOSE 3000
 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+# Store user uploads on the persistent volume so they survive redeploys
+ENV UPLOAD_DIR=/app/data/uploads
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["node", "server.js"]

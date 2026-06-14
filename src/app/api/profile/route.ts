@@ -10,7 +10,13 @@ const schema = z.object({
   certifications: z.string().max(500).default(""),
   serviceArea: z.string().max(200).default(""),
   hourlyRate: z.number().int().min(0).nullable().optional(),
-  yearsExp: z.number().int().min(0).nullable().optional(),
+  yearsExp: z.number().int().min(1).max(40).nullable().optional(),
+  avatarUrl: z.string().max(500).default(""),
+  resumeUrl: z.string().max(500).default(""),
+  galleryJson: z.string().max(5000).default("[]"),
+  languages: z.string().max(500).default(""),
+  country: z.string().max(100).default(""),
+  serviceCountries: z.string().max(1000).default(""),
 });
 
 export async function POST(req: Request) {

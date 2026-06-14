@@ -1,8 +1,9 @@
 #!/bin/sh
 set -e
 
-# Ensure data directory exists
+# Ensure data directory and uploads directory exist
 mkdir -p /app/data
+mkdir -p "${UPLOAD_DIR:-/app/data/uploads}"
 
 # Use the production PostgreSQL schema at runtime
 cp /app/prisma/schema.prod.prisma /app/prisma/schema.prisma

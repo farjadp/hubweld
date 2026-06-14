@@ -6,6 +6,15 @@ import ProfileForm from "./ProfileForm";
 
 export const dynamic = "force-dynamic";
 
+function parseGallery(json?: string | null): string[] {
+  if (!json) return [];
+  try { const a = JSON.parse(json); return Array.isArray(a) ? a.filter((x) => typeof x === "string") : []; }
+  catch { return []; }
+}
+function splitList(s?: string | null): string[] {
+  return (s ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+}
+
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login?callbackUrl=/dashboard/profile");
@@ -23,6 +32,12 @@ export default async function ProfilePage() {
         serviceArea: profile?.serviceArea ?? "",
         hourlyRate: profile?.hourlyRate ?? null,
         yearsExp: profile?.yearsExp ?? null,
+        avatarUrl: profile?.avatarUrl ?? "",
+        resumeUrl: profile?.resumeUrl ?? "",
+        gallery: parseGallery(profile?.galleryJson),
+        languages: splitList(profile?.languages),
+        country: profile?.country ?? "",
+        serviceCountries: splitList(profile?.serviceCountries),
       }} />
     </div>
   );

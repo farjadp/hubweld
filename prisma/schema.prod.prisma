@@ -43,6 +43,12 @@ model WelderProfile {
   serviceArea String   @default("") // city/region
   hourlyRate  Int?
   yearsExp    Int?
+  avatarUrl   String   @default("")
+  resumeUrl   String   @default("")
+  galleryJson String   @default("[]") // JSON array of image URLs
+  languages   String   @default("") // comma-separated language names
+  country     String   @default("") // country of residence
+  serviceCountries String @default("") // comma-separated countries served
   approved    Boolean  @default(false)
   createdAt   DateTime @default(now())
 }
