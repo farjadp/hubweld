@@ -5,6 +5,8 @@ import { ArrowRight, BadgeCheck, Briefcase, Clock3, Factory, HardHat, MapPin, Pa
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "HubWeld | Industrial Welding Parts, Distribution & Fabrication Network",
   description: "HubWeld is the go-to platform for industrial welding parts distribution, job posting, and fabrication network. Distributors, brokers, and system integrators trust HubWeld to source parts fast.",
