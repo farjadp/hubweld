@@ -1,18 +1,13 @@
 import { prisma } from "@/lib/prisma";
 
 export async function getOrCreateCart(userId: string) {
-  let cart = await prisma.cart.findUnique({
+  const cart = await prisma.cart.upsert({
     where: { userId },
+    create: { userId },
+    update: {},
     include: { items: { include: { product: true } } },
   });
-  if (!cart) {
-    await prisma.cart.create({ data: { userId } });
-    cart = await prisma.cart.findUnique({
-      where: { userId },
-      include: { items: { include: { product: true } } },
-    });
-  }
-  return cart!;
+  return cart;
 }
 
 export function cartTotals(items: Array<{ priceCents: number; quantity: number }>) {

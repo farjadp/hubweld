@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Briefcase, Store, ShoppingBag, Package, ChevronRight, BookOpen } from "lucide-react";
+import { LayoutDashboard, Users, Briefcase, Store, ShoppingBag, Package, ChevronRight, BookOpen, KanbanSquare } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
@@ -11,6 +11,7 @@ const navItems = [
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/orders", label: "Orders", icon: ShoppingBag },
   { href: "/admin/blog", label: "Blog", icon: BookOpen },
+  { href: "/admin/project", label: "Project Board", icon: KanbanSquare },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
