@@ -31,23 +31,73 @@ export default async function DashboardPage() {
   }
 
   if (me.role === "WELDER") {
-    const bids = await prisma.bid.findMany({ where: { welderId: me.id }, include: { job: true }, orderBy: { createdAt: "desc" } });
-    const profile = await prisma.welderProfile.findUnique({ where: { userId: me.id } });
+    const [bids, profile] = await Promise.all([
+      prisma.bid.findMany({ where: { welderId: me.id }, include: { job: true }, orderBy: { createdAt: "desc" } }),
+      prisma.welderProfile.findUnique({ where: { userId: me.id } }),
+    ]);
+    const activeJobs = bids.filter((b) => b.status === "ACCEPTED" && (b.job.status === "ASSIGNED" || b.job.status === "IN_PROGRESS"));
+    const completedJobs = bids.filter((b) => b.status === "ACCEPTED" && b.job.status === "COMPLETED");
+    const pendingBids = bids.filter((b) => b.status === "PENDING");
+
+    const statusColor: Record<string, string> = {
+      ASSIGNED: "bg-amber-600/20 text-amber-400",
+      IN_PROGRESS: "bg-violet-600/20 text-violet-400",
+      COMPLETED: "bg-green-600/20 text-green-400",
+      PENDING: "bg-white/10 text-white/60",
+      REJECTED: "bg-red-900/20 text-red-400/60",
+    };
+
     return (
-      <Wrapper title={`Welcome, ${me.name}`} subtitle="Your bids, assigned jobs, and profile.">
+      <Wrapper title={`Welcome, ${me.name}`} subtitle="Your active jobs, bids, and profile.">
         <div className="mb-4 flex flex-wrap justify-between gap-2">
           <Link href="/jobs" className="btn-secondary">Browse Jobs</Link>
-          <Link href="/dashboard/profile" className="btn-primary">{profile?.approved ? "Edit profile" : "Complete profile"}</Link>
+          <Link href="/dashboard/profile" className="btn-primary">{profile?.approved ? "Edit profile" : "Complete profile →"}</Link>
         </div>
-        <Stats items={[["Active bids", bids.filter((b) => b.status === "PENDING").length], ["Won", bids.filter((b) => b.status === "ACCEPTED").length], ["Total bids", bids.length]]} />
-        <h3 className="mt-8 mb-2 font-bold">My bids</h3>
+
+        {!profile?.approved && (
+          <div className="mb-4 rounded-xl border border-amber-600/30 bg-amber-600/10 p-4 text-sm text-amber-300">
+            ⚠ Complete your profile to appear in the directory and attract more clients.
+          </div>
+        )}
+
+        <Stats items={[
+          ["Active jobs", activeJobs.length],
+          ["Pending bids", pendingBids.length],
+          ["Completed", completedJobs.length],
+        ]} />
+
+        {/* Active / In-progress jobs */}
+        {activeJobs.length > 0 && (
+          <>
+            <h3 className="mt-8 mb-2 font-bold">Active Jobs</h3>
+            <ul className="grid gap-3">
+              {activeJobs.map((b) => (
+                <li key={b.id} className="card flex items-center justify-between border-violet-600/20">
+                  <div>
+                    <Link href={`/jobs/${b.jobId}`} className="font-bold hover:text-red-400">{b.job.title}</Link>
+                    <div className="text-xs text-white/60">{b.job.city} · ${b.amount}</div>
+                  </div>
+                  <span className={`badge ${statusColor[b.job.status] ?? "bg-white/10"}`}>{b.job.status.replace("_", " ")}</span>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        {/* Pending bids */}
+        <h3 className="mt-8 mb-2 font-bold">My Bids</h3>
         {bids.length === 0 ? <p className="text-white/60">No bids yet. Browse open jobs.</p> : (
-          <ul className="grid gap-3">{bids.map((b) => (
-            <li key={b.id} className="card flex items-center justify-between">
-              <div><Link href={`/jobs/${b.jobId}`} className="font-bold hover:text-amber">{b.job.title}</Link><div className="text-xs text-white/60">{b.job.city} · ${b.amount}</div></div>
-              <span className="badge bg-white/10">{b.status}</span>
-            </li>
-          ))}</ul>
+          <ul className="grid gap-3">
+            {bids.filter((b) => b.status !== "ACCEPTED" || !["ASSIGNED","IN_PROGRESS","COMPLETED"].includes(b.job.status)).map((b) => (
+              <li key={b.id} className="card flex items-center justify-between">
+                <div>
+                  <Link href={`/jobs/${b.jobId}`} className="font-bold hover:text-red-400">{b.job.title}</Link>
+                  <div className="text-xs text-white/60">{b.job.city} · ${b.amount}</div>
+                </div>
+                <span className={`badge ${statusColor[b.status] ?? "bg-white/10"}`}>{b.status}</span>
+              </li>
+            ))}
+          </ul>
         )}
       </Wrapper>
     );
