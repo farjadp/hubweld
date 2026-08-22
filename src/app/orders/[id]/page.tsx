@@ -22,9 +22,14 @@ export default async function OrderDetailPage({ params, searchParams }: { params
   return (
     <div>
       {searchParams.success && (
-        <div className="card mb-6 border-amber/40 bg-amber/10">
-          <h2 className="font-bold text-amber">Order placed successfully</h2>
-          <p className="text-sm text-slate-700">Your order is recorded below. Track fulfilment on this page — each supplier marks their items as they ship.</p>
+        <div className="card mb-6 border-amber-500/40 bg-amber-50">
+          <h2 className="font-display text-xl font-bold uppercase tracking-wide text-amber-900">Order request received</h2>
+          <p className="mt-1.5 text-sm leading-relaxed text-amber-900/90">
+            Your order is recorded and reserved, and a confirmation is on its way to your inbox.
+            Card payments are temporarily unavailable while we reconnect our gateway, so
+            <strong> nothing has been charged</strong> — our team will contact you shortly to confirm the
+            order and arrange payment.
+          </p>
         </div>
       )}
 

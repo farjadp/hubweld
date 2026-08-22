@@ -6,7 +6,7 @@ export default function CheckoutForm({ defaultName }: { defaultName: string }) {
   const router = useRouter();
   const [form, setForm] = useState({
     name: defaultName, company: "", address: "", city: "", region: "", postal: "",
-    country: "US", phone: "", notes: "", paymentMethod: "card" as "card" | "net30",
+    country: "CA", phone: "", notes: "", paymentMethod: "contact" as "contact" | "net30",
   });
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -47,23 +47,33 @@ export default function CheckoutForm({ defaultName }: { defaultName: string }) {
       </section>
 
       <section>
-        <h3 className="mb-3 font-bold">Payment method</h3>
-        <div className="grid gap-2 md:grid-cols-2">
-          {(["card", "net30"] as const).map((m) => (
+        <h3 className="mb-3 font-bold">Payment</h3>
+
+        {/* No gateway is connected. Say so plainly rather than taking a
+            fake card number and marking the order paid. */}
+        <div className="rounded-sm border border-amber-500/40 bg-amber-50 p-4">
+          <p className="font-display text-lg font-bold uppercase tracking-wide text-amber-900">
+            Card payments are temporarily unavailable
+          </p>
+          <p className="mt-1.5 text-sm leading-relaxed text-amber-900/90">
+            We are reconnecting our payment gateway, so we cannot take a card right now — and we will not
+            ask you for card details. You can still place the order: we will record and reserve it, then
+            contact you to confirm and arrange payment, by invoice, transfer, or card over the phone.
+          </p>
+          <p className="mt-2 font-mono text-[11px] uppercase tracking-wider text-amber-900/70">
+            Nothing is charged today
+          </p>
+        </div>
+
+        <div className="mt-3 grid gap-2 md:grid-cols-2">
+          {(["contact", "net30"] as const).map((m) => (
             <button key={m} type="button" onClick={() => set("paymentMethod", m)}
-              className={`rounded-xl border p-3 text-left text-sm transition ${form.paymentMethod === m ? "border-amber/60 bg-amber/10" : "border-slate-200 bg-slate-100 hover:bg-slate-100"}`}>
-              <div className="font-bold">{m === "card" ? "Credit card" : "Net 30 invoice"}</div>
-              <div className="text-slate-600">{m === "card" ? "Pay immediately (sandbox — no real charge)" : "Invoice issued, due in 30 days"}</div>
+              className={`rounded-sm border p-3 text-left text-sm transition ${form.paymentMethod === m ? "border-brand/60 bg-brand/5" : "border-slate-200 bg-white hover:bg-slate-50"}`}>
+              <div className="font-bold">{m === "contact" ? "Contact me to arrange payment" : "Request Net 30 invoice"}</div>
+              <div className="text-slate-600">{m === "contact" ? "We call or email you to settle it" : "For approved business accounts, due in 30 days"}</div>
             </button>
           ))}
         </div>
-        {form.paymentMethod === "card" && (
-          <div className="mt-3 grid gap-3 md:grid-cols-3">
-            <div className="md:col-span-2"><Field label="Card number" value="4242 4242 4242 4242" onChange={() => {}} /></div>
-            <Field label="Exp / CVC" value="12/29 · 123" onChange={() => {}} />
-            <p className="md:col-span-3 text-xs text-slate-500">Sandbox mode: any card details are accepted. Stripe integration is a stub.</p>
-          </div>
-        )}
       </section>
 
       <section>
@@ -72,7 +82,7 @@ export default function CheckoutForm({ defaultName }: { defaultName: string }) {
       </section>
 
       {err && <p className="text-sm text-brand">{err}</p>}
-      <button className="btn-primary w-full" disabled={loading}>{loading ? "Placing order..." : "Place Order"}</button>
+      <button className="btn-primary w-full" disabled={loading}>{loading ? "Submitting…" : "Submit Order Request"}</button>
     </form>
   );
 }

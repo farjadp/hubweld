@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getOrCreateCart, cartTotals } from "@/lib/cart";
+import { sendOrderReceivedToBuyer, sendOrderAlertToOps, sendOrderAlertToSupplier } from "@/lib/order-emails";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -15,7 +16,7 @@ const schema = z.object({
   country: z.string().default("US"),
   phone: z.string().default(""),
   notes: z.string().default(""),
-  paymentMethod: z.enum(["card", "net30"]).default("card"),
+  paymentMethod: z.enum(["contact", "net30"]).default("contact"),
 });
 
 export async function POST(req: Request) {
@@ -43,7 +44,9 @@ export async function POST(req: Request) {
     const o = await tx.order.create({
       data: {
         buyerId: me.id,
-        status: d.paymentMethod === "card" ? "PAID" : "PENDING",
+        // No gateway is connected, so nothing has been charged. Every order
+        // starts PENDING and is settled by the team contacting the buyer.
+        status: "PENDING",
         subtotalCents: totals.subtotalCents,
         shippingCents: totals.shippingCents,
         taxCents: totals.taxCents,
@@ -67,6 +70,50 @@ export async function POST(req: Request) {
     await tx.cartItem.deleteMany({ where: { cartId: cart.id } });
     return o;
   });
+
+  // Notify buyer, the team who must make the promised call, and each supplier.
+  // Awaited so failures are logged in the request, but sendMailSafe never
+  // throws — a mail outage must not lose a recorded order.
+  const suppliers = await prisma.user.findMany({
+    where: { id: { in: [...new Set(items.map((i) => i.supplierId))] } },
+    select: { id: true, email: true, name: true, supplierProfile: { select: { businessName: true } } },
+  });
+
+  const payload = {
+    id: order.id,
+    reference: `#${order.id.slice(-8).toUpperCase()}`,
+    buyerName: d.name,
+    buyerEmail: me.email as string,
+    items: items.map((i) => ({
+      name: i.name,
+      quantity: i.quantity,
+      priceCents: i.priceCents,
+      supplier:
+        suppliers.find((s) => s.id === i.supplierId)?.supplierProfile?.businessName ??
+        suppliers.find((s) => s.id === i.supplierId)?.name,
+    })),
+    subtotalCents: totals.subtotalCents,
+    shippingCents: totals.shippingCents,
+    taxCents: totals.taxCents,
+    totalCents: totals.totalCents,
+    ship: {
+      name: d.name, company: d.company, address: d.address, city: d.city,
+      region: d.region, postal: d.postal, country: d.country, phone: d.phone,
+    },
+    notes: d.notes,
+  };
+
+  await Promise.all([
+    sendOrderReceivedToBuyer(payload),
+    sendOrderAlertToOps(payload),
+    ...suppliers.map((s) =>
+      sendOrderAlertToSupplier(payload, {
+        email: s.email,
+        name: s.supplierProfile?.businessName || s.name,
+        items: payload.items.filter((_, idx) => items[idx].supplierId === s.id),
+      })
+    ),
+  ]);
 
   return NextResponse.json({ id: order.id });
 }
