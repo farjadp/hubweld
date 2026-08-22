@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { formatCents } from "@/lib/money";
+import { mutate, errorMessage } from "@/lib/api";
 
 type Item = { id: string; productId: string; slug: string; name: string; imageUrl: string; priceCents: number; quantity: number; stock: number };
 
@@ -10,23 +11,39 @@ export default function CartItems({ initial }: { initial: Item[] }) {
   const router = useRouter();
   const [items, setItems] = useState(initial);
   const [busy, setBusy] = useState<string | null>(null);
+  const [err, setErr] = useState("");
 
   async function update(id: string, quantity: number) {
     setBusy(id);
-    await fetch(`/api/cart/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ quantity }) });
-    setItems((arr) => arr.map((i) => (i.id === id ? { ...i, quantity } : i)));
-    setBusy(null);
-    router.refresh();
+    setErr("");
+    try {
+      // Only reflect the new quantity once the server has accepted it.
+      await mutate(`/api/cart/${id}`, { method: "PATCH", body: { quantity } });
+      setItems((arr) => arr.map((i) => (i.id === id ? { ...i, quantity } : i)));
+      router.refresh();
+    } catch (e) {
+      setErr(errorMessage(e, "Could not update the quantity"));
+    } finally {
+      setBusy(null);
+    }
   }
   async function remove(id: string) {
     setBusy(id);
-    await fetch(`/api/cart/${id}`, { method: "DELETE" });
-    setItems((arr) => arr.filter((i) => i.id !== id));
-    setBusy(null);
-    router.refresh();
+    setErr("");
+    try {
+      await mutate(`/api/cart/${id}`, { method: "DELETE" });
+      setItems((arr) => arr.filter((i) => i.id !== id));
+      router.refresh();
+    } catch (e) {
+      setErr(errorMessage(e, "Could not remove this item"));
+    } finally {
+      setBusy(null);
+    }
   }
 
   return (
+    <>
+      {err && <p className="mb-3 rounded-sm border border-brand/30 bg-brand/5 px-3 py-2 text-sm text-brand">{err}</p>}
     <ul className="space-y-3">
       {items.map((i) => (
         <li key={i.id} className="card flex gap-4 p-3">
@@ -51,5 +68,6 @@ export default function CartItems({ initial }: { initial: Item[] }) {
         </li>
       ))}
     </ul>
+    </>
   );
 }

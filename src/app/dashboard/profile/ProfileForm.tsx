@@ -152,7 +152,7 @@ export default function ProfileForm({ initial }: { initial: Initial }) {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <div><label className="label">Hourly rate (USD)</label><input className="input" type="number" min={0} value={form.hourlyRate} onChange={(e) => set("hourlyRate", e.target.value)} /></div>
+        <div><label className="label">Hourly rate (CAD)</label><input className="input" type="number" min={0} value={form.hourlyRate} onChange={(e) => set("hourlyRate", e.target.value)} /></div>
         <div>
           <label className="label">Years of experience</label>
           <select className="input" value={form.yearsExp} onChange={(e) => set("yearsExp", e.target.value)}>

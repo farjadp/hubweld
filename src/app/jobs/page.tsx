@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { contains } from "@/lib/search";
 import { MapPin, Briefcase } from "lucide-react";
+import { formatDollars } from "@/lib/money";
 
 export const metadata = { title: "Browse Welding Jobs" };
 export const dynamic = "force-dynamic";
@@ -52,7 +53,7 @@ export default async function JobsPage({ searchParams }: { searchParams: { city?
                   <span>{j._count.bids} bids</span>
                 </div>
               </div>
-              {j.budget && <div className="text-right"><div className="text-amber font-bold">${j.budget}</div><div className="text-xs text-slate-500">budget</div></div>}
+              {j.budget && <div className="text-right"><div className="text-amber font-bold">{formatDollars(j.budget)}</div><div className="text-xs text-slate-500">budget</div></div>}
             </Link>
           ))}
         </div>

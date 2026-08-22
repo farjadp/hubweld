@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { formatCents } from "@/lib/money";
+import ConfirmReceiptButton from "./ConfirmReceiptButton";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ export default async function OrderDetailPage({ params, searchParams }: { params
       {searchParams.success && (
         <div className="card mb-6 border-amber/40 bg-amber/10">
           <h2 className="font-bold text-amber">Order placed successfully</h2>
-          <p className="text-sm text-slate-700">Confirmation has been sent. Suppliers will be notified to fulfill your items.</p>
+          <p className="text-sm text-slate-700">Your order is recorded below. Track fulfilment on this page — each supplier marks their items as they ship.</p>
         </div>
       )}
 
@@ -64,6 +65,24 @@ export default async function OrderDetailPage({ params, searchParams }: { params
             <div>{order.shipCountry}</div>
             {order.shipPhone && <div>{order.shipPhone}</div>}
           </div>
+
+          {/* Closes the loop: suppliers ship, the buyer confirms, the order ends. */}
+          {order.buyerId === me.id && order.status !== "COMPLETED" && order.status !== "CANCELLED" && (
+            <div className="mt-5 border-t border-slate-200 pt-4">
+              {order.items.every((i) => i.status !== "PENDING") ? (
+                <ConfirmReceiptButton orderId={order.id} />
+              ) : (
+                <p className="text-xs text-slate-500">
+                  You can confirm receipt once every supplier has shipped their items.
+                </p>
+              )}
+            </div>
+          )}
+          {order.status === "COMPLETED" && (
+            <p className="mt-5 border-t border-slate-200 pt-4 text-xs font-semibold text-green-700">
+              ✓ Receipt confirmed — this order is complete.
+            </p>
+          )}
         </aside>
       </div>
     </div>

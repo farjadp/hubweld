@@ -4,6 +4,7 @@ import {
   KanbanSquare, ChevronDown, ChevronUp, User, Calendar,
   Tag, AlertCircle, CheckCircle2, Clock, Ban, Plus, X, Save
 } from "lucide-react";
+import { mutate, errorMessage } from "@/lib/api";
 
 type Task = {
   id: string;
@@ -213,14 +214,20 @@ export default function ProjectPage() {
   }), [allTasks]);
 
   function handleStatusChange(taskId: string, status: Task["status"]) {
+    // Move the card immediately, but put it back if the server refuses —
+    // otherwise a failed save leaves the board showing a status that was
+    // never persisted.
+    const previous = boards;
     setBoards(prev => prev.map(b => ({
       ...b,
       tasks: b.tasks.map(t => t.id === taskId ? { ...t, status } : t),
     })));
-    fetch("/api/admin/project", {
+    mutate("/api/admin/project", {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "task", id: taskId, status }),
+      body: { type: "task", id: taskId, status },
+    }).catch((e) => {
+      setBoards(previous);
+      alert(errorMessage(e, "Could not move that card"));
     });
   }
 

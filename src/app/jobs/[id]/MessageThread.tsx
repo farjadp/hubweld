@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { Send, MessageSquare } from "lucide-react";
+import { mutate, errorMessage } from "@/lib/api";
 
 type Msg = { id: string; body: string; createdAt: string; from: { id: string; name: string } };
 
@@ -8,6 +9,7 @@ export default function MessageThread({ jobId, myId }: { jobId: string; myId: st
   const [messages, setMessages] = useState<Msg[]>([]);
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState("");
   const [open, setOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -23,13 +25,16 @@ export default function MessageThread({ jobId, myId }: { jobId: string; myId: st
     e.preventDefault();
     if (!body.trim()) return;
     setLoading(true);
-    const res = await fetch(`/api/jobs/${jobId}/messages`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ body }),
-    });
-    setLoading(false);
-    if (res.ok) { const m = await res.json(); setMessages((prev) => [...prev, m]); setBody(""); }
+    setErr("");
+    try {
+      const m = await mutate<Msg>(`/api/jobs/${jobId}/messages`, { body: { body } });
+      setMessages((prev) => [...prev, m]);
+      setBody("");
+    } catch (e) {
+      setErr(errorMessage(e, "Message not sent"));
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -77,6 +82,7 @@ export default function MessageThread({ jobId, myId }: { jobId: string; myId: st
               <Send size={15} />
             </button>
           </form>
+          {err && <p className="text-xs text-brand">{err}</p>}
         </div>
       )}
     </div>

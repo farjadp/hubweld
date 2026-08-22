@@ -2,17 +2,24 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
+import { mutate, errorMessage } from "@/lib/api";
 
 export default function DeletePostButton({ id }: { id: string }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
 
   async function del() {
-    if (!confirm("Permanently delete this post?")) return;
-    setBusy(true);
-    await fetch(`/api/admin/blog/posts/${id}`, { method: "DELETE" });
-    router.push("/admin/blog");
-    router.refresh();
+    try {
+      if (!confirm("Permanently delete this post?")) return;
+      setBusy(true);
+      await mutate(`/api/admin/blog/posts/${id}`, { method: "DELETE" });
+      router.push("/admin/blog");
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (

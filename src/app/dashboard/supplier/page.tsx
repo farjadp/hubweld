@@ -85,7 +85,9 @@ export default async function SupplierDashboardPage() {
               <div className="mt-2 text-xs text-slate-500">{profile.website || "No website set"}</div>
             </>
           ) : <p className="text-sm text-slate-600">Profile not yet configured.</p>}
-          <p className="mt-3 text-xs text-slate-500">Tip: complete your profile to earn the Verified badge. Contact admin to request approval.</p>
+          {!profile?.approved && (
+            <p className="mt-3 text-xs text-slate-500">Complete your profile, then contact an admin to request the Verified badge.</p>
+          )}
         </div>
       </div>
     </div>

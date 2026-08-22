@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { formatDollars } from "@/lib/money";
 
 export const dynamic = "force-dynamic";
 
@@ -75,7 +76,7 @@ export default async function DashboardPage() {
                 <li key={b.id} className="card flex items-center justify-between border-violet-600/20">
                   <div>
                     <Link href={`/jobs/${b.jobId}`} className="font-bold hover:text-brand">{b.job.title}</Link>
-                    <div className="text-xs text-slate-600">{b.job.city} · ${b.amount}</div>
+                    <div className="text-xs text-slate-600">{b.job.city} · {formatDollars(b.amount)}</div>
                   </div>
                   <span className={`badge ${statusColor[b.job.status] ?? "bg-slate-100"}`}>{b.job.status.replace("_", " ")}</span>
                 </li>
@@ -92,7 +93,7 @@ export default async function DashboardPage() {
               <li key={b.id} className="card flex items-center justify-between">
                 <div>
                   <Link href={`/jobs/${b.jobId}`} className="font-bold hover:text-brand">{b.job.title}</Link>
-                  <div className="text-xs text-slate-600">{b.job.city} · ${b.amount}</div>
+                  <div className="text-xs text-slate-600">{b.job.city} · {formatDollars(b.amount)}</div>
                 </div>
                 <span className={`badge ${statusColor[b.status] ?? "bg-slate-100"}`}>{b.status}</span>
               </li>

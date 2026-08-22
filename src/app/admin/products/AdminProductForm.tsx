@@ -87,7 +87,7 @@ export default function AdminProductForm({
             <option value="ARCHIVED">Archived</option>
           </select>
         </div>
-        <div><label className="label">Price (USD)</label><input className="input" required type="number" step="0.01" min="0" value={priceDollars} onChange={(e) => setPriceDollars(e.target.value)} /></div>
+        <div><label className="label">Price (CAD)</label><input className="input" required type="number" step="0.01" min="0" value={priceDollars} onChange={(e) => setPriceDollars(e.target.value)} /></div>
         <div><label className="label">Stock</label><input className="input" required type="number" min="0" value={form.stock} onChange={(e) => set("stock", Number(e.target.value) || 0)} /></div>
         <div className="md:col-span-2">
           <label className="label">Image URL</label>

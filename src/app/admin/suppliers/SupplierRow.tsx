@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShieldCheck, ShieldOff, Package, ExternalLink, Pencil, Trash2, X, Check } from "lucide-react";
+import { mutate, errorMessage } from "@/lib/api";
 
 type Profile = {
   id: string; businessName: string; description: string; website: string;
@@ -19,12 +20,15 @@ export default function SupplierRow({ profile }: { profile: Profile }) {
   });
 
   async function patch(data: object) {
-    setBusy(true);
-    await fetch(`/api/admin/suppliers/${profile.id}`, {
-      method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
-    });
-    setBusy(false);
-    router.refresh();
+    try {
+      setBusy(true);
+      await mutate(`/api/admin/suppliers/${profile.id}`, { method: "PATCH", body: data });
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function saveEdit() {
@@ -33,11 +37,17 @@ export default function SupplierRow({ profile }: { profile: Profile }) {
   }
 
   async function del() {
-    if (!confirm(`Delete supplier "${profile.businessName}" and their account? This cannot be undone.`)) return;
-    setBusy(true);
-    await fetch(`/api/admin/suppliers/${profile.id}`, { method: "DELETE" });
-    setBusy(false);
-    router.refresh();
+    try {
+      if (!confirm(`Delete supplier "${profile.businessName}" and their account? This cannot be undone.`)) return;
+      setBusy(true);
+      await mutate(`/api/admin/suppliers/${profile.id}`, { method: "DELETE" });
+      setBusy(false);
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (

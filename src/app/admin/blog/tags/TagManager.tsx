@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
+import { mutate, errorMessage } from "@/lib/api";
 
 type Tag = { id: string; slug: string; name: string; _count: { posts: number } };
 
@@ -15,22 +16,32 @@ export default function TagManager({ initialTags }: { initialTags: Tag[] }) {
   const [busy, setBusy] = useState(false);
 
   async function create() {
-    if (!name.trim()) return;
-    setBusy(true);
-    await fetch("/api/admin/blog/tags", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: name.trim(), slug: slugify(name.trim()) }),
-    });
-    setBusy(false);
-    setName("");
-    router.refresh();
+    try {
+      if (!name.trim()) return;
+      setBusy(true);
+      await mutate("/api/admin/blog/tags", {
+        method: "POST",
+        body: { name: name.trim(), slug: slugify(name.trim()) },
+      });
+      setName("");
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function del(id: string) {
-    if (!confirm("Delete tag?")) return;
-    await fetch(`/api/admin/blog/tags/${id}`, { method: "DELETE" });
-    router.refresh();
+    try {
+      if (!confirm("Delete tag?")) return;
+      await mutate(`/api/admin/blog/tags/${id}`, { method: "DELETE" });
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (

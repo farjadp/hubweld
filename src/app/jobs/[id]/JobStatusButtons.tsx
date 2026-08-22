@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PlayCircle, CheckCircle2, XCircle } from "lucide-react";
+import { mutate, errorMessage } from "@/lib/api";
 
 export default function JobStatusButtons({
   jobId,
@@ -16,21 +17,25 @@ export default function JobStatusButtons({
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState("");
 
   async function transition(newStatus: string) {
     if (!confirm(`Mark job as ${newStatus.replace("_", " ")}?`)) return;
     setLoading(true);
-    await fetch(`/api/jobs/${jobId}/status`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: newStatus }),
-    });
-    setLoading(false);
-    router.refresh();
+    setErr("");
+    try {
+      await mutate(`/api/jobs/${jobId}/status`, { body: { status: newStatus } });
+      router.refresh();
+    } catch (e) {
+      setErr(errorMessage(e, "Could not change the job status"));
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <div className="space-y-2">
+      {err && <p className="rounded-sm border border-brand/30 bg-brand/5 px-3 py-2 text-xs text-brand">{err}</p>}
       {status === "ASSIGNED" && (isAssignedWelder || isOwner) && (
         <button
           disabled={loading}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ArrowRight, BadgeCheck, Clock3, Factory, HardHat, MapPin, Package, ShieldCheck, Truck } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { Reveal } from "@/components/Reveal";
-import { formatCents } from "@/lib/money";
+import { formatCents, formatDollars } from "@/lib/money";
 import { getDisplayCurrency } from "@/lib/currency.server";
 import { SITE_URL } from "@/lib/site";
 
@@ -310,7 +310,7 @@ export default async function HomePage() {
                   <h3 className="font-display text-lg font-bold uppercase tracking-wide text-slate-900 transition-colors line-clamp-1 group-hover:text-brand-light">{j.title}</h3>
                   <div className="mt-1.5 flex items-center gap-4 font-mono text-[11px] uppercase tracking-wider text-slate-500 tabular-nums">
                     <span className="flex items-center gap-1"><MapPin size={11} />{j.city}</span>
-                    {j.budget ? <span>${j.budget.toLocaleString()} budget</span> : null}
+                    {j.budget ? <span>{formatDollars(j.budget)} budget</span> : null}
                     <span>{j._count.bids} bid{j._count.bids !== 1 ? "s" : ""}</span>
                   </div>
                 </div>

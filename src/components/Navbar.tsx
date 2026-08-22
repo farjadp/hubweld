@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, ShoppingCart, Store, Users, Cpu, LogOut, LayoutDashboard, ShoppingBag, Shield, Menu, X } from "lucide-react";
+import { ChevronDown, ShoppingCart, Store, Users, Cpu, LogOut, LayoutDashboard, ShoppingBag, Shield, Menu, X, Settings } from "lucide-react";
 import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 import type { Currency } from "@/lib/currency";
 
@@ -213,6 +213,9 @@ function UserMenu({ name, role, onSignOut }: { name: string; role: string; onSig
             </Link>
             <Link href="/orders" className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900">
               <ShoppingBag size={14} /> Orders
+            </Link>
+            <Link href="/dashboard/account" className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900">
+              <Settings size={14} /> Account settings
             </Link>
             {role === "ADMIN" && (
               <Link href="/admin" className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-brand-light transition-colors hover:bg-brand/10">

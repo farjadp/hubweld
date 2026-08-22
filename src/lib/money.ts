@@ -23,3 +23,11 @@ export function formatAmount(cents: number, currency: Currency = BASE_CURRENCY) 
     currencyDisplay: "narrowSymbol",
   }).format(cents / 100);
 }
+
+/**
+ * Format a whole-dollar amount. Job budgets and bid amounts are stored as
+ * whole dollars (Int), not cents, so they need their own formatter.
+ */
+export function formatDollars(dollars: number, currency: Currency = BASE_CURRENCY) {
+  return formatAmount(Math.round(dollars * 100), currency);
+}

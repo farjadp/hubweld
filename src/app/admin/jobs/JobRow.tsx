@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { Trash2, Pencil } from "lucide-react";
+import { mutate, errorMessage } from "@/lib/api";
 
 const STATUSES = ["OPEN", "ASSIGNED", "IN_PROGRESS", "COMPLETED", "CANCELLED"] as const;
 
@@ -12,23 +13,30 @@ export default function JobRow({ id, currentStatus }: { id: string; currentStatu
   const [showStatus, setShowStatus] = useState(false);
 
   async function setStatus(status: string) {
-    setShowStatus(false);
-    setBusy(true);
-    await fetch(`/api/admin/jobs/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
-    setBusy(false);
-    router.refresh();
+    try {
+      setShowStatus(false);
+      setBusy(true);
+      await mutate(`/api/admin/jobs/${id}`, { method: "PATCH", body: { status } });
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function del() {
-    if (!confirm("Delete this job? This cannot be undone.")) return;
-    setBusy(true);
-    await fetch(`/api/admin/jobs/${id}`, { method: "DELETE" });
-    setBusy(false);
-    router.refresh();
+    try {
+      if (!confirm("Delete this job? This cannot be undone.")) return;
+      setBusy(true);
+      await mutate(`/api/admin/jobs/${id}`, { method: "DELETE" });
+      setBusy(false);
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (

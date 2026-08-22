@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { ShieldCheck, ShieldOff, Ban, CheckCircle2, Trash2, Pencil } from "lucide-react";
+import { mutate, errorMessage } from "@/lib/api";
 
 type U = { id: string; name: string | null; email: string | null; role: string; banned: boolean; approved: boolean | null };
 
@@ -21,22 +22,29 @@ export default function UserRow({ user }: { user: U }) {
   const [showRole, setShowRole] = useState(false);
 
   async function call(action: string, extra?: object) {
-    setBusy(true);
-    await fetch(`/api/admin/users/${user.id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action, ...extra }),
-    });
-    setBusy(false);
-    router.refresh();
+    try {
+      setBusy(true);
+      await mutate(`/api/admin/users/${user.id}`, { method: "POST", body: { action, ...extra } });
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function del() {
-    if (!confirm(`Delete user "${user.name ?? user.email}"? This cannot be undone.`)) return;
-    setBusy(true);
-    await fetch(`/api/admin/users/${user.id}`, { method: "DELETE" });
-    setBusy(false);
-    router.refresh();
+    try {
+      if (!confirm(`Delete user "${user.name ?? user.email}"? This cannot be undone.`)) return;
+      setBusy(true);
+      await mutate(`/api/admin/users/${user.id}`, { method: "DELETE" });
+      setBusy(false);
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   const initials = (user.name ?? user.email ?? "?").slice(0, 2).toUpperCase();

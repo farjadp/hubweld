@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { mutate, errorMessage } from "@/lib/api";
 
 type P = { id: string; name: string; slug: string; sku: string; status: string; priceCents: number; stock: number; supplierName: string; categoryName: string; imageUrl: string };
 
@@ -9,17 +10,28 @@ export default function AdminProductRow({ product, formattedPrice }: { product: 
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   async function setStatus(status: string) {
-    setBusy(true);
-    await fetch(`/api/products/${product.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status }) });
-    setBusy(false);
-    router.refresh();
+    try {
+      setBusy(true);
+      await mutate(`/api/products/${product.id}`, { method: "PATCH", body: { status } });
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
   async function del() {
-    if (!confirm("Delete this product?")) return;
-    setBusy(true);
-    await fetch(`/api/products/${product.id}`, { method: "DELETE" });
-    setBusy(false);
-    router.refresh();
+    try {
+      if (!confirm("Delete this product?")) return;
+      setBusy(true);
+      await mutate(`/api/products/${product.id}`, { method: "DELETE" });
+      setBusy(false);
+      router.refresh();
+    } catch (e) {
+      alert(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   }
   return (
     <li className="card flex flex-wrap items-center gap-3">

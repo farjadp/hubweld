@@ -9,6 +9,7 @@ import AcceptBidButton from "./AcceptBidButton";
 import JobStatusButtons from "./JobStatusButtons";
 import ReviewForm from "./ReviewForm";
 import MessageThread from "./MessageThread";
+import { formatDollars } from "@/lib/money";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +59,7 @@ export default async function JobDetailPage({ params }: { params: { id: string }
             <span>by {job.customer.name}</span>
           </div>
           <p className="mt-4 whitespace-pre-line text-slate-700">{job.description}</p>
-          {job.budget && <p className="mt-3 font-bold text-brand">Budget: ${job.budget}</p>}
+          {job.budget && <p className="mt-3 font-bold text-brand">Budget: {formatDollars(job.budget)}</p>}
         </div>
 
         {/* Bids */}
@@ -73,7 +74,7 @@ export default async function JobDetailPage({ params }: { params: { id: string }
                       <Link href={`/welders/${b.welderId}`} className="font-bold hover:text-brand">{b.welder.name}</Link>
                       {b.welder.welderProfile?.approved && <BadgeCheck size={14} className="text-green-700" />}
                     </div>
-                    <span className="font-bold text-brand">${b.amount}</span>
+                    <span className="font-bold text-brand">{formatDollars(b.amount)}</span>
                   </div>
                   {b.message && <p className="mt-1 text-sm text-slate-700">{b.message}</p>}
                   <div className="mt-2 flex items-center justify-between">
@@ -126,7 +127,7 @@ export default async function JobDetailPage({ params }: { params: { id: string }
           {myBid && (
             <div className="rounded-xl border border-slate-200 bg-slate-100 p-3 text-sm">
               <div className="text-slate-600">Your bid</div>
-              <div className="font-bold text-brand">${myBid.amount}</div>
+              <div className="font-bold text-brand">{formatDollars(myBid.amount)}</div>
               <div className={`text-xs mt-1 font-bold ${myBid.status === "ACCEPTED" ? "text-green-700" : myBid.status === "REJECTED" ? "text-brand/60" : "text-slate-500"}`}>
                 {myBid.status}
               </div>
