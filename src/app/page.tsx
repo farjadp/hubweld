@@ -5,6 +5,7 @@ import { ArrowRight, BadgeCheck, Clock3, Factory, HardHat, MapPin, Package, Shie
 import { prisma } from "@/lib/prisma";
 import { Reveal } from "@/components/Reveal";
 import { formatCents } from "@/lib/money";
+import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   title: "HubWeld | Industrial Welding Parts, Distribution & Fabrication Network",
   description: "HubWeld is the go-to platform for industrial welding parts distribution, job posting, and fabrication network. Distributors, brokers, and system integrators trust HubWeld to source parts fast.",
   keywords: [
-    "HubWeld", "hub weld", "hubweld.com", "hub weld platform", "hubweld network",
+    "HubWeld", "hub weld", "hubweld.ca", "hub weld platform", "hubweld network",
     "industrial welding parts", "welding distribution network", "welding parts search platform",
     "certified welding network", "welding job marketplace",
   ],
@@ -112,10 +113,10 @@ export default async function HomePage() {
     "@type": "WebSite",
     name: "HubWeld",
     alternateName: ["Hub Weld", "HubWeld Platform"],
-    url: "https://www.hubweld.com",
+    url: SITE_URL,
     potentialAction: {
       "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: "https://www.hubweld.com/shop?q={search_term_string}" },
+      target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/shop?q={search_term_string}` },
       "query-input": "required name=search_term_string",
     },
   };
@@ -124,7 +125,7 @@ export default async function HomePage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "HubWeld", item: "https://www.hubweld.com" },
+      { "@type": "ListItem", position: 1, name: "HubWeld", item: SITE_URL },
     ],
   };
 

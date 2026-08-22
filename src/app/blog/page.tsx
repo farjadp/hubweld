@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import Image from "next/image";
 import { Tag, Calendar, ArrowRight, FolderOpen } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   description: "Expert articles on welding parts distribution, industrial sourcing, MIG/TIG welding, surplus stock management, and the global welding supply chain.",
   keywords: ["welding blog", "welding industry news", "industrial welding tips", "HubWeld blog", "welding parts sourcing", "welding distribution insights"],
   alternates: { canonical: "/blog" },
-  openGraph: { title: "HubWeld Blog – Welding Industry Insights", description: "Expert articles on welding parts, distribution, and industrial sourcing.", url: "https://www.hubweld.com/blog", siteName: "HubWeld", type: "website" },
+  openGraph: { title: "HubWeld Blog – Welding Industry Insights", description: "Expert articles on welding parts, distribution, and industrial sourcing.", url: `${SITE_URL}/blog`, siteName: "HubWeld", type: "website" },
 };
 
 const TAKE = 12;
@@ -51,8 +52,8 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "HubWeld", item: "https://www.hubweld.com" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.hubweld.com/blog" },
+      { "@type": "ListItem", position: 1, name: "HubWeld", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
     ],
   };
 

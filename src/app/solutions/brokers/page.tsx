@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Search, BarChart2, Zap, Package } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "For Brokers & Dealers | HubWeld – Source Hard-to-Find Welding Parts Fast",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "For Brokers & Dealers | HubWeld – Find Any Welding Part in Seconds",
     description: "Search millions of welding parts from hundreds of global warehouses. Real-time stock data, emergency sourcing, obsolete parts — all on one platform.",
-    url: "https://www.hubweld.com/solutions/brokers",
+    url: `${SITE_URL}/solutions/brokers`,
     siteName: "HubWeld",
     type: "website",
   },
@@ -105,7 +106,7 @@ const serviceAreaLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "HubWeld Broker & Dealer Network",
-  provider: { "@type": "Organization", name: "HubWeld", url: "https://www.hubweld.com" },
+  provider: { "@type": "Organization", name: "HubWeld", url: SITE_URL },
   description: "Industrial welding parts sourcing platform for brokers and dealers with real-time stock visibility across hundreds of global warehouses.",
   areaServed: ["United States", "Canada", "United Kingdom", "Australia", "Germany", "Netherlands"],
   serviceType: ["Welding Parts Brokerage", "Emergency Parts Sourcing", "Obsolete Parts Locating", "Stock Availability Search"],

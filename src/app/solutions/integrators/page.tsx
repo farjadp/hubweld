@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Zap, Search, Archive, FileSpreadsheet, MapPin } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "For System Integrators | HubWeld – Industrial Welding Parts & BOM Sourcing",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "For System Integrators | HubWeld – Always Have a Plan B for Welding Parts",
     description: "Upload your BOM, search for emergency replacements, source obsolete parts, and find local suppliers worldwide — all from one platform built for system integrators.",
-    url: "https://www.hubweld.com/solutions/integrators",
+    url: `${SITE_URL}/solutions/integrators`,
     siteName: "HubWeld",
     type: "website",
   },
@@ -120,7 +121,7 @@ const serviceAreaLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "HubWeld System Integrator Solutions",
-  provider: { "@type": "Organization", name: "HubWeld", url: "https://www.hubweld.com" },
+  provider: { "@type": "Organization", name: "HubWeld", url: SITE_URL },
   description: "Industrial welding parts sourcing platform for system integrators — BOM management, emergency sourcing, surplus stock, and global supplier search.",
   areaServed: ["United States", "Canada", "United Kingdom", "Australia", "Germany", "Netherlands", "UAE"],
   serviceType: ["BOM Parts Sourcing", "Emergency Welding Parts", "Surplus Stock Trading", "Obsolete Parts Search", "International Supplier Lookup"],

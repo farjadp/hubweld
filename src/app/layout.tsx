@@ -4,6 +4,7 @@ import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navbar";
+import { SITE_URL } from "@/lib/site";
 
 const fontBody = Barlow({
   subsets: ["latin"],
@@ -25,7 +26,7 @@ const fontMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.hubweld.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "HubWeld | Industrial Welding Parts, Distribution & Fabrication Network",
     template: "%s | HubWeld",
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "HubWeld | Industrial Welding Parts & Fabrication Network",
     description: "Search millions of welding parts, connect with distributors, brokers, and certified welders worldwide. HubWeld is the platform built for real-world welding deadlines.",
-    url: "https://www.hubweld.com/",
+    url: `${SITE_URL}/`,
     siteName: "HubWeld",
     type: "website",
   },
@@ -56,8 +57,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@type": "Organization",
     name: "HubWeld",
     alternateName: ["Hub Weld", "HubWeld Platform", "HubWeld Network"],
-    url: "https://www.hubweld.com/",
-    logo: "https://www.hubweld.com/logo.png",
+    url: `${SITE_URL}/`,
+    logo: `${SITE_URL}/logo.png`,
     description: "HubWeld is an industrial welding parts and fabrication network connecting distributors, brokers, dealers, and system integrators with suppliers worldwide.",
     foundingDate: "2024",
     areaServed: ["United States", "Canada", "United Kingdom", "Australia", "Germany", "Netherlands", "UAE"],

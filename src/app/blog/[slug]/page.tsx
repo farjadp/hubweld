@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Calendar, Clock, FolderOpen, Tag, ArrowLeft, ArrowRight, Eye } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +39,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     openGraph: {
       title: post.seoTitle || post.title,
       description: post.seoDesc || post.excerpt,
-      url: `https://www.hubweld.com/blog/${post.slug}`,
+      url: `${SITE_URL}/blog/${post.slug}`,
       siteName: "HubWeld",
       type: "article",
       publishedTime: post.publishedAt?.toISOString(),
@@ -74,17 +75,17 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     headline: post.seoTitle || post.title,
     description: post.seoDesc || post.excerpt,
     author: { "@type": "Person", name: post.author.name },
-    publisher: { "@type": "Organization", name: "HubWeld", url: "https://www.hubweld.com" },
+    publisher: { "@type": "Organization", name: "HubWeld", url: SITE_URL },
     datePublished: post.publishedAt?.toISOString(),
     dateModified: post.updatedAt?.toISOString(),
-    url: `https://www.hubweld.com/blog/${post.slug}`,
+    url: `${SITE_URL}/blog/${post.slug}`,
     ...(post.coverImage ? { image: post.coverImage } : {}),
     articleSection: post.category.name,
     keywords: post.seoKeywords || post.tags.map((t: any) => t.tag.name).join(", "),
     inLanguage: "en-US",
     about: { "@type": "Thing", name: "Industrial Welding" },
     mentions: [
-      { "@type": "Organization", name: "HubWeld", url: "https://www.hubweld.com" },
+      { "@type": "Organization", name: "HubWeld", url: SITE_URL },
     ],
   };
 
@@ -92,11 +93,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "HubWeld", item: "https://www.hubweld.com" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.hubweld.com/blog" },
-      ...(post.category.parent ? [{ "@type": "ListItem", position: 3, name: post.category.parent.name, item: `https://www.hubweld.com/blog?cat=${post.category.parent.slug}` }] : []),
-      { "@type": "ListItem", position: post.category.parent ? 4 : 3, name: post.category.name, item: `https://www.hubweld.com/blog?cat=${post.category.slug}` },
-      { "@type": "ListItem", position: post.category.parent ? 5 : 4, name: post.title, item: `https://www.hubweld.com/blog/${post.slug}` },
+      { "@type": "ListItem", position: 1, name: "HubWeld", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+      ...(post.category.parent ? [{ "@type": "ListItem", position: 3, name: post.category.parent.name, item: `${SITE_URL}/blog?cat=${post.category.parent.slug}` }] : []),
+      { "@type": "ListItem", position: post.category.parent ? 4 : 3, name: post.category.name, item: `${SITE_URL}/blog?cat=${post.category.slug}` },
+      { "@type": "ListItem", position: post.category.parent ? 5 : 4, name: post.title, item: `${SITE_URL}/blog/${post.slug}` },
     ],
   };
 

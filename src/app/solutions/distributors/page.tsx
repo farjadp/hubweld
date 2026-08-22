@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, Globe, Search, TrendingUp } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "For Distributors | HubWeld – Industrial Welding Parts Distribution Network",
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "For Distributors | HubWeld – Sell Surplus, Reduce Lead Times, Reach Global Buyers",
     description: "List your welding parts stock on HubWeld and connect with buyers across the US, Canada, and worldwide. Fast RFQ, real-time availability, new sales channels.",
-    url: "https://www.hubweld.com/solutions/distributors",
+    url: `${SITE_URL}/solutions/distributors`,
     siteName: "HubWeld",
     type: "website",
   },
@@ -97,7 +98,7 @@ const serviceAreaLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "HubWeld Distributor Network",
-  provider: { "@type": "Organization", name: "HubWeld", url: "https://www.hubweld.com" },
+  provider: { "@type": "Organization", name: "HubWeld", url: SITE_URL },
   description: "Industrial welding parts distribution platform connecting distributors with buyers across North America and worldwide.",
   areaServed: ["United States", "Canada", "United Kingdom", "Australia"],
   serviceType: ["Welding Parts Distribution", "Surplus Stock Listing", "Obsolete Parts Sourcing", "RFQ Management"],
