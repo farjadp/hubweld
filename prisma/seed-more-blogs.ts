@@ -106,7 +106,7 @@ async function main() {
       slug: "understanding-welding-fumes-lev",
       title: "Understanding Welding Fumes and Local Exhaust Ventilation (LEV)",
       excerpt: "Protecting yourself from hazardous welding fumes requires more than just a mask. Discover how Local Exhaust Ventilation systems protect shops.",
-      coverImage: "https://images.unsplash.com/photo-1583912267550-d44c9b5b1e6f?w=1200",
+      coverImage: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200",
       categoryId: getCat("safety-compliance"),
       tagSlugs: ["welding-safety"],
       seoTitle: "Welding Fumes and LEV Systems Guide | HubWeld",

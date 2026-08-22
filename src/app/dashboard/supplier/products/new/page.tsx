@@ -21,7 +21,7 @@ export default async function NewProductPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="mb-2 text-3xl font-black tracking-tight">New product</h1>
-      <p className="mb-6 text-white/60">List a new item on the HubWeld marketplace.</p>
+      <p className="mb-6 text-slate-600">List a new item on the HubWeld marketplace.</p>
       <ProductForm
         mode="create"
         categories={categories.map((c) => ({ id: c.id, name: `${c.parent?.name} → ${c.name}` }))}

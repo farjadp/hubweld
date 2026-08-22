@@ -24,7 +24,7 @@ export default function NewJobPage() {
   return (
     <div className="mx-auto max-w-2xl py-8">
       <h1 className="mb-2 text-3xl font-black tracking-tight">Post a welding job</h1>
-      <p className="mb-6 text-white/60">Share details. Welders will submit bids you can review and accept.</p>
+      <p className="mb-6 text-slate-600">Share details. Welders will submit bids you can review and accept.</p>
       <form onSubmit={submit} className="card space-y-4">
         <div><label className="label">Title</label><input className="input" required value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="e.g. Stainless rail repair at food plant" /></div>
         <div><label className="label">Description</label><textarea className="input min-h-32" required value={form.description} onChange={(e) => set("description", e.target.value)} placeholder="Materials, certifications needed, timeline, site access..." /></div>
@@ -37,7 +37,7 @@ export default function NewJobPage() {
           </div>
         </div>
         <div><label className="label">Budget (USD, optional)</label><input className="input" type="number" min={0} value={form.budget} onChange={(e) => set("budget", e.target.value)} /></div>
-        {err && <p className="text-sm text-red-400">{err}</p>}
+        {err && <p className="text-sm text-brand">{err}</p>}
         <button className="btn-primary w-full" disabled={loading}>{loading ? "Posting..." : "Post Job"}</button>
       </form>
     </div>

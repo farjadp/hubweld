@@ -14,8 +14,8 @@ export default async function AdminNewSupplierPage() {
   return (
     <div>
       <div className="mb-6 flex items-center gap-3">
-        <Link href="/admin/suppliers" className="text-white/40 hover:text-white text-sm">← Suppliers</Link>
-        <span className="text-white/20">/</span>
+        <Link href="/admin/suppliers" className="text-slate-500 hover:text-slate-900 text-sm">← Suppliers</Link>
+        <span className="text-slate-300">/</span>
         <h1 className="text-2xl font-black tracking-tight">New Supplier</h1>
       </div>
       <AdminNewSupplierForm />

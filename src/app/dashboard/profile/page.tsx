@@ -24,7 +24,7 @@ export default async function ProfilePage() {
   return (
     <div className="mx-auto max-w-2xl">
       <h1 className="mb-2 text-3xl font-black tracking-tight">Welder profile</h1>
-      <p className="mb-6 text-white/60">Help customers find you. Verified profiles appear higher in the directory.</p>
+      <p className="mb-6 text-slate-600">Help customers find you. Verified profiles appear higher in the directory.</p>
       <ProfileForm initial={{
         bio: profile?.bio ?? "",
         skills: profile?.skills ?? "",

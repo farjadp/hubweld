@@ -22,7 +22,7 @@ export default function BidForm({ jobId }: { jobId: string }) {
       <h3 className="font-bold">Place a bid</h3>
       <div><label className="label">Bid amount (USD)</label><input className="input" type="number" min={1} required value={amount} onChange={(e) => setAmount(e.target.value)} /></div>
       <div><label className="label">Message</label><textarea className="input min-h-24" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Approach, certifications, availability..." /></div>
-      {err && <p className="text-sm text-red-400">{err}</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
       <button className="btn-primary w-full" disabled={loading}>{loading ? "Submitting..." : "Submit Bid"}</button>
     </form>
   );

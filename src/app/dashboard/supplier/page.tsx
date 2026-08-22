@@ -36,7 +36,7 @@ export default async function SupplierDashboardPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-3xl font-black tracking-tight">{profile?.businessName || me.name}</h1>
-          <p className="text-white/60">Supplier dashboard {profile?.approved ? <span className="badge ml-2 bg-amber/20 text-amber">Verified</span> : <span className="badge ml-2 bg-white/10">Pending verification</span>}</p>
+          <p className="text-slate-600">Supplier dashboard {profile?.approved ? <span className="badge ml-2 bg-amber/20 text-amber">Verified</span> : <span className="badge ml-2 bg-slate-100">Pending verification</span>}</p>
         </div>
         <div className="flex gap-2">
           <Link href="/dashboard/supplier/products" className="btn-secondary text-sm">My products</Link>
@@ -58,18 +58,18 @@ export default async function SupplierDashboardPage() {
             <Link href="/dashboard/supplier/orders" className="text-sm text-amber hover:underline">View all</Link>
           </div>
           {recentItems.length === 0 ? (
-            <div className="card text-center text-white/60">No orders yet.</div>
+            <div className="card text-center text-slate-600">No orders yet.</div>
           ) : (
             <ul className="grid gap-2">
               {recentItems.map((it) => (
                 <li key={it.id} className="card flex items-center justify-between">
                   <div>
                     <Link href={`/dashboard/supplier/orders/${it.orderId}`} className="font-bold hover:text-amber line-clamp-1">{it.nameSnapshot}</Link>
-                    <div className="text-xs text-white/60">Order #{it.orderId.slice(-8).toUpperCase()} · Qty {it.quantity} · {new Date(it.order.createdAt).toLocaleDateString()}</div>
+                    <div className="text-xs text-slate-600">Order #{it.orderId.slice(-8).toUpperCase()} · Qty {it.quantity} · {new Date(it.order.createdAt).toLocaleDateString()}</div>
                   </div>
                   <div className="text-right">
                     <div className="font-black">{formatCents(it.priceCents * it.quantity)}</div>
-                    <div className="text-xs text-white/50">{it.status}</div>
+                    <div className="text-xs text-slate-500">{it.status}</div>
                   </div>
                 </li>
               ))}
@@ -81,11 +81,11 @@ export default async function SupplierDashboardPage() {
           <h2 className="mb-2 font-bold">Supplier profile</h2>
           {profile ? (
             <>
-              <p className="text-sm text-white/70">{profile.description || <em className="text-white/40">No description yet.</em>}</p>
-              <div className="mt-2 text-xs text-white/50">{profile.website || "No website set"}</div>
+              <p className="text-sm text-slate-700">{profile.description || <em className="text-slate-500">No description yet.</em>}</p>
+              <div className="mt-2 text-xs text-slate-500">{profile.website || "No website set"}</div>
             </>
-          ) : <p className="text-sm text-white/60">Profile not yet configured.</p>}
-          <p className="mt-3 text-xs text-white/40">Tip: complete your profile to earn the Verified badge. Contact admin to request approval.</p>
+          ) : <p className="text-sm text-slate-600">Profile not yet configured.</p>}
+          <p className="mt-3 text-xs text-slate-500">Tip: complete your profile to earn the Verified badge. Contact admin to request approval.</p>
         </div>
       </div>
     </div>
@@ -93,5 +93,5 @@ export default async function SupplierDashboardPage() {
 }
 
 function Stat({ label, value }: { label: string; value: number | string }) {
-  return <div className="card"><div className="text-3xl font-black">{value}</div><div className="text-sm text-white/60">{label}</div></div>;
+  return <div className="card"><div className="text-3xl font-black">{value}</div><div className="text-sm text-slate-600">{label}</div></div>;
 }

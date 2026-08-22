@@ -21,7 +21,7 @@ function Btn({ onClick, active, title, children }: { onClick: () => void; active
       type="button"
       onMouseDown={(e) => { e.preventDefault(); onClick(); }}
       title={title}
-      className={`grid h-7 w-7 place-items-center rounded text-xs transition-colors ${active ? "bg-red-600/20 text-red-400" : "text-white/50 hover:bg-white/10 hover:text-white"}`}
+      className={`grid h-7 w-7 place-items-center rounded text-xs transition-colors ${active ? "bg-red-600/20 text-brand" : "text-slate-500 hover:bg-slate-100 hover:text-white"}`}
     >
       {children}
     </button>
@@ -29,7 +29,7 @@ function Btn({ onClick, active, title, children }: { onClick: () => void; active
 }
 
 function Divider() {
-  return <div className="h-5 w-px bg-white/10" />;
+  return <div className="h-5 w-px bg-slate-100" />;
 }
 
 export default function RichEditor({
@@ -92,9 +92,9 @@ export default function RichEditor({
   const wc = editor.storage.characterCount?.words() ?? 0;
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/10 bg-[#0d0f11]">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-0.5 border-b border-white/10 bg-[#111315] px-3 py-2">
+      <div className="flex flex-wrap items-center gap-0.5 border-b border-slate-200 bg-white px-3 py-2">
         <Btn title="Undo" onClick={() => editor.chain().focus().undo().run()}><Undo size={13} /></Btn>
         <Btn title="Redo" onClick={() => editor.chain().focus().redo().run()}><Redo size={13} /></Btn>
         <Divider />
@@ -127,7 +127,7 @@ export default function RichEditor({
       </div>
 
       {/* Footer */}
-      <div className="border-t border-white/5 px-5 py-2 text-right text-xs text-white/20">
+      <div className="border-t border-slate-200 px-5 py-2 text-right text-xs text-slate-300">
         {wc} words
       </div>
     </div>

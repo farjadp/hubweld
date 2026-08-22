@@ -29,12 +29,12 @@ export default async function EditPostPage({ params }: { params: { id: string } 
     <div>
       <div className="mb-7 flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Link href="/admin/blog" className="grid h-8 w-8 place-items-center rounded-lg border border-white/10 text-white/40 hover:text-white transition-colors">
+          <Link href="/admin/blog" className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-slate-500 hover:text-slate-900 transition-colors">
             <ArrowLeft size={15} />
           </Link>
           <div>
-            <h1 className="text-2xl font-black tracking-tight text-white">Edit Post</h1>
-            <p className="text-sm text-white/40">{post.title}</p>
+            <h1 className="text-2xl font-black tracking-tight text-slate-900">Edit Post</h1>
+            <p className="text-sm text-slate-500">{post.title}</p>
           </div>
         </div>
         <DeletePostButton id={post.id} />

@@ -2,6 +2,58 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import OpenAI from "openai";
+import http from "http";
+import https from "https";
+import { lookup } from "dns/promises";
+
+export const runtime = "nodejs";
+
+// ── SSRF guard ────────────────────────────────────────────────────────────
+// The scraper fetches an arbitrary admin-supplied URL from inside the server,
+// with TLS verification relaxed and redirects followed. Without this check a
+// URL (or a redirect hop) could reach the cloud metadata endpoint or any
+// service on the private network. Every hop is resolved and validated.
+function isBlockedAddress(ip: string): boolean {
+  const v4 = ip.replace(/^::ffff:/i, "");
+  const m = v4.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
+  if (m) {
+    const [a, b] = [Number(m[1]), Number(m[2])];
+    return (
+      a === 0 ||                          // this network
+      a === 10 ||                         // private
+      a === 127 ||                        // loopback
+      (a === 169 && b === 254) ||         // link-local, incl. cloud metadata
+      (a === 172 && b >= 16 && b <= 31) || // private
+      (a === 192 && b === 168) ||         // private
+      (a === 100 && b >= 64 && b <= 127) ||// CGNAT
+      a >= 224                            // multicast / reserved
+    );
+  }
+  const v6 = ip.toLowerCase();
+  return (
+    v6 === "::" || v6 === "::1" ||        // unspecified / loopback
+    /^f[cd]/.test(v6) ||                  // unique local fc00::/7
+    /^fe[89ab]/.test(v6)                  // link-local fe80::/10
+  );
+}
+
+async function assertPublicUrl(raw: string): Promise<URL> {
+  let u: URL;
+  try { u = new URL(raw); } catch { throw new Error("Invalid URL"); }
+  if (u.protocol !== "http:" && u.protocol !== "https:") {
+    throw new Error("Only http:// and https:// URLs are supported");
+  }
+  let address: string;
+  try {
+    ({ address } = await lookup(u.hostname));
+  } catch {
+    throw new Error(`Could not resolve ${u.hostname}`);
+  }
+  if (isBlockedAddress(address)) {
+    throw new Error("That URL points to a private or internal address and cannot be fetched");
+  }
+  return u;
+}
 
 async function guard() {
   const s = await getServerSession(authOptions);
@@ -67,22 +119,129 @@ REQUIREMENTS:
   }`;
 }
 
-// ── URL scraper (simple fetch, no external lib needed) ────────────────────
-async function scrapeUrl(url: string): Promise<string> {
-  const res = await fetch(url, {
-    headers: { "User-Agent": "Mozilla/5.0 (compatible; HubWeld-Bot/1.0)" },
-    signal: AbortSignal.timeout(10000),
+// Realistic browser headers so sites don't reject us as a bot.
+function browserHeaders(origin: string): Record<string, string> {
+  return {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Upgrade-Insecure-Requests": "1",
+    ...(origin ? { Referer: origin } : {}),
+  };
+}
+
+type PageResult = { status: number; contentType: string; body: string };
+
+// TLS-tolerant fetch via Node http/https. Used as a fallback when the native
+// fetch throws on certificate problems (e.g. a site with a mismatched SSL cert).
+async function nodeGet(url: string, headers: Record<string, string>, redirects = 0): Promise<PageResult> {
+  if (redirects > 5) throw new Error("Too many redirects");
+  // Validate this hop before opening the socket — a redirect is the easiest
+  // way to walk an allowed public host into the private network.
+  const u = await assertPublicUrl(url);
+  return new Promise<PageResult>((resolve, reject) => {
+    const mod = u.protocol === "http:" ? http : https;
+    const req = mod.request(
+      u,
+      { method: "GET", headers, timeout: 15000, rejectUnauthorized: false },
+      (res) => {
+        const status = res.statusCode || 0;
+        // Follow redirects
+        if (status >= 300 && status < 400 && res.headers.location) {
+          res.resume();
+          const next = new URL(res.headers.location, u).toString();
+          return resolve(nodeGet(next, headers, redirects + 1));
+        }
+        const chunks: Buffer[] = [];
+        res.on("data", (c) => chunks.push(c as Buffer));
+        res.on("end", () => resolve({
+          status,
+          contentType: String(res.headers["content-type"] || ""),
+          body: Buffer.concat(chunks).toString("utf8"),
+        }));
+      }
+    );
+    req.on("error", reject);
+    req.on("timeout", () => { req.destroy(new Error("Request timed out")); });
+    req.end();
   });
-  if (!res.ok) throw new Error(`Failed to fetch URL: ${res.status}`);
-  const html = await res.text();
+}
+
+async function fetchPage(url: string): Promise<PageResult> {
+  // Throws before any request is made if the target resolves to a private
+  // address. Redirect hops are re-validated individually below / in nodeGet.
+  const first = await assertPublicUrl(url);
+  const headers = browserHeaders(first.origin);
+
+  // 1) Try the native fetch first (validates TLS). Redirects are handled
+  //    manually so each hop passes the same guard.
+  let current = first.toString();
+  try {
+    for (let hop = 0; hop <= 5; hop++) {
+      const res = await fetch(current, { headers, redirect: "manual", signal: AbortSignal.timeout(15000) });
+      const location = res.headers.get("location");
+      if (res.status >= 300 && res.status < 400 && location) {
+        const next = await assertPublicUrl(new URL(location, current).toString());
+        current = next.toString();
+        continue;
+      }
+      return { status: res.status, contentType: res.headers.get("content-type") || "", body: await res.text() };
+    }
+    throw new Error("Too many redirects");
+  } catch (e: any) {
+    // A guard rejection is a real answer, not a transport failure — do not
+    // retry it through the TLS-tolerant path.
+    if (/private or internal address|Only http|Invalid URL|Could not resolve|Too many redirects/.test(e?.message ?? "")) throw e;
+    // 2) Fall back to a TLS-tolerant Node request (mismatched/self-signed certs).
+    return nodeGet(current, headers);
+  }
+}
+
+// ── URL scraper ───────────────────────────────────────────────────────────
+async function scrapeUrl(url: string): Promise<string> {
+  if (!url || !/^https?:\/\//i.test(url)) {
+    throw new Error("Please enter a valid URL starting with http:// or https://");
+  }
+
+  const res = await fetchPage(url);
+
+  if (res.status < 200 || res.status >= 300) {
+    if (res.status === 403 || res.status === 401 || res.status === 429) {
+      throw new Error(
+        `The site blocked automated access (HTTP ${res.status}). ` +
+        `Open the page, copy its text, and use the "Topic / Rewrite" → "Rewrite draft" mode instead.`
+      );
+    }
+    throw new Error(`Failed to fetch URL: ${res.status}`);
+  }
+
+  if (res.contentType && !res.contentType.includes("html") && !res.contentType.includes("text")) {
+    throw new Error(`Unsupported content type (${res.contentType}). Provide a normal web page URL.`);
+  }
+
   // Strip tags, scripts, styles — keep text
-  return html
+  const text = res.body
     .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
     .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
+    .replace(/<noscript[^>]*>[\s\S]*?<\/noscript>/gi, "")
     .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
     .replace(/\s{2,}/g, " ")
     .trim()
     .slice(0, 8000); // cap to avoid huge prompts
+
+  if (text.length < 200) {
+    throw new Error(
+      "Couldn't extract enough readable text (the page may be JavaScript-rendered or protected). " +
+      "Try the \"Topic / Rewrite\" → \"Rewrite draft\" mode with the text pasted in."
+    );
+  }
+  return text;
 }
 
 // ── Main handler ─────────────────────────────────────────────────────────

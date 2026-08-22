@@ -30,21 +30,21 @@ export default function CartItems({ initial }: { initial: Item[] }) {
     <ul className="space-y-3">
       {items.map((i) => (
         <li key={i.id} className="card flex gap-4 p-3">
-          <Link href={`/shop/p/${i.slug}`} className="block h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-white/5">
+          <Link href={`/shop/p/${i.slug}`} className="block h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-slate-100">
             {i.imageUrl && <img src={i.imageUrl} alt={i.name} className="h-full w-full object-cover" />}
           </Link>
           <div className="flex flex-1 flex-col">
             <Link href={`/shop/p/${i.slug}`} className="font-bold hover:text-amber line-clamp-2">{i.name}</Link>
-            <div className="text-sm text-white/60">{formatCents(i.priceCents)} each</div>
+            <div className="text-sm text-slate-600">{formatCents(i.priceCents)} each</div>
             <div className="mt-auto flex items-center justify-between">
-              <div className="flex items-center rounded-xl border border-white/10 bg-white/5 text-sm">
+              <div className="flex items-center rounded-xl border border-slate-200 bg-slate-100 text-sm">
                 <button disabled={!!busy} onClick={() => update(i.id, Math.max(1, i.quantity - 1))} className="px-3 py-1 hover:text-amber">−</button>
                 <span className="w-10 text-center">{i.quantity}</span>
                 <button disabled={!!busy} onClick={() => update(i.id, i.quantity + 1)} className="px-3 py-1 hover:text-amber">+</button>
               </div>
               <div className="flex items-center gap-3">
                 <span className="font-black">{formatCents(i.priceCents * i.quantity)}</span>
-                <button disabled={!!busy} onClick={() => remove(i.id)} className="text-xs text-white/50 hover:text-red-400">Remove</button>
+                <button disabled={!!busy} onClick={() => remove(i.id)} className="text-xs text-slate-500 hover:text-brand">Remove</button>
               </div>
             </div>
           </div>

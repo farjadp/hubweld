@@ -51,9 +51,9 @@ export default function CheckoutForm({ defaultName }: { defaultName: string }) {
         <div className="grid gap-2 md:grid-cols-2">
           {(["card", "net30"] as const).map((m) => (
             <button key={m} type="button" onClick={() => set("paymentMethod", m)}
-              className={`rounded-xl border p-3 text-left text-sm transition ${form.paymentMethod === m ? "border-amber/60 bg-amber/10" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
+              className={`rounded-xl border p-3 text-left text-sm transition ${form.paymentMethod === m ? "border-amber/60 bg-amber/10" : "border-slate-200 bg-slate-100 hover:bg-slate-100"}`}>
               <div className="font-bold">{m === "card" ? "Credit card" : "Net 30 invoice"}</div>
-              <div className="text-white/60">{m === "card" ? "Pay immediately (sandbox — no real charge)" : "Invoice issued, due in 30 days"}</div>
+              <div className="text-slate-600">{m === "card" ? "Pay immediately (sandbox — no real charge)" : "Invoice issued, due in 30 days"}</div>
             </button>
           ))}
         </div>
@@ -61,7 +61,7 @@ export default function CheckoutForm({ defaultName }: { defaultName: string }) {
           <div className="mt-3 grid gap-3 md:grid-cols-3">
             <div className="md:col-span-2"><Field label="Card number" value="4242 4242 4242 4242" onChange={() => {}} /></div>
             <Field label="Exp / CVC" value="12/29 · 123" onChange={() => {}} />
-            <p className="md:col-span-3 text-xs text-white/40">Sandbox mode: any card details are accepted. Stripe integration is a stub.</p>
+            <p className="md:col-span-3 text-xs text-slate-500">Sandbox mode: any card details are accepted. Stripe integration is a stub.</p>
           </div>
         )}
       </section>
@@ -71,7 +71,7 @@ export default function CheckoutForm({ defaultName }: { defaultName: string }) {
         <textarea className="input min-h-20" value={form.notes} onChange={(e) => set("notes", e.target.value)} placeholder="PO number, delivery instructions, etc." />
       </section>
 
-      {err && <p className="text-sm text-red-400">{err}</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
       <button className="btn-primary w-full" disabled={loading}>{loading ? "Placing order..." : "Place Order"}</button>
     </form>
   );

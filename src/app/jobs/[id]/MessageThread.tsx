@@ -33,10 +33,10 @@ export default function MessageThread({ jobId, myId }: { jobId: string; myId: st
   }
 
   return (
-    <div className="border-t border-white/10 pt-4">
+    <div className="border-t border-slate-200 pt-4">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 text-sm font-bold text-white/70 hover:text-white transition-colors"
+        className="flex items-center gap-2 text-sm font-bold text-slate-700 hover:text-slate-900 transition-colors"
       >
         <MessageSquare size={16} />
         {open ? "Hide Messages" : "Messages"}
@@ -47,16 +47,16 @@ export default function MessageThread({ jobId, myId }: { jobId: string; myId: st
 
       {open && (
         <div className="mt-3 space-y-3">
-          <div className="max-h-64 overflow-y-auto space-y-2 rounded-xl border border-white/10 bg-white/[0.02] p-3">
+          <div className="max-h-64 overflow-y-auto space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-3">
             {messages.length === 0 ? (
-              <p className="text-center text-sm text-white/30 py-4">No messages yet. Start the conversation.</p>
+              <p className="text-center text-sm text-slate-400 py-4">No messages yet. Start the conversation.</p>
             ) : (
               messages.map((m) => (
                 <div key={m.id} className={`flex ${m.from.id === myId ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[80%] rounded-xl px-3 py-2 text-sm ${m.from.id === myId ? "bg-red-600/20 text-white" : "bg-white/5 text-white/80"}`}>
-                    {m.from.id !== myId && <div className="mb-0.5 text-[10px] font-bold text-white/40">{m.from.name}</div>}
+                  <div className={`max-w-[80%] rounded-xl px-3 py-2 text-sm ${m.from.id === myId ? "bg-red-600/20 text-white" : "bg-slate-100 text-slate-700"}`}>
+                    {m.from.id !== myId && <div className="mb-0.5 text-[10px] font-bold text-slate-500">{m.from.name}</div>}
                     <p>{m.body}</p>
-                    <div className="mt-0.5 text-[10px] text-white/30 text-right">
+                    <div className="mt-0.5 text-[10px] text-slate-400 text-right">
                       {new Date(m.createdAt).toLocaleTimeString("en", { hour: "2-digit", minute: "2-digit" })}
                     </div>
                   </div>

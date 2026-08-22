@@ -26,8 +26,8 @@ export default function ReviewForm({ jobId }: { jobId: string }) {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-3 border-t border-white/10 pt-4">
-      <h3 className="font-bold text-white">Rate the Welder</h3>
+    <form onSubmit={submit} className="space-y-3 border-t border-slate-200 pt-4">
+      <h3 className="font-bold text-slate-900">Rate the Welder</h3>
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((s) => (
           <button
@@ -40,7 +40,7 @@ export default function ReviewForm({ jobId }: { jobId: string }) {
           >
             <Star
               size={28}
-              className={(hover || rating) >= s ? "fill-amber-400 text-amber-400" : "text-white/20"}
+              className={(hover || rating) >= s ? "fill-amber-400 text-amber-700" : "text-slate-300"}
             />
           </button>
         ))}
@@ -51,7 +51,7 @@ export default function ReviewForm({ jobId }: { jobId: string }) {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      {err && <p className="text-sm text-red-400">{err}</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
       <button className="btn-primary w-full" disabled={loading}>
         {loading ? "Submitting..." : "Submit Review"}
       </button>

@@ -26,7 +26,7 @@ export default async function CartPage() {
       <h1 className="mb-6 text-3xl font-black tracking-tight">Your cart</h1>
       {items.length === 0 ? (
         <div className="card text-center">
-          <p className="text-white/70">Your cart is empty.</p>
+          <p className="text-slate-700">Your cart is empty.</p>
           <Link href="/shop" className="btn-primary mt-4 inline-block">Browse the shop</Link>
         </div>
       ) : (
@@ -37,11 +37,11 @@ export default async function CartPage() {
             <Row label="Subtotal" value={formatCents(totals.subtotalCents)} />
             <Row label={totals.shippingCents === 0 ? "Shipping (free over $500)" : "Shipping (est.)"} value={formatCents(totals.shippingCents)} />
             <Row label="Tax (est. 8%)" value={formatCents(totals.taxCents)} />
-            <div className="my-3 h-px bg-white/10" />
+            <div className="my-3 h-px bg-slate-100" />
             <Row label="Total" value={formatCents(totals.totalCents)} bold />
             <Link href="/checkout" className="btn-primary mt-4 block text-center">Proceed to Checkout</Link>
             <Link href="/shop" className="btn-secondary mt-2 block text-center">Continue shopping</Link>
-            <p className="mt-3 text-xs text-white/50">Approved business buyers can switch to Net 30 terms at checkout.</p>
+            <p className="mt-3 text-xs text-slate-500">Approved business buyers can switch to Net 30 terms at checkout.</p>
           </aside>
         </div>
       )}
@@ -51,8 +51,8 @@ export default async function CartPage() {
 
 function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   return (
-    <div className={`flex justify-between py-1 text-sm ${bold ? "font-black text-base" : "text-white/70"}`}>
-      <span>{label}</span><span className={bold ? "text-amber" : "text-white"}>{value}</span>
+    <div className={`flex justify-between py-1 text-sm ${bold ? "font-black text-base" : "text-slate-700"}`}>
+      <span>{label}</span><span className={bold ? "text-amber" : "text-slate-900"}>{value}</span>
     </div>
   );
 }

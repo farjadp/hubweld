@@ -19,9 +19,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex min-h-[calc(100vh-80px)] gap-0">
       {/* Sidebar */}
-      <aside className="sticky top-[72px] h-[calc(100vh-72px)] w-56 shrink-0 overflow-y-auto border-r border-white/10 bg-[#0d0f11] py-6">
+      <aside className="sticky top-[72px] h-[calc(100vh-72px)] w-56 shrink-0 overflow-y-auto border-r border-slate-200 bg-slate-50 py-6">
         <div className="mb-6 px-5">
-          <span className="text-xs font-black uppercase tracking-[0.2em] text-white/30">Admin Panel</span>
+          <span className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Admin Panel</span>
         </div>
         <nav className="flex flex-col gap-0.5 px-3">
           {navItems.map(({ href, label, icon: Icon, exact }) => {
@@ -32,8 +32,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 href={href}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors ${
                   active
-                    ? "bg-red-600/15 text-red-400 border border-red-600/20"
-                    : "text-white/50 hover:bg-white/5 hover:text-white"
+                    ? "bg-red-600/15 text-brand border border-red-600/20"
+                    : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
                 }`}
               >
                 <Icon size={16} />

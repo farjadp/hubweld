@@ -5,7 +5,7 @@ import { Suspense, useState } from "react";
 import Link from "next/link";
 
 export default function LoginPage() {
-  return <Suspense fallback={<div className="mx-auto max-w-md py-12 text-white/60">Loading…</div>}><LoginInner /></Suspense>;
+  return <Suspense fallback={<div className="mx-auto max-w-md py-12 text-slate-600">Loading…</div>}><LoginInner /></Suspense>;
 }
 
 function LoginInner() {
@@ -28,13 +28,13 @@ function LoginInner() {
   return (
     <div className="mx-auto max-w-md py-12">
       <h1 className="mb-2 text-3xl font-black tracking-tight">Welcome back</h1>
-      <p className="mb-6 text-white/60">Sign in to manage your jobs, bids, and profile.</p>
+      <p className="mb-6 text-slate-600">Sign in to manage your jobs, bids, and profile.</p>
       <form onSubmit={submit} className="card space-y-4">
         <div><label className="label">Email</label><input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></div>
         <div><label className="label">Password</label><input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /></div>
-        {err && <p className="text-sm text-red-400">{err}</p>}
+        {err && <p className="text-sm text-brand">{err}</p>}
         <button className="btn-primary w-full" disabled={loading}>{loading ? "Signing in..." : "Sign in"}</button>
-        <p className="text-center text-sm text-white/60">No account? <Link href="/register" className="text-amber hover:underline">Create one</Link></p>
+        <p className="text-center text-sm text-slate-600">No account? <Link href="/register" className="text-amber hover:underline">Create one</Link></p>
       </form>
     </div>
   );

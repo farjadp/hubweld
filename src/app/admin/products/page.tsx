@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { contains } from "@/lib/search";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { formatCents } from "@/lib/money";
@@ -19,7 +20,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
   const products = await prisma.product.findMany({
     where: {
       AND: [
-        q ? { OR: [{ name: { contains: q } }, { sku: { contains: q } }, { brand: { contains: q } }] } : {},
+        q ? { OR: [{ name: contains(q) }, { sku: contains(q) }, { brand: contains(q) }] } : {},
         status && ["DRAFT", "ACTIVE", "ARCHIVED"].includes(status) ? { status: status as any } : {},
       ],
     },
@@ -33,7 +34,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black tracking-tight">Products</h1>
-          <p className="text-white/60">{products.length} listings shown.</p>
+          <p className="text-slate-600">{products.length} listings shown.</p>
         </div>
         <Link href="/admin/products/new" className="btn-primary shrink-0">+ New Product</Link>
       </div>

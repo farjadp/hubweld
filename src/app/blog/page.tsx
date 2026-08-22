@@ -71,29 +71,29 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
             className="object-cover object-center"
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c0e] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink-900/95 via-ink-900/75 to-ink-900/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
 
           <div className="absolute inset-0 flex items-center">
             <div className="mx-auto w-full max-w-[1180px] px-8">
               <div className="max-w-2xl">
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-600/10 px-4 py-1.5">
-                  <FolderOpen size={14} className="text-red-400" />
-                  <span className="text-xs font-black uppercase tracking-[0.2em] text-red-400">HubWeld Blog</span>
+                  <FolderOpen size={14} className="text-brand" />
+                  <span className="text-xs font-black uppercase tracking-[0.2em] text-brand">HubWeld Blog</span>
                 </div>
-                <h1 className="text-4xl font-black leading-[1.1] tracking-tight text-white md:text-6xl">
+                <h1 className="text-4xl font-black leading-[1.1] tracking-tight text-slate-900 md:text-6xl">
                   Welding industry<br />
-                  <span className="bg-gradient-to-r from-red-400 to-red-300 bg-clip-text text-transparent">insights & news.</span>
+                  <span className="text-brand">insights & news.</span>
                 </h1>
-                <p className="mt-5 max-w-lg text-lg text-white/70 leading-relaxed">
+                <p className="mt-5 max-w-lg text-lg text-slate-700 leading-relaxed">
                   Expert articles on parts sourcing, MIG/TIG welding techniques, surplus stock management, and the global industrial welding supply chain.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/60">
-                    <Tag size={12} className="text-red-400" /> {total} articles
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-3 py-1.5 text-xs text-slate-600">
+                    <Tag size={12} className="text-brand" /> {total} articles
                   </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/60">
-                    <Calendar size={12} className="text-red-400" /> Updated weekly
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-3 py-1.5 text-xs text-slate-600">
+                    <Calendar size={12} className="text-brand" /> Updated weekly
                   </span>
                 </div>
               </div>
@@ -107,7 +107,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
         <div className="mb-8 flex flex-wrap gap-2">
           <Link
             href="/blog"
-            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${!searchParams.cat ? "border-red-600/40 bg-red-600/15 text-red-400" : "border-white/10 text-white/50 hover:border-white/20 hover:text-white"}`}
+            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${!searchParams.cat ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-white"}`}
           >
             All Posts ({total})
           </Link>
@@ -115,7 +115,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
             <Link
               key={c.id}
               href={`/blog?cat=${c.slug}`}
-              className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${searchParams.cat === c.slug ? "border-red-600/40 bg-red-600/15 text-red-400" : "border-white/10 text-white/50 hover:border-white/20 hover:text-white"}`}
+              className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${searchParams.cat === c.slug ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-white"}`}
             >
               {c.name} ({c._count.posts})
             </Link>
@@ -126,27 +126,27 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
           <div>
             {/* Featured - Large Card */}
             {featured && (
-              <Link href={`/blog/${featured.slug}`} className="group relative mb-10 block overflow-hidden rounded-2xl border border-white/10 bg-[#111315] transition-all duration-300 hover:border-red-600/30 hover:shadow-xl hover:shadow-red-600/5">
+              <Link href={`/blog/${featured.slug}`} className="group relative mb-10 block overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-red-600/30 hover:shadow-xl hover:shadow-red-600/5">
                 <div className="grid md:grid-cols-[1.2fr_1fr]">
                   {featured.coverImage && (
                     <div className="relative h-64 w-full overflow-hidden md:h-auto">
                       <img src={featured.coverImage} alt={featured.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#111315]/80 md:to-transparent" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#111315] via-transparent to-transparent md:hidden" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-100 via-transparent to-transparent md:hidden" />
                     </div>
                   )}
                   <div className="flex flex-col justify-center p-6 md:p-8">
                     <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
-                      <span className="inline-flex items-center gap-1 rounded-full border border-red-600/30 bg-red-600/10 px-3 py-1 font-semibold text-red-400">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-red-600/30 bg-red-600/10 px-3 py-1 font-semibold text-brand">
                         <FolderOpen size={11} /> {featured.category.name}
                       </span>
-                      <span className="inline-flex items-center gap-1 text-white/40">
+                      <span className="inline-flex items-center gap-1 text-slate-500">
                         <Calendar size={11} /> {new Date(featured.publishedAt).toLocaleDateString("en", { year: "numeric", month: "long", day: "numeric" })}
                       </span>
                     </div>
-                    <h2 className="text-2xl font-black text-white transition-colors group-hover:text-red-400 md:text-3xl">{featured.title}</h2>
-                    <p className="mt-3 text-sm leading-relaxed text-white/60 line-clamp-3">{featured.excerpt}</p>
-                    <div className="mt-5 flex items-center gap-2 text-sm font-bold text-red-400">
+                    <h2 className="text-2xl font-black text-slate-900 transition-colors group-hover:text-brand md:text-3xl">{featured.title}</h2>
+                    <p className="mt-3 text-sm leading-relaxed text-slate-600 line-clamp-3">{featured.excerpt}</p>
+                    <div className="mt-5 flex items-center gap-2 text-sm font-bold text-brand">
                       Read featured article <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                     </div>
                   </div>
@@ -157,35 +157,35 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
             {/* Section Title */}
             <div className="mb-6 flex items-center gap-3">
               <div className="h-px flex-1 bg-gradient-to-r from-red-600/40 to-transparent" />
-              <span className="text-xs font-black uppercase tracking-widest text-white/30">Latest Articles</span>
+              <span className="text-xs font-black uppercase tracking-widest text-slate-400">Latest Articles</span>
               <div className="h-px flex-1 bg-gradient-to-l from-red-600/40 to-transparent" />
             </div>
 
             {/* Grid - Improved Cards */}
             {rest.length === 0 && !featured ? (
-              <div className="rounded-xl border border-white/10 bg-[#111315] p-12 text-center text-white/30">No posts published yet.</div>
+              <div className="rounded-xl border border-slate-200 bg-white p-12 text-center text-slate-400">No posts published yet.</div>
             ) : (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
                 {rest.map((post: any) => (
-                  <Link key={post.id} href={`/blog/${post.slug}`} className="group relative overflow-hidden rounded-xl border border-white/8 bg-[#111315] transition-all duration-300 hover:border-red-600/30 hover:shadow-lg hover:shadow-red-600/5">
+                  <Link key={post.id} href={`/blog/${post.slug}`} className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-300 hover:border-red-600/30 hover:shadow-lg hover:shadow-red-600/5">
                     {post.coverImage && (
                       <div className="relative h-48 overflow-hidden">
                         <img src={post.coverImage} alt={post.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#111315] via-[#111315]/20 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-100 via-slate-100/20 to-transparent" />
                       </div>
                     )}
                     <div className="p-5">
-                      <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-white/40">
-                        <span className="font-semibold text-red-400">{post.category.name}</span>
-                        <span className="text-white/20">|</span>
+                      <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                        <span className="font-semibold text-brand">{post.category.name}</span>
+                        <span className="text-slate-300">|</span>
                         <span>{new Date(post.publishedAt).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}</span>
                       </div>
-                      <h3 className="font-bold text-white transition-colors group-hover:text-red-400 line-clamp-2">{post.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-white/45 line-clamp-2">{post.excerpt}</p>
+                      <h3 className="font-bold text-slate-900 transition-colors group-hover:text-brand line-clamp-2">{post.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-500 line-clamp-2">{post.excerpt}</p>
                       {post.tags.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-1.5">
                           {post.tags.slice(0, 3).map((t: any) => (
-                            <span key={t.tag.slug} className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-0.5 text-[10px] text-white/40">{t.tag.name}</span>
+                            <span key={t.tag.slug} className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] text-slate-500">{t.tag.name}</span>
                           ))}
                         </div>
                       )}
@@ -202,7 +202,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
                   <Link
                     key={p}
                     href={`/blog?page=${p}${searchParams.cat ? `&cat=${searchParams.cat}` : ""}${searchParams.tag ? `&tag=${searchParams.tag}` : ""}`}
-                    className={`grid h-9 w-9 place-items-center rounded-lg border text-sm font-semibold transition-colors ${p === page ? "border-red-600/40 bg-red-600/15 text-red-400" : "border-white/10 text-white/40 hover:border-white/20 hover:text-white"}`}
+                    className={`grid h-9 w-9 place-items-center rounded-lg border text-sm font-semibold transition-colors ${p === page ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-white"}`}
                   >
                     {p}
                   </Link>
@@ -217,37 +217,37 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
               {/* Newsletter Box */}
               <div className="relative overflow-hidden rounded-xl border border-red-600/20 bg-gradient-to-br from-red-600/10 to-[#111315] p-6">
                 <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-red-600/10 blur-2xl" />
-                <h3 className="relative mb-2 text-sm font-black text-white">Stay Updated</h3>
-                <p className="relative mb-4 text-xs leading-relaxed text-white/50">Get welding industry insights delivered to your inbox weekly.</p>
+                <h3 className="relative mb-2 text-sm font-black text-slate-900">Stay Updated</h3>
+                <p className="relative mb-4 text-xs leading-relaxed text-slate-500">Get welding industry insights delivered to your inbox weekly.</p>
                 <div className="relative flex gap-2">
-                  <input type="email" placeholder="Enter email" className="flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white placeholder:text-white/30 focus:border-red-500/50 focus:outline-none" />
+                  <input type="email" placeholder="Enter email" className="flex-1 rounded-lg border border-slate-200 bg-slate-100 px-3 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-red-500/50 focus:outline-none" />
                   <button className="rounded-lg bg-red-600 px-3 py-2 text-xs font-bold text-white hover:bg-red-500 transition-colors">Join</button>
                 </div>
               </div>
 
               {/* Categories */}
-              <div className="rounded-xl border border-white/10 bg-[#111315] p-5">
-                <h3 className="mb-4 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/40">
+              <div className="rounded-xl border border-slate-200 bg-white p-5">
+                <h3 className="mb-4 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-500">
                   <FolderOpen size={12} /> Categories
                 </h3>
                 <ul className="grid gap-1">
                   <li>
-                    <Link href="/blog" className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors ${!searchParams.cat ? "bg-red-600/10 text-red-400 font-semibold" : "text-white/50 hover:bg-white/5 hover:text-white"}`}>
+                    <Link href="/blog" className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors ${!searchParams.cat ? "bg-red-600/10 text-brand font-semibold" : "text-slate-500 hover:bg-slate-100 hover:text-white"}`}>
                       <span className="flex items-center gap-2">
-                        <span className={`h-1.5 w-1.5 rounded-full ${!searchParams.cat ? "bg-red-400" : "bg-white/20"}`} />
+                        <span className={`h-1.5 w-1.5 rounded-full ${!searchParams.cat ? "bg-red-400" : "bg-slate-200"}`} />
                         All Posts
                       </span>
-                      <span className="text-xs text-white/30">{total + (featured ? 1 : 0)}</span>
+                      <span className="text-xs text-slate-400">{total + (featured ? 1 : 0)}</span>
                     </Link>
                   </li>
                   {cats.map((c: any) => (
                     <li key={c.id}>
-                      <Link href={`/blog?cat=${c.slug}`} className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors ${searchParams.cat === c.slug ? "bg-red-600/10 text-red-400 font-semibold" : "text-white/50 hover:bg-white/5 hover:text-white"}`}>
+                      <Link href={`/blog?cat=${c.slug}`} className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors ${searchParams.cat === c.slug ? "bg-red-600/10 text-brand font-semibold" : "text-slate-500 hover:bg-slate-100 hover:text-white"}`}>
                         <span className="flex items-center gap-2">
-                          <span className={`h-1.5 w-1.5 rounded-full ${searchParams.cat === c.slug ? "bg-red-400" : "bg-white/20"}`} />
+                          <span className={`h-1.5 w-1.5 rounded-full ${searchParams.cat === c.slug ? "bg-red-400" : "bg-slate-200"}`} />
                           {c.name}
                         </span>
-                        <span className="text-xs text-white/30">{c._count.posts}</span>
+                        <span className="text-xs text-slate-400">{c._count.posts}</span>
                       </Link>
                     </li>
                   ))}
@@ -255,16 +255,16 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
               </div>
 
               {/* Image Banner */}
-              <div className="relative h-40 overflow-hidden rounded-xl border border-white/10">
+              <div className="relative h-40 overflow-hidden rounded-xl border border-slate-200">
                 <img
                   src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=80"
                   alt="Industrial welding workshop"
                   className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#111315] via-[#111315]/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-100 via-slate-100/40 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
-                  <p className="text-xs font-bold text-white/90">Join our certified welding network</p>
-                  <Link href="/register" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-red-400 hover:text-red-300">
+                  <p className="text-xs font-bold text-slate-800">Join our certified welding network</p>
+                  <Link href="/register" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand hover:text-brand-light">
                     Register now <ArrowRight size={12} />
                   </Link>
                 </div>

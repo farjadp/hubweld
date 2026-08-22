@@ -67,8 +67,8 @@ export default function AdminJobEditForm({ jobId, initial }: { jobId: string; in
           </select>
         </div>
       </div>
-      {err && <p className="text-sm text-red-400">{err}</p>}
-      {success && <p className="text-sm text-green-400">Saved successfully!</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
+      {success && <p className="text-sm text-green-700">Saved successfully!</p>}
       <div className="flex gap-3">
         <button type="button" onClick={() => router.push("/admin/jobs")} className="btn-secondary">Cancel</button>
         <button type="submit" disabled={loading} className="btn-primary flex-1">

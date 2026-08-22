@@ -25,7 +25,7 @@ export default async function EditProductPage({ params }: { params: { id: string
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="mb-2 text-3xl font-black tracking-tight">Edit product</h1>
-      <p className="mb-6 text-white/60">Update listing details, pricing, and stock.</p>
+      <p className="mb-6 text-slate-600">Update listing details, pricing, and stock.</p>
       <ProductForm
         mode="edit"
         productId={product.id}

@@ -142,15 +142,15 @@ export default function IntegratorsPage() {
             className="object-cover object-center"
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c0e] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink-900/95 via-ink-900/70 to-ink-900/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
           <div className="absolute inset-0 flex items-center px-10 md:px-16">
             <div className="max-w-2xl">
               <span className="section-label mb-4 block">Solutions</span>
-              <h1 className="text-4xl font-black leading-tight tracking-tight text-white md:text-6xl">
-                For <span className="text-red-400">System Integrators</span>
+              <h1 className="text-4xl font-black leading-tight tracking-tight text-slate-900 md:text-6xl">
+                For <span className="text-brand">System Integrators</span>
               </h1>
-              <p className="mt-4 max-w-lg text-lg text-white/70">
+              <p className="mt-4 max-w-lg text-lg text-slate-700">
                 Always have plan B when searching for products. Concrete business solutions built around the way you work.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
@@ -167,18 +167,18 @@ export default function IntegratorsPage() {
       </section>
 
       {/* ── INTRO BAND ── */}
-      <section className="my-6 rounded-xl border border-white/10 bg-[#111315] px-8 py-7 md:px-12">
-        <p className="max-w-3xl text-base leading-relaxed text-white/60">
+      <section className="my-6 rounded-xl border border-slate-200 bg-white px-8 py-7 md:px-12">
+        <p className="max-w-3xl text-base leading-relaxed text-slate-600">
           We work with many system integrators for industrial welding and we are familiar with the way you operate your business. We have developed very concrete business solutions to help you with your day-to-day tasks:
         </p>
       </section>
 
       {/* ── STATS BAR ── */}
-      <section className="mb-6 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10 md:grid-cols-4">
+      <section className="mb-6 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-100 md:grid-cols-4">
         {stats.map(({ value, label }) => (
-          <div key={label} className="flex flex-col items-center gap-1 bg-[#111315] px-6 py-5 text-center">
-            <span className="text-2xl font-black text-red-400">{value}</span>
-            <span className="text-xs uppercase tracking-widest text-white/40">{label}</span>
+          <div key={label} className="flex flex-col items-center gap-1 bg-white px-6 py-5 text-center">
+            <span className="text-2xl font-black text-brand">{value}</span>
+            <span className="text-xs uppercase tracking-widest text-slate-500">{label}</span>
           </div>
         ))}
       </section>
@@ -188,7 +188,7 @@ export default function IntegratorsPage() {
         {features.map(({ icon: Icon, tag, title, body, cta, img, imgAlt, reverse }) => (
           <section
             key={tag}
-            className={`group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#111315] md:flex-row ${reverse ? "md:flex-row-reverse" : ""}`}
+            className={`group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white md:flex-row ${reverse ? "md:flex-row-reverse" : ""}`}
           >
             {/* Image */}
             <div className="relative min-h-[260px] w-full shrink-0 md:w-[45%]">
@@ -205,14 +205,14 @@ export default function IntegratorsPage() {
             {/* Content */}
             <div className="flex flex-col justify-center gap-4 px-8 py-10 md:px-12">
               <div className="inline-flex w-fit items-center gap-2 rounded border border-red-600/30 bg-red-600/10 px-3 py-1">
-                <Icon size={13} className="text-red-400" />
-                <span className="text-xs font-black uppercase tracking-widest text-red-400">{tag}</span>
+                <Icon size={13} className="text-brand" />
+                <span className="text-xs font-black uppercase tracking-widest text-brand">{tag}</span>
               </div>
-              <h2 className="text-2xl font-black leading-snug tracking-tight text-white md:text-3xl">{title}</h2>
-              <p className="max-w-lg text-sm leading-relaxed text-white/60">{body}</p>
+              <h2 className="text-2xl font-black leading-snug tracking-tight text-slate-900 md:text-3xl">{title}</h2>
+              <p className="max-w-lg text-sm leading-relaxed text-slate-600">{body}</p>
               <Link
                 href={cta.href}
-                className="mt-2 inline-flex w-fit items-center gap-2 text-sm font-bold text-red-400 transition-colors hover:text-red-300"
+                className="mt-2 inline-flex w-fit items-center gap-2 text-sm font-bold text-brand transition-colors hover:text-brand-light"
               >
                 {cta.label} <ArrowRight size={15} />
               </Link>
@@ -231,13 +231,13 @@ export default function IntegratorsPage() {
             className="object-cover object-center"
             unoptimized
           />
-          <div className="absolute inset-0 bg-black/70" />
+          <div className="absolute inset-0 bg-ink-900/80" />
           <div className="absolute inset-0 flex items-center justify-center text-center">
             <div>
-              <h2 className="text-2xl font-black text-white md:text-4xl">
+              <h2 className="text-2xl font-black text-slate-900 md:text-4xl">
                 Always have a Plan B.
               </h2>
-              <p className="mt-2 text-white/60">
+              <p className="mt-2 text-slate-600">
                 Search millions of welding parts from global suppliers — and never get stuck on a project again.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-3">

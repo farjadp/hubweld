@@ -18,20 +18,20 @@ export default function AboutProductPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="py-16 border-b border-white/8">
+      <section className="py-16 border-b border-slate-200">
         <span className="section-label"><Package size={14} /> Our Platform</span>
-        <h1 className="mt-4 text-4xl font-black tracking-tight text-white md:text-6xl max-w-3xl">
+        <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-900 md:text-6xl max-w-3xl">
           Two ecosystems.<br />
-          <span className="bg-gradient-to-r from-red-400 to-red-300 bg-clip-text text-transparent">One platform.</span>
+          <span className="text-brand">One platform.</span>
         </h1>
-        <p className="mt-5 max-w-2xl text-lg text-white/55 leading-relaxed">
+        <p className="mt-5 max-w-2xl text-lg text-slate-600 leading-relaxed">
           HubWeld brings together B2B equipment sourcing and a welding services marketplace into a single intelligent ecosystem built for the industrial welding industry.
         </p>
-        <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/8 bg-white/8 sm:grid-cols-4 max-w-2xl">
+        <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-100 sm:grid-cols-4 max-w-2xl">
           {platformStats.map(({ value, label }) => (
-            <div key={label} className="flex flex-col items-center gap-1 bg-[#111315] px-6 py-5 text-center">
-              <span className="text-2xl font-black text-white">{value}</span>
-              <span className="text-xs uppercase tracking-widest text-white/40">{label}</span>
+            <div key={label} className="flex flex-col items-center gap-1 bg-white px-6 py-5 text-center">
+              <span className="text-2xl font-black text-slate-900">{value}</span>
+              <span className="text-xs uppercase tracking-widest text-slate-500">{label}</span>
             </div>
           ))}
         </div>
@@ -40,16 +40,16 @@ export default function AboutProductPage() {
       {/* Two pillars */}
       <section className="py-16 grid gap-6 lg:grid-cols-2">
         {/* B2B Marketplace */}
-        <article className="group relative overflow-hidden rounded-xl border border-white/8 bg-[#111315] p-8 transition-all hover:border-red-500/30 hover:shadow-xl hover:shadow-red-600/10">
+        <article className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-8 transition-all hover:border-red-500/30 hover:shadow-xl hover:shadow-red-600/10">
           <div className="absolute -right-6 -top-6 opacity-[0.04] group-hover:opacity-[0.07] transition-opacity">
             <ShoppingBag size={160} />
           </div>
           <div className="relative">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-600/10 px-3 py-1.5 text-xs font-black uppercase tracking-widest text-red-400">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-600/10 px-3 py-1.5 text-xs font-black uppercase tracking-widest text-brand">
               <ShoppingBag size={13} /> B2B Marketplace
             </div>
-            <h2 className="text-2xl font-black text-white mb-3">Direct Equipment Sourcing</h2>
-            <p className="text-white/55 mb-7 leading-relaxed text-sm">
+            <h2 className="text-2xl font-black text-slate-900 mb-3">Direct Equipment Sourcing</h2>
+            <p className="text-slate-600 mb-7 leading-relaxed text-sm">
               Reputable suppliers list their welding products directly. With specialized categories and an integrated cart system, sourcing equipment has never been faster.
             </p>
             <ul className="space-y-3 mb-8">
@@ -59,8 +59,8 @@ export default function AboutProductPage() {
                 "Order management dashboard per supplier",
                 "Product comparison and buyer reviews",
               ].map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm text-white/65">
-                  <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-red-400" />
+                <li key={f} className="flex items-start gap-2.5 text-sm text-slate-600">
+                  <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-brand" />
                   {f}
                 </li>
               ))}
@@ -72,16 +72,16 @@ export default function AboutProductPage() {
         </article>
 
         {/* Service Marketplace */}
-        <article className="group relative overflow-hidden rounded-xl border border-white/8 bg-[#111315] p-8 transition-all hover:border-red-500/30 hover:shadow-xl hover:shadow-red-600/10">
+        <article className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-8 transition-all hover:border-red-500/30 hover:shadow-xl hover:shadow-red-600/10">
           <div className="absolute -right-6 -top-6 opacity-[0.04] group-hover:opacity-[0.07] transition-opacity">
             <Briefcase size={160} />
           </div>
           <div className="relative">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-600/10 px-3 py-1.5 text-xs font-black uppercase tracking-widest text-red-400">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-600/10 px-3 py-1.5 text-xs font-black uppercase tracking-widest text-brand">
               <Briefcase size={13} /> Service Marketplace
             </div>
-            <h2 className="text-2xl font-black text-white mb-3">Welding Jobs & Bidding</h2>
-            <p className="text-white/55 mb-7 leading-relaxed text-sm">
+            <h2 className="text-2xl font-black text-slate-900 mb-3">Welding Jobs & Bidding</h2>
+            <p className="text-slate-600 mb-7 leading-relaxed text-sm">
               Post projects and receive competitive bids from verified welders. Our skill-based matching, messaging system, and review framework guarantee quality execution.
             </p>
             <ul className="space-y-3 mb-8">
@@ -91,8 +91,8 @@ export default function AboutProductPage() {
                 "Star ratings and review system per welder",
                 "Built-in messaging between client and welder",
               ].map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm text-white/65">
-                  <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-red-400" />
+                <li key={f} className="flex items-start gap-2.5 text-sm text-slate-600">
+                  <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-brand" />
                   {f}
                 </li>
               ))}
@@ -105,27 +105,27 @@ export default function AboutProductPage() {
       </section>
 
       {/* How it works */}
-      <section className="py-16 border-t border-white/8">
+      <section className="py-16 border-t border-slate-200">
         <span className="section-label"><Zap size={14} /> How it works</span>
-        <h2 className="mt-3 text-3xl font-black tracking-tight text-white mb-10">Built for speed and simplicity</h2>
+        <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 mb-10">Built for speed and simplicity</h2>
         <div className="grid gap-5 md:grid-cols-3">
           {howItWorks.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="rounded-xl border border-white/8 bg-[#111315] p-6 transition-all hover:border-red-500/20">
-              <div className="mb-4 grid h-10 w-10 place-items-center rounded-lg bg-red-600/10 text-red-400 border border-red-600/20">
+            <div key={title} className="rounded-xl border border-slate-200 bg-white p-6 transition-all hover:border-red-500/20">
+              <div className="mb-4 grid h-10 w-10 place-items-center rounded-lg bg-red-600/10 text-brand border border-red-600/20">
                 <Icon size={18} />
               </div>
-              <h3 className="font-bold text-white mb-2">{title}</h3>
-              <p className="text-sm text-white/50 leading-relaxed">{desc}</p>
+              <h3 className="font-bold text-slate-900 mb-2">{title}</h3>
+              <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 border-t border-white/8">
+      <section className="py-16 border-t border-slate-200">
         <div className="rounded-xl border border-red-500/20 bg-red-600/5 p-10 text-center">
-          <h2 className="text-2xl font-black text-white mb-3">Ready to get started?</h2>
-          <p className="text-white/55 mb-7 max-w-lg mx-auto">Join thousands of welders, suppliers, and project owners already using HubWeld.</p>
+          <h2 className="text-2xl font-black text-slate-900 mb-3">Ready to get started?</h2>
+          <p className="text-slate-600 mb-7 max-w-lg mx-auto">Join thousands of welders, suppliers, and project owners already using HubWeld.</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href="/register" className="btn-primary">Create free account <ArrowRight size={16} /></Link>
             <Link href="/about/team" className="btn-secondary">Meet the team</Link>

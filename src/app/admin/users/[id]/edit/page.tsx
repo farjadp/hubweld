@@ -21,8 +21,8 @@ export default async function AdminEditUserPage({ params }: { params: { id: stri
   return (
     <div>
       <div className="mb-6 flex items-center gap-3">
-        <Link href="/admin/users" className="text-white/40 hover:text-white text-sm">← Users</Link>
-        <span className="text-white/20">/</span>
+        <Link href="/admin/users" className="text-slate-500 hover:text-slate-900 text-sm">← Users</Link>
+        <span className="text-slate-300">/</span>
         <h1 className="text-2xl font-black tracking-tight">Edit: {user.name}</h1>
       </div>
       <AdminUserEditForm

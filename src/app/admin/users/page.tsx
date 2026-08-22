@@ -16,14 +16,14 @@ export default async function AdminUsersPage() {
     <div>
       <div className="mb-7 flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-white">Users</h1>
-          <p className="mt-1 text-sm text-white/40">{users.length} registered users</p>
+          <h1 className="text-3xl font-black tracking-tight text-slate-900">Users</h1>
+          <p className="mt-1 text-sm text-slate-500">{users.length} registered users</p>
         </div>
         <Link href="/admin/users/new" className="btn-primary shrink-0">+ New User</Link>
       </div>
       <div className="grid gap-2">
         {users.map((u) => <UserRow key={u.id} user={{ id: u.id, name: u.name, email: u.email, role: u.role, banned: u.banned, approved: u.welderProfile?.approved ?? null }} />)}
-        {users.length === 0 && <div className="rounded-xl border border-white/10 bg-[#111315] p-10 text-center text-sm text-white/30">No users yet.</div>}
+        {users.length === 0 && <div className="rounded-xl border border-slate-200 bg-white p-10 text-center text-sm text-slate-400">No users yet.</div>}
       </div>
     </div>
   );

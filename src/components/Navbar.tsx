@@ -32,7 +32,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className={`relative py-1 text-sm font-medium transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-red-500 after:transition-transform after:duration-200 hover:text-white hover:after:scale-x-100 ${active ? "text-white after:scale-x-100" : "text-white/50"}`}
+      className={`relative py-1 text-sm font-medium transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-brand-light after:transition-transform after:duration-200 hover:text-white hover:after:scale-x-100 ${active ? "text-white after:scale-x-100" : "text-slate-600"}`}
     >
       {children}
     </Link>
@@ -61,33 +61,33 @@ function SolutionsMenu() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className={`flex items-center gap-1 py-1 text-sm font-medium transition-colors hover:text-white ${active || open ? "text-white" : "text-white/50"}`}
+        className={`flex items-center gap-1 py-1 text-sm font-medium transition-colors hover:text-slate-900 ${active || open ? "text-slate-900" : "text-slate-600"}`}
       >
         Solutions
         <ChevronDown size={13} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
 
       {open && (
-        <div className="absolute left-0 top-[calc(100%+16px)] z-50 w-72 overflow-hidden rounded-2xl border border-white/10 bg-[#0f1113] shadow-2xl shadow-black/70 ring-1 ring-white/5">
+        <div className="absolute left-0 top-[calc(100%+16px)] z-50 w-72 overflow-hidden rounded-sm border border-slate-200 bg-ink-700 shadow-plate">
           <div className="p-2">
             {solutions.map(({ label, href, icon: Icon, desc }) => (
               <Link
                 key={href}
                 href={href}
-                className="group flex items-start gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/5"
+                className="group flex items-start gap-3 rounded-sm px-4 py-3 transition-colors hover:bg-slate-100"
               >
-                <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-600/10 text-red-400 ring-1 ring-red-600/20 transition-colors group-hover:bg-red-600/20">
+                <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-sm bg-brand/10 text-brand-light ring-1 ring-brand/25 transition-colors group-hover:bg-brand/20">
                   <Icon size={15} />
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-white/90 group-hover:text-white">{label}</div>
-                  <div className="mt-0.5 text-xs text-white/40">{desc}</div>
+                  <div className="text-sm font-semibold text-slate-800 group-hover:text-slate-900">{label}</div>
+                  <div className="mt-0.5 text-xs text-slate-500">{desc}</div>
                 </div>
               </Link>
             ))}
           </div>
-          <div className="border-t border-white/5 px-4 py-3">
-            <span className="text-xs text-white/25">Industrial Welding Platform</span>
+          <div className="border-t border-slate-200 px-4 py-3">
+            <span className="font-mono text-[10px] uppercase tracking-machine text-slate-500">Industrial Welding Platform</span>
           </div>
         </div>
       )}
@@ -138,27 +138,27 @@ function AboutMenu() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className={`flex items-center gap-1 py-1 text-sm font-medium transition-colors hover:text-white ${active || open ? "text-white" : "text-white/50"}`}
+        className={`flex items-center gap-1 py-1 text-sm font-medium transition-colors hover:text-slate-900 ${active || open ? "text-slate-900" : "text-slate-600"}`}
       >
         Company
         <ChevronDown size={13} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
 
       {open && (
-        <div className="absolute left-0 top-[calc(100%+16px)] z-50 w-72 overflow-hidden rounded-2xl border border-white/10 bg-[#0f1113] shadow-2xl shadow-black/70 ring-1 ring-white/5">
+        <div className="absolute left-0 top-[calc(100%+16px)] z-50 w-72 overflow-hidden rounded-sm border border-slate-200 bg-ink-700 shadow-plate">
           <div className="p-2">
             {aboutLinks.map(({ label, href, icon: Icon, desc }) => (
               <Link
                 key={href}
                 href={href}
-                className="group flex items-start gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/5"
+                className="group flex items-start gap-3 rounded-sm px-4 py-3 transition-colors hover:bg-slate-100"
               >
-                <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-600/10 text-red-400 ring-1 ring-red-600/20 transition-colors group-hover:bg-red-600/20">
+                <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-sm bg-brand/10 text-brand-light ring-1 ring-brand/25 transition-colors group-hover:bg-brand/20">
                   <Icon size={15} />
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-white/90 group-hover:text-white">{label}</div>
-                  <div className="mt-0.5 text-xs text-white/40">{desc}</div>
+                  <div className="text-sm font-semibold text-slate-800 group-hover:text-slate-900">{label}</div>
+                  <div className="mt-0.5 text-xs text-slate-500">{desc}</div>
                 </div>
               </Link>
             ))}
@@ -192,36 +192,36 @@ function UserMenu({ name, role, onSignOut }: { name: string; role: string; onSig
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 pl-1 pr-3 py-1 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+        className="flex items-center gap-2 rounded-sm border border-slate-200 bg-ink-700 pl-1 pr-3 py-1 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900"
       >
-        <span className="grid h-7 w-7 place-items-center rounded-full bg-red-600 text-xs font-black text-white">{initials}</span>
+        <span className="grid h-7 w-7 place-items-center rounded-sm bg-brand text-xs font-bold text-white">{initials}</span>
         <span className="hidden max-w-[100px] truncate md:block">{name.split(" ")[0]}</span>
         <ChevronDown size={12} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
 
       {open && (
-        <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-52 overflow-hidden rounded-2xl border border-white/10 bg-[#0f1113] shadow-2xl shadow-black/70 ring-1 ring-white/5">
-          <div className="border-b border-white/5 px-4 py-3">
-            <div className="text-sm font-semibold text-white">{name}</div>
-            <div className="text-xs text-white/30 capitalize">{role.toLowerCase()}</div>
+        <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-52 overflow-hidden rounded-sm border border-slate-200 bg-ink-700 shadow-plate">
+          <div className="border-b border-slate-200 px-4 py-3">
+            <div className="text-sm font-semibold text-slate-900">{name}</div>
+            <div className="text-xs text-slate-400 capitalize">{role.toLowerCase()}</div>
           </div>
           <div className="p-2">
-            <Link href="/dashboard" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 transition-colors hover:bg-white/5 hover:text-white">
+            <Link href="/dashboard" className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900">
               <LayoutDashboard size={14} /> Dashboard
             </Link>
-            <Link href="/orders" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 transition-colors hover:bg-white/5 hover:text-white">
+            <Link href="/orders" className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900">
               <ShoppingBag size={14} /> Orders
             </Link>
             {role === "ADMIN" && (
-              <Link href="/admin" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-red-400 transition-colors hover:bg-red-600/10">
+              <Link href="/admin" className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-brand-light transition-colors hover:bg-brand/10">
                 <Shield size={14} /> Admin Panel
               </Link>
             )}
           </div>
-          <div className="border-t border-white/5 p-2">
+          <div className="border-t border-slate-200 p-2">
             <button
               onClick={() => { setOpen(false); onSignOut(); }}
-              className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/40 transition-colors hover:bg-white/5 hover:text-white"
+              className="flex w-full items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
             >
               <LogOut size={14} /> Sign out
             </button>
@@ -253,15 +253,16 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 w-full border-b border-white/[0.06] bg-[#0a0c0e]/90 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 w-full border-b border-slate-200 bg-ink-900/95 backdrop-blur-sm">
+        <div className="h-[2px] w-full bg-brand" aria-hidden />
         <div className="mx-auto flex h-14 w-full max-w-[1180px] items-center justify-between px-6">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5">
-            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="50" fill="#D42B2B"/>
+            <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <rect width="100" height="100" fill="#D42B2B"/>
               <path d="M62 16 L34 50 L47 50 L38 84 L66 50 L53 50 Z" fill="white"/>
             </svg>
-            <span className="text-[15px] font-black tracking-tight text-white">HubWeld</span>
+            <span className="font-display text-lg font-bold uppercase tracking-machine text-slate-900">HubWeld</span>
           </Link>
 
           {/* Center nav */}
@@ -280,11 +281,11 @@ export function Navbar() {
             <Link
               href="/cart"
               aria-label="Cart"
-              className="relative grid h-9 w-9 place-items-center rounded-full text-white/50 transition-colors hover:bg-white/5 hover:text-white"
+              className="relative grid h-9 w-9 place-items-center rounded-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
             >
               <ShoppingCart size={18} />
               {cartCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 grid h-4 min-w-[16px] place-items-center rounded-full bg-red-500 px-1 text-[10px] font-black text-white">
+                <span className="absolute -right-0.5 -top-0.5 grid h-4 min-w-[16px] place-items-center rounded-sm bg-brand px-1 font-mono text-[10px] font-semibold text-white">
                   {cartCount}
                 </span>
               )}
@@ -294,10 +295,10 @@ export function Navbar() {
               <UserMenu name={name} role={role ?? "CUSTOMER"} onSignOut={() => signOut({ callbackUrl: "/" })} />
             ) : (
               <div className="hidden items-center gap-2 md:flex">
-                <Link href="/login" className="rounded-lg px-4 py-1.5 text-sm font-medium text-white/60 transition-colors hover:text-white">
+                <Link href="/login" className="px-4 py-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900">
                   Login
                 </Link>
-                <Link href="/register" className="rounded-lg bg-red-600 px-4 py-1.5 text-sm font-semibold text-white shadow-lg shadow-red-600/20 transition-all hover:bg-red-500">
+                <Link href="/register" className="bg-brand px-4 py-2 font-display text-sm font-bold uppercase tracking-machine text-white shadow-ember transition-colors hover:bg-brand-light">
                   Get Started
                 </Link>
               </div>
@@ -306,7 +307,7 @@ export function Navbar() {
             {/* Mobile burger */}
             <button
               onClick={() => setMobileOpen((v) => !v)}
-              className="grid h-9 w-9 place-items-center rounded-full text-white/50 transition-colors hover:bg-white/5 hover:text-white md:hidden"
+              className="grid h-9 w-9 place-items-center rounded-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 md:hidden"
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -315,30 +316,30 @@ export function Navbar() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="border-t border-white/5 bg-[#0a0c0e] px-6 pb-5 pt-4 md:hidden">
+          <div className="border-t border-slate-200 bg-ink-800 px-6 pb-5 pt-4 md:hidden">
             <div className="flex flex-col gap-1">
               {solutions.map(({ label, href, icon: Icon }) => (
-                <Link key={href} href={href} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
-                  <Icon size={15} className="text-red-400" /> {label}
+                <Link key={href} href={href} className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900">
+                  <Icon size={15} className="text-brand-light" /> {label}
                 </Link>
               ))}
-              <div className="my-1 h-px bg-white/5" />
+              <div className="my-1 h-px bg-slate-100" />
               {aboutLinks.map(({ label, href, icon: Icon }) => (
-                <Link key={href} href={href} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
-                  <Icon size={15} className="text-red-400" /> {label}
+                <Link key={href} href={href} className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900">
+                  <Icon size={15} className="text-brand-light" /> {label}
                 </Link>
               ))}
-              <div className="my-1 h-px bg-white/5" />
+              <div className="my-1 h-px bg-slate-100" />
               {[{ href: "/blog", label: "Blog" }, { href: "/shop", label: "Shop" }, { href: "/jobs", label: "Jobs" }, { href: "/directory", label: "Welders" }].map(({ href, label }) => (
-                <Link key={href} href={href} className="rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">
+                <Link key={href} href={href} className="rounded-sm px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900">
                   {label}
                 </Link>
               ))}
               {!session && (
                 <>
-                  <div className="my-1 h-px bg-white/5" />
-                  <Link href="/login" className="rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white">Login</Link>
-                  <Link href="/register" className="rounded-xl bg-red-600 px-3 py-2.5 text-sm font-semibold text-white text-center">Get Started</Link>
+                  <div className="my-1 h-px bg-slate-100" />
+                  <Link href="/login" className="rounded-sm px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900">Login</Link>
+                  <Link href="/register" className="bg-brand px-3 py-2.5 text-center font-display text-sm font-bold uppercase tracking-machine text-white">Get Started</Link>
                 </>
               )}
             </div>

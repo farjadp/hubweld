@@ -6,7 +6,7 @@ export default function FulfillButton({ itemId, status }: { itemId: string; stat
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   if (status === "FULFILLED") return <span className="badge bg-amber/20 text-amber">Fulfilled</span>;
-  if (status === "CANCELLED") return <span className="badge bg-white/10">Cancelled</span>;
+  if (status === "CANCELLED") return <span className="badge bg-slate-100">Cancelled</span>;
   async function mark() {
     setBusy(true);
     await fetch(`/api/supplier/order-items/${itemId}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "FULFILLED" }) });

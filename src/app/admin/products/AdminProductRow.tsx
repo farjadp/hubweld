@@ -23,21 +23,21 @@ export default function AdminProductRow({ product, formattedPrice }: { product: 
   }
   return (
     <li className="card flex flex-wrap items-center gap-3">
-      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-white/5">{product.imageUrl && <img src={product.imageUrl} alt="" className="h-full w-full object-cover" />}</div>
+      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-100">{product.imageUrl && <img src={product.imageUrl} alt="" className="h-full w-full object-cover" />}</div>
       <div className="flex-1 min-w-0">
         <Link href={`/shop/p/${product.slug}`} className="font-bold hover:text-amber line-clamp-1">{product.name}</Link>
-        <div className="text-xs text-white/60">{product.supplierName} · {product.categoryName} · SKU {product.sku}</div>
+        <div className="text-xs text-slate-600">{product.supplierName} · {product.categoryName} · SKU {product.sku}</div>
       </div>
       <div className="text-right text-sm">
         <div className="font-black">{formattedPrice}</div>
-        <div className="text-xs text-white/50">Stock {product.stock}</div>
+        <div className="text-xs text-slate-500">Stock {product.stock}</div>
       </div>
-      <span className="badge bg-white/10 text-xs">{product.status}</span>
+      <span className="badge bg-slate-100 text-xs">{product.status}</span>
       <div className="flex gap-1">
         <Link href={`/admin/products/${product.id}/edit`} className="btn-secondary text-xs">Edit</Link>
         {product.status !== "ACTIVE" && <button disabled={busy} onClick={() => setStatus("ACTIVE")} className="btn-primary text-xs">Activate</button>}
         {product.status !== "ARCHIVED" && <button disabled={busy} onClick={() => setStatus("ARCHIVED")} className="btn-secondary text-xs">Archive</button>}
-        <button disabled={busy} onClick={del} className="btn-secondary text-xs text-red-400 hover:text-red-300">Delete</button>
+        <button disabled={busy} onClick={del} className="btn-secondary text-xs text-brand hover:text-brand-light">Delete</button>
       </div>
     </li>
   );

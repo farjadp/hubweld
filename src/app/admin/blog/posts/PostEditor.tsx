@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Eye, Save, Send, X, Plus, Sparkles, FileText, Link as LinkIcon, Loader2, CheckCircle2, ChevronDown, Upload } from "lucide-react";
 import dynamic from "next/dynamic";
 
-const RichEditor = dynamic(() => import("@/components/RichEditor"), { ssr: false, loading: () => <div className="min-h-[420px] rounded-xl border border-white/10 bg-[#0d0f11] animate-pulse" /> });
+const RichEditor = dynamic(() => import("@/components/RichEditor"), { ssr: false, loading: () => <div className="min-h-[420px] rounded-xl border border-slate-200 bg-slate-50 animate-pulse" /> });
 
 type Cat = { id: string; name: string; parentId: string | null };
 type Tag = { id: string; slug: string; name: string };
@@ -44,11 +44,11 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
   ] as const;
 
   return (
-    <div className="rounded-xl border border-white/10 bg-[#111315]">
-      <div className="border-b border-white/5 px-5 py-3">
+    <div className="rounded-xl border border-slate-200 bg-white">
+      <div className="border-b border-slate-200 px-5 py-3">
         <div className="flex items-center gap-2">
-          <Sparkles size={14} className="text-red-400" />
-          <span className="text-sm font-black text-white">AI Article Generator</span>
+          <Sparkles size={14} className="text-brand" />
+          <span className="text-sm font-black text-slate-900">AI Article Generator</span>
         </div>
       </div>
 
@@ -60,7 +60,7 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
               key={id}
               type="button"
               onClick={() => { setMode(id === "url" ? "url" : "topic"); setResult(null); }}
-              className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${(id === "url" ? mode === "url" : mode !== "url") ? "border-red-600/40 bg-red-600/10 text-red-400" : "border-white/10 text-white/40 hover:text-white"}`}
+              className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${(id === "url" ? mode === "url" : mode !== "url") ? "border-red-600/40 bg-red-600/10 text-brand" : "border-slate-200 text-slate-500 hover:text-white"}`}
             >
               <Icon size={12} /> {label}
             </button>
@@ -74,7 +74,7 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
               <label className="label">Mode</label>
               <div className="flex gap-2">
                 {(["topic", "rewrite"] as const).map((m) => (
-                  <button key={m} type="button" onClick={() => setMode(m)} className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${mode === m ? "border-red-600/30 bg-red-600/10 text-red-400" : "border-white/10 text-white/30 hover:text-white"}`}>
+                  <button key={m} type="button" onClick={() => setMode(m)} className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${mode === m ? "border-red-600/30 bg-red-600/10 text-brand" : "border-slate-200 text-slate-400 hover:text-white"}`}>
                     {m === "topic" ? "New topic" : "Rewrite draft"}
                   </button>
                 ))}
@@ -94,7 +94,7 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
           <div>
             <label className="label">Article URL</label>
             <input className="input text-sm" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://example.com/article-to-rewrite" />
-            <p className="mt-1.5 text-xs text-white/25">AI fetches the page, strips boilerplate, and rewrites it as original content.</p>
+            <p className="mt-1.5 text-xs text-slate-400">AI fetches the page, strips boilerplate, and rewrites it as original content.</p>
           </div>
         )}
 
@@ -104,7 +104,7 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
             <label className="label">Optimise for</label>
             <div className="flex flex-wrap gap-1.5">
               {(["SEO", "AEO", "GEO"] as const).map((f) => (
-                <button key={f} type="button" onClick={() => setFocus(f)} className={`rounded-full border px-2.5 py-1 text-xs font-black transition-colors ${focus === f ? "border-red-600/40 bg-red-600/10 text-red-400" : "border-white/10 text-white/30 hover:text-white"}`}>{f}</button>
+                <button key={f} type="button" onClick={() => setFocus(f)} className={`rounded-full border px-2.5 py-1 text-xs font-black transition-colors ${focus === f ? "border-red-600/40 bg-red-600/10 text-brand" : "border-slate-200 text-slate-400 hover:text-white"}`}>{f}</button>
               ))}
             </div>
           </div>
@@ -112,13 +112,13 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
             <label className="label">Length</label>
             <div className="flex flex-wrap gap-1.5">
               {([["short", "~600w"], ["medium", "~1200w"], ["long", "~2000w"]] as const).map(([l, lbl]) => (
-                <button key={l} type="button" onClick={() => setLength(l)} className={`rounded-full border px-2.5 py-1 text-xs font-bold transition-colors ${length === l ? "border-red-600/40 bg-red-600/10 text-red-400" : "border-white/10 text-white/30 hover:text-white"}`}>{lbl}</button>
+                <button key={l} type="button" onClick={() => setLength(l)} className={`rounded-full border px-2.5 py-1 text-xs font-bold transition-colors ${length === l ? "border-red-600/40 bg-red-600/10 text-brand" : "border-slate-200 text-slate-400 hover:text-white"}`}>{lbl}</button>
               ))}
             </div>
           </div>
         </div>
 
-        {error && <p className="rounded-lg border border-red-600/20 bg-red-600/10 px-3 py-2 text-xs text-red-400">{error}</p>}
+        {error && <p className="rounded-lg border border-red-600/20 bg-red-600/10 px-3 py-2 text-xs text-brand">{error}</p>}
 
         <button
           type="button"
@@ -133,23 +133,23 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
         {result && (
           <div className="grid gap-3">
             <div className="rounded-xl border border-green-600/20 bg-green-600/5 p-4">
-              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-green-400">
+              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-green-700">
                 <CheckCircle2 size={14} /> Article generated
               </div>
               {result.meta && (
-                <div className="grid gap-1 text-xs text-white/50">
-                  {result.meta.suggestedTitle && <div><span className="text-white/30">Title:</span> {result.meta.suggestedTitle}</div>}
-                  {result.meta.focusType && <div><span className="text-white/30">Focus:</span> {result.meta.focusType} · {result.meta.wordCount} words · {result.meta.readingMinutes} min read</div>}
-                  {result.meta.seoKeywords && <div><span className="text-white/30">Keywords:</span> {result.meta.seoKeywords}</div>}
+                <div className="grid gap-1 text-xs text-slate-500">
+                  {result.meta.suggestedTitle && <div><span className="text-slate-400">Title:</span> {result.meta.suggestedTitle}</div>}
+                  {result.meta.focusType && <div><span className="text-slate-400">Focus:</span> {result.meta.focusType} · {result.meta.wordCount} words · {result.meta.readingMinutes} min read</div>}
+                  {result.meta.seoKeywords && <div><span className="text-slate-400">Keywords:</span> {result.meta.seoKeywords}</div>}
                 </div>
               )}
             </div>
             <button
               type="button"
               onClick={() => onApply(result.body, result.meta)}
-              className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+              className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 transition-colors"
             >
-              <CheckCircle2 size={14} className="text-green-400" /> Apply to Editor
+              <CheckCircle2 size={14} className="text-green-700" /> Apply to Editor
             </button>
           </div>
         )}
@@ -174,17 +174,17 @@ function CoverImageInput({ value, onChange }: { value: string; onChange: (url: s
   }
 
   return (
-    <div className="rounded-xl border border-white/10 bg-[#111315] p-5">
+    <div className="rounded-xl border border-slate-200 bg-white p-5">
       <label className="label">Cover Image</label>
       <div className="flex gap-2">
         <input className="input flex-1 text-sm" value={value} onChange={(e) => onChange(e.target.value)} placeholder="https://… or upload →" />
-        <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 text-xs text-white/50 hover:bg-white/10 hover:text-white disabled:opacity-50 transition-colors">
+        <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-3 text-xs text-slate-500 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 transition-colors">
           {uploading ? <Loader2 size={12} className="animate-spin" /> : <Upload size={12} />} Upload
         </button>
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) upload(f); e.target.value = ""; }} />
       </div>
       {value && (
-        <div className="mt-3 overflow-hidden rounded-lg border border-white/10">
+        <div className="mt-3 overflow-hidden rounded-lg border border-slate-200">
           <img src={value} alt="cover" className="h-40 w-full object-cover" />
         </div>
       )}
@@ -266,11 +266,11 @@ export default function PostEditor({
       {/* ── Left ── */}
       <div className="grid gap-4">
         {/* Tab switcher */}
-        <div className="flex gap-2 rounded-xl border border-white/10 bg-[#111315] p-1.5">
-          <button type="button" onClick={() => setTab("write")} className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold transition-colors ${tab === "write" ? "bg-white/10 text-white" : "text-white/40 hover:text-white"}`}>
+        <div className="flex gap-2 rounded-xl border border-slate-200 bg-white p-1.5">
+          <button type="button" onClick={() => setTab("write")} className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold transition-colors ${tab === "write" ? "bg-slate-100 text-slate-900" : "text-slate-500 hover:text-slate-900"}`}>
             <FileText size={14} /> Write Manually
           </button>
-          <button type="button" onClick={() => setTab("ai")} className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold transition-colors ${tab === "ai" ? "bg-red-600/20 text-red-400" : "text-white/40 hover:text-white"}`}>
+          <button type="button" onClick={() => setTab("ai")} className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold transition-colors ${tab === "ai" ? "bg-red-600/20 text-brand" : "text-slate-500 hover:text-white"}`}>
             <Sparkles size={14} /> Generate with AI
           </button>
         </div>
@@ -280,7 +280,7 @@ export default function PostEditor({
         ) : (
           <>
             {/* Title + Slug + Excerpt */}
-            <div className="rounded-xl border border-white/10 bg-[#111315] p-5 grid gap-4">
+            <div className="rounded-xl border border-slate-200 bg-white p-5 grid gap-4">
               <div>
                 <label className="label">Title</label>
                 <input className="input text-base font-semibold" value={title} onChange={(e) => handleTitleChange(e.target.value)} placeholder="Article title…" />
@@ -288,7 +288,7 @@ export default function PostEditor({
               <div>
                 <label className="label">URL Slug</label>
                 <div className="flex items-center gap-2">
-                  <span className="shrink-0 text-xs text-white/30">/blog/</span>
+                  <span className="shrink-0 text-xs text-slate-400">/blog/</span>
                   <input className="input font-mono text-sm" value={slug} onChange={(e) => setSlug(slugify(e.target.value))} placeholder="article-url-slug" />
                 </div>
               </div>
@@ -308,18 +308,18 @@ export default function PostEditor({
             </div>
 
             {/* SEO */}
-            <div className="rounded-xl border border-white/10 bg-[#111315] p-5">
-              <h3 className="mb-4 text-xs font-black uppercase tracking-widest text-white/30">SEO Settings</h3>
+            <div className="rounded-xl border border-slate-200 bg-white p-5">
+              <h3 className="mb-4 text-xs font-black uppercase tracking-widest text-slate-400">SEO Settings</h3>
               <div className="grid gap-4">
                 <div>
                   <label className="label">SEO Title</label>
                   <input className="input" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder={title || "SEO optimized title…"} />
-                  <p className="mt-1 text-right text-xs text-white/20">{seoTitle.length}/60</p>
+                  <p className="mt-1 text-right text-xs text-slate-300">{seoTitle.length}/60</p>
                 </div>
                 <div>
                   <label className="label">Meta Description</label>
                   <textarea className="input min-h-[72px] resize-none" value={seoDesc} onChange={(e) => setSeoDesc(e.target.value)} placeholder={excerpt || "Meta description…"} />
-                  <p className="mt-1 text-right text-xs text-white/20">{seoDesc.length}/160</p>
+                  <p className="mt-1 text-right text-xs text-slate-300">{seoDesc.length}/160</p>
                 </div>
                 <div>
                   <label className="label">Keywords</label>
@@ -334,18 +334,18 @@ export default function PostEditor({
       {/* ── Right sidebar ── */}
       <div className="grid gap-4 self-start">
         {/* Publish */}
-        <div className="rounded-xl border border-white/10 bg-[#111315] p-5">
-          <h3 className="mb-4 text-xs font-black uppercase tracking-widest text-white/30">Publish</h3>
-          {error && <p className="mb-3 rounded-lg border border-red-600/20 bg-red-600/10 px-3 py-2 text-xs text-red-400">{error}</p>}
+        <div className="rounded-xl border border-slate-200 bg-white p-5">
+          <h3 className="mb-4 text-xs font-black uppercase tracking-widest text-slate-400">Publish</h3>
+          {error && <p className="mb-3 rounded-lg border border-red-600/20 bg-red-600/10 px-3 py-2 text-xs text-brand">{error}</p>}
           <div className="grid gap-2">
             <button type="button" onClick={() => save("PUBLISHED")} disabled={busy} className="flex items-center justify-center gap-2 rounded-xl bg-red-600 py-2.5 text-sm font-semibold text-white hover:bg-red-500 disabled:opacity-50 transition-colors">
               <Send size={14} /> {busy ? "Saving…" : "Publish"}
             </button>
-            <button type="button" onClick={() => save("DRAFT")} disabled={busy} className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-2.5 text-sm font-medium text-white/60 hover:bg-white/10 disabled:opacity-50 transition-colors">
+            <button type="button" onClick={() => save("DRAFT")} disabled={busy} className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 disabled:opacity-50 transition-colors">
               <Save size={14} /> Save as Draft
             </button>
             {post?.status === "PUBLISHED" && (
-              <a href={`/blog/${slug}`} target="_blank" className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-2.5 text-sm font-medium text-white/60 hover:bg-white/10 transition-colors">
+              <a href={`/blog/${slug}`} target="_blank" className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">
                 <Eye size={14} /> View Post
               </a>
             )}
@@ -353,8 +353,8 @@ export default function PostEditor({
         </div>
 
         {/* Category */}
-        <div className="rounded-xl border border-white/10 bg-[#111315] p-5">
-          <h3 className="mb-3 text-xs font-black uppercase tracking-widest text-white/30">Category</h3>
+        <div className="rounded-xl border border-slate-200 bg-white p-5">
+          <h3 className="mb-3 text-xs font-black uppercase tracking-widest text-slate-400">Category</h3>
           <select className="input" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
             <option value="">— Select —</option>
             {topCats.map((c) => (
@@ -369,26 +369,26 @@ export default function PostEditor({
         </div>
 
         {/* Tags */}
-        <div className="rounded-xl border border-white/10 bg-[#111315] p-5">
-          <h3 className="mb-3 text-xs font-black uppercase tracking-widest text-white/30">Tags</h3>
+        <div className="rounded-xl border border-slate-200 bg-white p-5">
+          <h3 className="mb-3 text-xs font-black uppercase tracking-widest text-slate-400">Tags</h3>
           <div className="mb-3 flex flex-wrap gap-1.5">
             {allTags.map((tag) => (
               <button key={tag.slug} type="button" onClick={() => toggleTag(tag.slug)}
-                className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${selectedTags.includes(tag.slug) ? "border-red-600/40 bg-red-600/15 text-red-400" : "border-white/10 text-white/40 hover:text-white"}`}>
+                className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${selectedTags.includes(tag.slug) ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:text-white"}`}>
                 {selectedTags.includes(tag.slug) && <X size={9} className="mr-1 inline" />}{tag.name}
               </button>
             ))}
-            {allTags.length === 0 && <p className="text-xs text-white/25">No tags yet.</p>}
+            {allTags.length === 0 && <p className="text-xs text-slate-400">No tags yet.</p>}
           </div>
           <div className="flex gap-2">
             <input className="input py-1.5 text-sm" value={newTag} onChange={(e) => setNewTag(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addNewTag()} placeholder="New tag…" />
-            <button type="button" onClick={addNewTag} className="flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-3 text-xs text-white/50 hover:bg-white/10 hover:text-white transition-colors"><Plus size={12} /></button>
+            <button type="button" onClick={addNewTag} className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-100 px-3 text-xs text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"><Plus size={12} /></button>
           </div>
         </div>
 
         {/* Timestamps */}
         {post && (
-          <div className="rounded-xl border border-white/10 bg-[#111315] p-5 text-xs text-white/30 grid gap-1">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 text-xs text-slate-400 grid gap-1">
             <div>Created: {new Date(post.createdAt).toLocaleString("en")}</div>
             <div>Updated: {new Date(post.updatedAt).toLocaleString("en")}</div>
             {post.publishedAt && <div>Published: {new Date(post.publishedAt).toLocaleString("en")}</div>}

@@ -49,7 +49,7 @@ export default function AdminNewUserForm() {
           <div><label className="label">Business name</label><input className="input" value={form.businessName} onChange={(e) => set("businessName", e.target.value)} required={form.role === "SUPPLIER"} /></div>
         )}
       </div>
-      {err && <p className="text-sm text-red-400">{err}</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
       <div className="flex gap-3">
         <button type="button" onClick={() => router.push("/admin/users")} className="btn-secondary">Cancel</button>
         <button type="submit" disabled={loading} className="btn-primary flex-1">{loading ? "Creating..." : "Create user"}</button>

@@ -28,10 +28,12 @@ The database has several interconnected entities:
 
 ## 4. Crucial AI Coding Rules & Guidelines
 - **App Router Rules:** Always use `use client` directives at the very top of files if the component requires state (`useState`, `useEffect`) or browser APIs. Server Components (default) should handle data fetching directly using Prisma.
-- **Styling Guidelines (UI/UX):** 
-  - The app uses a dark theme. The main background color is `#0a0c0e`.
-  - The primary accent color is Red (e.g., `text-red-400`, `bg-red-600`).
-  - Use glassmorphism effects for cards and dropdowns (`bg-white/5`, `border-white/10`, `backdrop-blur-md`).
+- **Styling Guidelines (UI/UX):** — "Forged Industrial · Daylight" system (Aug 2026)
+  - The app uses a LIGHT theme. Page ground is `ink-900` (#F6F7F9); panels are white (`ink-700`) with `border-slate-200` hairlines. The `ink` scale in tailwind.config.ts is deliberately inverted (900 = lightest).
+  - Primary accent is red, reserved for actions/status: `bg-brand` (#C22127), `text-brand`. Never tint whole surfaces red.
+  - NO glassmorphism. Flat opaque plates with `shadow-plate` / `shadow-plate-sm`. Shared classes: `.card`, `.input`, `.btn-primary`, `.btn-secondary`, `.badge`, `.label`, `.seam` (weld-seam divider), `.hazard` (stripe).
+  - Fonts via next/font: Barlow (body, `font-sans`), Barlow Condensed (headings, `font-display`, uppercase), IBM Plex Mono (`font-mono` for metadata/numbers).
+  - Text colors: slate-900 headings, slate-600/700 body, slate-500 muted. Animations: `.forge-rise` (hero), `<Reveal>` component (scroll reveal).
   - Always ensure mobile responsiveness using Tailwind's `md:`, `lg:` prefixes.
 - **Database & Deployment:**
   - The current database is SQLite. Do not use Postgres-specific or MySQL-specific Prisma features (like `JSON` arrays or `enum` mapping if unsupported).

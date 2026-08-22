@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { contains } from "@/lib/search";
 import { MapPin, BadgeCheck, Wrench, Star } from "lucide-react";
 
 export const metadata = { title: "Find Certified Welders & Fabrication Shops" };
@@ -16,8 +17,8 @@ export default async function DirectoryPage({ searchParams }: { searchParams: { 
       banned: false,
       ...(verifiedOnly ? { welderProfile: { approved: true } } : {}),
       AND: [
-        q ? { OR: [{ name: { contains: q } }, { welderProfile: { skills: { contains: q } } }, { welderProfile: { certifications: { contains: q } } }] } : {},
-        city ? { OR: [{ city: { contains: city } }, { welderProfile: { serviceArea: { contains: city } } }] } : {},
+        q ? { OR: [{ name: contains(q) }, { welderProfile: { skills: contains(q) } }, { welderProfile: { certifications: contains(q) } }] } : {},
+        city ? { OR: [{ city: contains(city) }, { welderProfile: { serviceArea: contains(city) } }] } : {},
       ],
     },
     include: {
@@ -41,7 +42,7 @@ export default async function DirectoryPage({ searchParams }: { searchParams: { 
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-4xl font-black tracking-tighter">Certified welders & fabrication shops</h1>
-          <p className="text-white/60">Search vetted welding professionals by skill or location.</p>
+          <p className="text-slate-600">Search vetted welding professionals by skill or location.</p>
         </div>
       </div>
 
@@ -55,15 +56,15 @@ export default async function DirectoryPage({ searchParams }: { searchParams: { 
       <div className="mb-6 flex items-center gap-3">
         <Link
           href={verifiedOnly ? `/directory${q || city ? `?q=${q}&city=${city}` : ""}` : `/directory?verified=1${q ? `&q=${q}` : ""}${city ? `&city=${city}` : ""}`}
-          className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold transition-colors ${verifiedOnly ? "border-emerald-500/50 bg-emerald-500/20 text-emerald-300" : "border-white/10 bg-white/5 text-white/50 hover:bg-white/10"}`}
+          className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold transition-colors ${verifiedOnly ? "border-emerald-500/50 bg-emerald-500/20 text-emerald-300" : "border-slate-200 bg-slate-100 text-slate-500 hover:bg-slate-100"}`}
         >
           <BadgeCheck size={13} /> Verified only
         </Link>
-        <span className="text-xs text-white/30">{sorted.length} welder{sorted.length !== 1 ? "s" : ""} found</span>
+        <span className="text-xs text-slate-400">{sorted.length} welder{sorted.length !== 1 ? "s" : ""} found</span>
       </div>
 
       {sorted.length === 0 ? (
-        <p className="text-white/60">No welders match your filters yet.</p>
+        <p className="text-slate-600">No welders match your filters yet.</p>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {sorted.map((w) => {
@@ -71,7 +72,7 @@ export default async function DirectoryPage({ searchParams }: { searchParams: { 
               ? (w.receivedReviews.reduce((s, r) => s + r.rating, 0) / w.receivedReviews.length).toFixed(1)
               : null;
             return (
-              <Link key={w.id} href={`/welders/${w.id}`} className="card flex flex-col transition hover:border-white/20">
+              <Link key={w.id} href={`/welders/${w.id}`} className="card flex flex-col transition hover:border-slate-300">
                 <div className="mb-2 flex items-center justify-between">
                   <h3 className="text-lg font-bold">{w.name}</h3>
                   {w.welderProfile?.approved && (
@@ -80,23 +81,23 @@ export default async function DirectoryPage({ searchParams }: { searchParams: { 
                     </span>
                   )}
                 </div>
-                <p className="mb-3 flex-1 text-sm text-white/70 line-clamp-2">{w.welderProfile?.bio || "Welding professional on HubWeld."}</p>
-                <div className="flex flex-wrap gap-1.5 text-xs text-white/60 mb-3">
+                <p className="mb-3 flex-1 text-sm text-slate-700 line-clamp-2">{w.welderProfile?.bio || "Welding professional on HubWeld."}</p>
+                <div className="flex flex-wrap gap-1.5 text-xs text-slate-600 mb-3">
                   {(w.welderProfile?.skills || "").split(",").filter(Boolean).slice(0, 4).map((s) => (
-                    <span key={s} className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-0.5">
+                    <span key={s} className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-100 px-2 py-0.5">
                       <Wrench size={10} />{s.trim()}
                     </span>
                   ))}
                 </div>
-                <div className="flex items-center justify-between text-sm text-white/50">
+                <div className="flex items-center justify-between text-sm text-slate-500">
                   <span className="flex items-center gap-1"><MapPin size={13} /> {w.welderProfile?.serviceArea || w.city || "—"}</span>
                   {avg && (
-                    <span className="flex items-center gap-1 text-amber-400 font-bold">
-                      <Star size={13} className="fill-amber-400" /> {avg} <span className="font-normal text-white/30">({w.receivedReviews.length})</span>
+                    <span className="flex items-center gap-1 text-amber-700 font-bold">
+                      <Star size={13} className="fill-amber-400" /> {avg} <span className="font-normal text-slate-400">({w.receivedReviews.length})</span>
                     </span>
                   )}
                   {w.welderProfile?.hourlyRate && (
-                    <span className="text-xs text-white/40">${w.welderProfile.hourlyRate}/hr</span>
+                    <span className="text-xs text-slate-500">${w.welderProfile.hourlyRate}/hr</span>
                   )}
                 </div>
               </Link>

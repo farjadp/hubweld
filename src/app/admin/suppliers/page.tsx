@@ -26,8 +26,8 @@ export default async function AdminSuppliersPage() {
     <div>
       <div className="mb-7 flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-white">Suppliers</h1>
-          <p className="mt-1 text-sm text-white/40">{profiles.length} suppliers · approve verified vendor badges</p>
+          <h1 className="text-3xl font-black tracking-tight text-slate-900">Suppliers</h1>
+          <p className="mt-1 text-sm text-slate-500">{profiles.length} suppliers · approve verified vendor badges</p>
         </div>
         <Link href="/admin/suppliers/new" className="btn-primary shrink-0">+ New Supplier</Link>
       </div>

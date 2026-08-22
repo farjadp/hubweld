@@ -30,20 +30,20 @@ export default async function CheckoutPage() {
           <ul className="mb-3 space-y-2 text-sm">
             {items.map((i) => (
               <li key={i.id} className="flex gap-2">
-                <div className="h-12 w-12 shrink-0 overflow-hidden rounded-md bg-white/5">{i.imageUrl && <img src={i.imageUrl} alt="" className="h-full w-full object-cover" />}</div>
+                <div className="h-12 w-12 shrink-0 overflow-hidden rounded-md bg-slate-100">{i.imageUrl && <img src={i.imageUrl} alt="" className="h-full w-full object-cover" />}</div>
                 <div className="flex-1">
                   <div className="line-clamp-2 leading-tight">{i.name}</div>
-                  <div className="text-white/50 text-xs">Qty {i.quantity}</div>
+                  <div className="text-slate-500 text-xs">Qty {i.quantity}</div>
                 </div>
                 <div className="font-bold">{formatCents(i.priceCents * i.quantity)}</div>
               </li>
             ))}
           </ul>
-          <div className="my-3 h-px bg-white/10" />
+          <div className="my-3 h-px bg-slate-100" />
           <Row label="Subtotal" value={formatCents(totals.subtotalCents)} />
           <Row label="Shipping" value={formatCents(totals.shippingCents)} />
           <Row label="Tax" value={formatCents(totals.taxCents)} />
-          <div className="my-3 h-px bg-white/10" />
+          <div className="my-3 h-px bg-slate-100" />
           <Row label="Total" value={formatCents(totals.totalCents)} bold />
         </aside>
       </div>
@@ -53,8 +53,8 @@ export default async function CheckoutPage() {
 
 function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   return (
-    <div className={`flex justify-between py-1 text-sm ${bold ? "font-black text-base" : "text-white/70"}`}>
-      <span>{label}</span><span className={bold ? "text-amber" : "text-white"}>{value}</span>
+    <div className={`flex justify-between py-1 text-sm ${bold ? "font-black text-base" : "text-slate-700"}`}>
+      <span>{label}</span><span className={bold ? "text-amber" : "text-slate-900"}>{value}</span>
     </div>
   );
 }

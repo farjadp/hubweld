@@ -21,12 +21,12 @@ export default async function AdminBlogTagsPage() {
   return (
     <div>
       <div className="mb-7 flex items-center gap-4">
-        <Link href="/admin/blog" className="grid h-8 w-8 place-items-center rounded-lg border border-white/10 text-white/40 hover:text-white transition-colors">
+        <Link href="/admin/blog" className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-slate-500 hover:text-slate-900 transition-colors">
           <ArrowLeft size={15} />
         </Link>
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-white">Blog Tags</h1>
-          <p className="text-sm text-white/40">{tags.length} tags</p>
+          <h1 className="text-2xl font-black tracking-tight text-slate-900">Blog Tags</h1>
+          <p className="text-sm text-slate-500">{tags.length} tags</p>
         </div>
       </div>
       <TagManager initialTags={tags} />

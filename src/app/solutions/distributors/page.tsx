@@ -119,15 +119,15 @@ export default function DistributorsPage() {
             className="object-cover object-center"
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c0e] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink-900/95 via-ink-900/70 to-ink-900/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
           <div className="absolute inset-0 flex items-center px-10 md:px-16">
             <div className="max-w-2xl">
               <span className="section-label mb-4 block">Solutions</span>
-              <h1 className="text-4xl font-black leading-tight tracking-tight text-white md:text-6xl">
-                For <span className="text-red-400">Distributors</span>
+              <h1 className="text-4xl font-black leading-tight tracking-tight text-slate-900 md:text-6xl">
+                For <span className="text-brand">Distributors</span>
               </h1>
-              <p className="mt-4 max-w-lg text-lg text-white/70">
+              <p className="mt-4 max-w-lg text-lg text-slate-700">
                 Sell your surplus, non-rotating stock and connect with new partners globally.
               </p>
               <Link href="/register" className="btn-primary mt-7 inline-flex">
@@ -143,7 +143,7 @@ export default function DistributorsPage() {
         {features.map(({ icon: Icon, tag, title, body, cta, img, imgAlt, reverse }) => (
           <section
             key={tag}
-            className={`group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#111315] md:flex-row ${reverse ? "md:flex-row-reverse" : ""}`}
+            className={`group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white md:flex-row ${reverse ? "md:flex-row-reverse" : ""}`}
           >
             {/* Image */}
             <div className="relative min-h-[260px] w-full shrink-0 md:w-[45%]">
@@ -160,14 +160,14 @@ export default function DistributorsPage() {
             {/* Content */}
             <div className="flex flex-col justify-center gap-4 px-8 py-10 md:px-12">
               <div className="inline-flex w-fit items-center gap-2 rounded border border-red-600/30 bg-red-600/10 px-3 py-1">
-                <Icon size={13} className="text-red-400" />
-                <span className="text-xs font-black uppercase tracking-widest text-red-400">{tag}</span>
+                <Icon size={13} className="text-brand" />
+                <span className="text-xs font-black uppercase tracking-widest text-brand">{tag}</span>
               </div>
-              <h2 className="text-2xl font-black leading-snug tracking-tight text-white md:text-3xl">{title}</h2>
-              <p className="max-w-lg text-sm leading-relaxed text-white/60">{body}</p>
+              <h2 className="text-2xl font-black leading-snug tracking-tight text-slate-900 md:text-3xl">{title}</h2>
+              <p className="max-w-lg text-sm leading-relaxed text-slate-600">{body}</p>
               <Link
                 href={cta.href}
-                className="mt-2 inline-flex w-fit items-center gap-2 text-sm font-bold text-red-400 transition-colors hover:text-red-300"
+                className="mt-2 inline-flex w-fit items-center gap-2 text-sm font-bold text-brand transition-colors hover:text-brand-light"
               >
                 {cta.label} <ArrowRight size={15} />
               </Link>
@@ -186,11 +186,11 @@ export default function DistributorsPage() {
             className="object-cover"
             unoptimized
           />
-          <div className="absolute inset-0 bg-black/70" />
+          <div className="absolute inset-0 bg-ink-900/80" />
           <div className="absolute inset-0 flex items-center justify-center text-center">
             <div>
-              <h2 className="text-2xl font-black text-white md:text-4xl">Ready to grow your distribution business?</h2>
-              <p className="mt-2 text-white/60">Join hundreds of distributors already on the HubWeld network.</p>
+              <h2 className="text-2xl font-black text-slate-900 md:text-4xl">Ready to grow your distribution business?</h2>
+              <p className="mt-2 text-slate-600">Join hundreds of distributors already on the HubWeld network.</p>
               <div className="mt-5 flex flex-wrap justify-center gap-3">
                 <Link href="/register" className="btn-primary">Create Account <ArrowRight size={16} /></Link>
                 <Link href="/shop" className="btn-secondary">Browse Parts</Link>

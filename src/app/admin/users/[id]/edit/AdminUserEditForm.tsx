@@ -48,7 +48,7 @@ export default function AdminUserEditForm({ userId, initial }: { userId: string;
     <form onSubmit={submit} className="space-y-6">
       {/* Basic info */}
       <div className="card space-y-4">
-        <h2 className="font-bold text-white">Basic Info</h2>
+        <h2 className="font-bold text-slate-900">Basic Info</h2>
         <div className="grid gap-4 md:grid-cols-2">
           <div><label className="label">Full name</label><input className="input" required value={name} onChange={(e) => setName(e.target.value)} /></div>
           <div><label className="label">Email</label><input className="input" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
@@ -60,7 +60,7 @@ export default function AdminUserEditForm({ userId, initial }: { userId: string;
       {/* Welder profile */}
       {initial.role === "WELDER" && (
         <div className="card space-y-4">
-          <h2 className="font-bold text-white">Welder Profile</h2>
+          <h2 className="font-bold text-slate-900">Welder Profile</h2>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="md:col-span-2">
               <label className="label">Bio</label>
@@ -90,8 +90,8 @@ export default function AdminUserEditForm({ userId, initial }: { userId: string;
         </div>
       )}
 
-      {err && <p className="text-sm text-red-400">{err}</p>}
-      {success && <p className="text-sm text-green-400">Saved successfully!</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
+      {success && <p className="text-sm text-green-700">Saved successfully!</p>}
 
       <div className="flex gap-3">
         <button type="button" onClick={() => router.push("/admin/users")} className="btn-secondary">Cancel</button>

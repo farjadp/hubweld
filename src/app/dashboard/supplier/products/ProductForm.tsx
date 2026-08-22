@@ -84,11 +84,11 @@ export default function ProductForm({
         </label></div>
       </div>
       {form.imageUrl && (
-        <div className="aspect-[4/3] max-w-xs overflow-hidden rounded-xl bg-white/5">
+        <div className="aspect-[4/3] max-w-xs overflow-hidden rounded-xl bg-slate-100">
           <img src={form.imageUrl} alt="" className="h-full w-full object-cover" />
         </div>
       )}
-      {err && <p className="text-sm text-red-400">{err}</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
       <div className="flex gap-2">
         <button type="submit" disabled={loading} className="btn-primary flex-1">{loading ? "Saving..." : mode === "create" ? "Create product" : "Save changes"}</button>
         {mode === "edit" && <button type="button" onClick={del} disabled={loading} className="btn-secondary">Delete</button>}

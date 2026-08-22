@@ -22,7 +22,7 @@ export default async function OrdersPage() {
       <h1 className="mb-6 text-3xl font-black tracking-tight">My orders</h1>
       {orders.length === 0 ? (
         <div className="card text-center">
-          <p className="text-white/70">No orders yet.</p>
+          <p className="text-slate-700">No orders yet.</p>
           <Link href="/shop" className="btn-primary mt-4 inline-block">Browse the shop</Link>
         </div>
       ) : (
@@ -32,10 +32,10 @@ export default async function OrdersPage() {
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
                   <Link href={`/orders/${o.id}`} className="font-bold hover:text-amber">Order #{o.id.slice(-8).toUpperCase()}</Link>
-                  <div className="text-xs text-white/60">{new Date(o.createdAt).toLocaleDateString()} · {o.items.length} items</div>
+                  <div className="text-xs text-slate-600">{new Date(o.createdAt).toLocaleDateString()} · {o.items.length} items</div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="badge bg-white/10">{o.status}</span>
+                  <span className="badge bg-slate-100">{o.status}</span>
                   <span className="font-black">{formatCents(o.totalCents)}</span>
                 </div>
               </div>

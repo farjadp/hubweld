@@ -22,12 +22,12 @@ export default async function AdminBlogCategoriesPage() {
   return (
     <div>
       <div className="mb-7 flex items-center gap-4">
-        <Link href="/admin/blog" className="grid h-8 w-8 place-items-center rounded-lg border border-white/10 text-white/40 hover:text-white transition-colors">
+        <Link href="/admin/blog" className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-slate-500 hover:text-slate-900 transition-colors">
           <ArrowLeft size={15} />
         </Link>
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-white">Blog Categories</h1>
-          <p className="text-sm text-white/40">Create parent and child categories</p>
+          <h1 className="text-2xl font-black tracking-tight text-slate-900">Blog Categories</h1>
+          <p className="text-sm text-slate-500">Create parent and child categories</p>
         </div>
       </div>
       <CategoryManager initialCats={cats} />

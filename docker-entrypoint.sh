@@ -16,6 +16,12 @@ cp /app/prisma/schema.prod.prisma /app/prisma/schema.prisma
 echo "Running database sync..."
 npx prisma db push --accept-data-loss
 
+# Seed catalogue and article content. The script is idempotent — it skips any
+# slug that already exists — so it is safe on every boot. Never fatal: a fresh
+# database with no admin/supplier yet must not crash-loop the container.
+echo "Seeding content (idempotent)..."
+node /app/prisma/seed-content.mjs || echo "Content seed skipped: $?"
+
 echo "Starting application as nextjs..."
 # Drop privileges to the non-root user if we are currently root.
 if [ "$(id -u)" = "0" ] && command -v su-exec >/dev/null 2>&1; then

@@ -100,20 +100,20 @@ export default function ProfileForm({ initial }: { initial: Initial }) {
       <div>
         <label className="label">Profile photo</label>
         <div className="flex items-center gap-4">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-100">
             {form.avatarUrl
               ? <img src={form.avatarUrl} alt="avatar" className="h-full w-full object-cover" />
-              : <User size={28} className="text-white/30" />}
+              : <User size={28} className="text-slate-400" />}
           </div>
           <div className="flex flex-col gap-2">
             <button type="button" onClick={() => avatarRef.current?.click()} disabled={uploading === "avatar"}
-              className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 disabled:opacity-50">
+              className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-100 disabled:opacity-50">
               {uploading === "avatar" ? <Loader2 size={13} className="animate-spin" /> : <Upload size={13} />} Upload photo
             </button>
             {form.avatarUrl && (
-              <button type="button" onClick={() => set("avatarUrl", "")} className="text-xs text-red-400 hover:underline">Remove</button>
+              <button type="button" onClick={() => set("avatarUrl", "")} className="text-xs text-brand hover:underline">Remove</button>
             )}
-            <span className="text-[11px] text-white/30">JPG, PNG, WebP · max 5MB</span>
+            <span className="text-[11px] text-slate-400">JPG, PNG, WebP · max 5MB</span>
           </div>
           <input ref={avatarRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden"
             onChange={(e) => { const f = e.target.files?.[0]; if (f) onAvatar(f); e.target.value = ""; }} />
@@ -168,15 +168,15 @@ export default function ProfileForm({ initial }: { initial: Initial }) {
       <div>
         <label className="label">Resume / CV</label>
         {form.resumeUrl ? (
-          <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-            <a href={form.resumeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-white/80 hover:text-red-400">
+          <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-100 px-4 py-3">
+            <a href={form.resumeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-slate-700 hover:text-brand">
               <FileText size={16} /> View uploaded resume
             </a>
-            <button type="button" onClick={() => set("resumeUrl", "")} className="text-xs text-red-400 hover:underline">Remove</button>
+            <button type="button" onClick={() => set("resumeUrl", "")} className="text-xs text-brand hover:underline">Remove</button>
           </div>
         ) : (
           <button type="button" onClick={() => resumeRef.current?.click()} disabled={uploading === "resume"}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 bg-white/5 px-4 py-4 text-sm text-white/50 hover:bg-white/10 disabled:opacity-50">
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-slate-100 px-4 py-4 text-sm text-slate-500 hover:bg-slate-100 disabled:opacity-50">
             {uploading === "resume" ? <Loader2 size={15} className="animate-spin" /> : <Upload size={15} />} Upload resume (PDF or Word · max 10MB)
           </button>
         )}
@@ -189,7 +189,7 @@ export default function ProfileForm({ initial }: { initial: Initial }) {
         <label className="label">Project gallery ({form.gallery.length}/{MAX_GALLERY})</label>
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
           {form.gallery.map((url) => (
-            <div key={url} className="group relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-white/5">
+            <div key={url} className="group relative aspect-square overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
               <img src={url} alt="project" className="h-full w-full object-cover" />
               <button type="button" onClick={() => setForm((f) => ({ ...f, gallery: f.gallery.filter((g) => g !== url) }))}
                 className="absolute right-1 top-1 rounded-full bg-black/60 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-red-600">
@@ -199,19 +199,19 @@ export default function ProfileForm({ initial }: { initial: Initial }) {
           ))}
           {form.gallery.length < MAX_GALLERY && (
             <button type="button" onClick={() => galleryRef.current?.click()} disabled={uploading === "gallery"}
-              className="flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-white/15 bg-white/5 text-white/40 hover:bg-white/10 disabled:opacity-50">
+              className="flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-slate-200 bg-slate-100 text-slate-500 hover:bg-slate-100 disabled:opacity-50">
               {uploading === "gallery" ? <Loader2 size={18} className="animate-spin" /> : <ImagePlus size={18} />}
               <span className="text-[10px]">Add photo</span>
             </button>
           )}
         </div>
-        <p className="mt-1.5 text-[11px] text-white/30">JPG, PNG, WebP · max 5MB each · up to {MAX_GALLERY} photos.</p>
+        <p className="mt-1.5 text-[11px] text-slate-400">JPG, PNG, WebP · max 5MB each · up to {MAX_GALLERY} photos.</p>
         <input ref={galleryRef} type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden"
           onChange={(e) => { const fs = e.target.files; if (fs && fs.length) onGallery(fs); e.target.value = ""; }} />
       </div>
 
-      {err && <p className="text-sm text-red-400">{err}</p>}
-      {msg && <p className="text-sm text-green-400">{msg}</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
+      {msg && <p className="text-sm text-green-700">{msg}</p>}
       <button className="btn-primary w-full" disabled={loading || !!uploading}>{loading ? "Saving..." : "Save profile"}</button>
     </form>
   );

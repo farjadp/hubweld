@@ -24,9 +24,9 @@ export default async function SupplierOrderDetailPage({ params }: { params: { id
 
   return (
     <div>
-      <Link href="/dashboard/supplier/orders" className="text-sm text-white/50 hover:text-white">← All orders</Link>
+      <Link href="/dashboard/supplier/orders" className="text-sm text-slate-500 hover:text-slate-900">← All orders</Link>
       <h1 className="mt-2 text-3xl font-black tracking-tight">Order #{order.id.slice(-8).toUpperCase()}</h1>
-      <p className="text-sm text-white/60">Placed {new Date(order.createdAt).toLocaleString()} · Buyer: {order.buyer.name}</p>
+      <p className="text-sm text-slate-600">Placed {new Date(order.createdAt).toLocaleString()} · Buyer: {order.buyer.name}</p>
 
       <div className="mt-6 grid gap-6 md:grid-cols-[1fr_320px]">
         <ul className="grid gap-3">
@@ -34,8 +34,8 @@ export default async function SupplierOrderDetailPage({ params }: { params: { id
             <li key={it.id} className="card flex items-center justify-between gap-4">
               <div>
                 <div className="font-bold">{it.nameSnapshot}</div>
-                <div className="text-xs text-white/60">Qty {it.quantity} · {formatCents(it.priceCents)} each</div>
-                <div className="text-xs text-white/50">Status: {it.status}</div>
+                <div className="text-xs text-slate-600">Qty {it.quantity} · {formatCents(it.priceCents)} each</div>
+                <div className="text-xs text-slate-500">Status: {it.status}</div>
               </div>
               <div className="flex items-center gap-3">
                 <span className="font-black">{formatCents(it.priceCents * it.quantity)}</span>
@@ -52,7 +52,7 @@ export default async function SupplierOrderDetailPage({ params }: { params: { id
           <div>{order.shipCity}{order.shipRegion ? `, ${order.shipRegion}` : ""} {order.shipPostal}</div>
           <div>{order.shipCountry}</div>
           {order.shipPhone && <div>{order.shipPhone}</div>}
-          {order.notes && <><div className="mt-3 font-bold text-white/80">Notes</div><div className="text-white/70">{order.notes}</div></>}
+          {order.notes && <><div className="mt-3 font-bold text-slate-700">Notes</div><div className="text-slate-700">{order.notes}</div></>}
         </aside>
       </div>
     </div>

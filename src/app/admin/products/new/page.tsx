@@ -21,12 +21,12 @@ export default async function AdminNewProductPage() {
   return (
     <div>
       <div className="mb-6 flex items-center gap-3">
-        <Link href="/admin/products" className="text-white/40 hover:text-white text-sm">← Products</Link>
-        <span className="text-white/20">/</span>
+        <Link href="/admin/products" className="text-slate-500 hover:text-slate-900 text-sm">← Products</Link>
+        <span className="text-slate-300">/</span>
         <h1 className="text-2xl font-black tracking-tight">New Product</h1>
       </div>
       {suppliers.length === 0 && (
-        <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
+        <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-700">
           No approved suppliers yet. <Link href="/admin/suppliers" className="underline">Approve a supplier first</Link> so you can assign ownership.
         </div>
       )}

@@ -29,8 +29,8 @@ export default async function AdminBlogPage() {
     <div>
       <div className="mb-8 flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-white">Blog</h1>
-          <p className="mt-1 text-sm text-white/40">Manage posts, categories, and tags</p>
+          <h1 className="text-3xl font-black tracking-tight text-slate-900">Blog</h1>
+          <p className="mt-1 text-sm text-slate-500">Manage posts, categories, and tags</p>
         </div>
         <Link href="/admin/blog/posts/new" className="flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-red-600/20 hover:bg-red-500 transition-colors">
           <Plus size={15} /> New Post
@@ -40,14 +40,14 @@ export default async function AdminBlogPage() {
       {/* Stats */}
       <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
-          { label: "Total Posts", value: posts.length, icon: FileText, color: "text-white" },
-          { label: "Published", value: published, icon: Eye, color: "text-green-400" },
-          { label: "Drafts", value: drafts, icon: EyeOff, color: "text-amber-400" },
-          { label: "Categories", value: cats, icon: FolderOpen, color: "text-blue-400" },
+          { label: "Total Posts", value: posts.length, icon: FileText, color: "text-slate-900" },
+          { label: "Published", value: published, icon: Eye, color: "text-green-700" },
+          { label: "Drafts", value: drafts, icon: EyeOff, color: "text-amber-700" },
+          { label: "Categories", value: cats, icon: FolderOpen, color: "text-blue-700" },
         ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="rounded-xl border border-white/10 bg-[#111315] p-4">
+          <div key={label} className="rounded-xl border border-slate-200 bg-white p-4">
             <div className="mb-2 flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-widest text-white/30">{label}</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{label}</span>
               <Icon size={14} className={color} />
             </div>
             <div className={`text-2xl font-black ${color}`}>{value}</div>
@@ -57,33 +57,33 @@ export default async function AdminBlogPage() {
 
       {/* Quick links */}
       <div className="mb-6 flex flex-wrap gap-3">
-        <Link href="/admin/blog/categories" className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#111315] px-4 py-2 text-sm text-white/60 hover:border-white/20 hover:text-white transition-colors">
+        <Link href="/admin/blog/categories" className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 hover:border-slate-300 hover:text-slate-900 transition-colors">
           <FolderOpen size={14} /> Manage Categories
         </Link>
-        <Link href="/admin/blog/tags" className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#111315] px-4 py-2 text-sm text-white/60 hover:border-white/20 hover:text-white transition-colors">
+        <Link href="/admin/blog/tags" className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 hover:border-slate-300 hover:text-slate-900 transition-colors">
           <Tag size={14} /> Manage Tags
         </Link>
       </div>
 
       {/* Posts table */}
-      <div className="overflow-hidden rounded-xl border border-white/10">
-        <div className="border-b border-white/5 bg-[#0d0f11] px-5 py-3">
-          <span className="text-xs font-black uppercase tracking-widest text-white/30">All Posts</span>
+      <div className="overflow-hidden rounded-xl border border-slate-200">
+        <div className="border-b border-slate-200 bg-slate-50 px-5 py-3">
+          <span className="text-xs font-black uppercase tracking-widest text-slate-400">All Posts</span>
         </div>
         {posts.length === 0 ? (
-          <div className="p-10 text-center text-sm text-white/30">No posts yet. <Link href="/admin/blog/posts/new" className="text-red-400 hover:underline">Create your first post →</Link></div>
+          <div className="p-10 text-center text-sm text-slate-400">No posts yet. <Link href="/admin/blog/posts/new" className="text-brand hover:underline">Create your first post →</Link></div>
         ) : (
-          <ul className="divide-y divide-white/5">
+          <ul className="divide-y divide-slate-200">
             {posts.map((p: any) => (
-              <li key={p.id} className="flex flex-wrap items-center justify-between gap-4 px-5 py-4 hover:bg-white/[0.02] transition-colors">
+              <li key={p.id} className="flex flex-wrap items-center justify-between gap-4 px-5 py-4 hover:bg-slate-50 transition-colors">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-black uppercase tracking-widest ${p.status === "PUBLISHED" ? "border-green-600/30 bg-green-600/10 text-green-400" : "border-amber-600/30 bg-amber-600/10 text-amber-400"}`}>
+                    <span className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-black uppercase tracking-widest ${p.status === "PUBLISHED" ? "border-green-600/30 bg-green-600/10 text-green-700" : "border-amber-600/30 bg-amber-600/10 text-amber-700"}`}>
                       {p.status}
                     </span>
-                    <span className="font-semibold text-white">{p.title}</span>
+                    <span className="font-semibold text-slate-900">{p.title}</span>
                   </div>
-                  <div className="mt-0.5 flex flex-wrap items-center gap-3 text-xs text-white/30">
+                  <div className="mt-0.5 flex flex-wrap items-center gap-3 text-xs text-slate-400">
                     <span>{p.category.name}</span>
                     <span>{p.author.name}</span>
                     <span>{new Date(p.createdAt).toLocaleDateString("en", { year: "numeric", month: "short", day: "numeric" })}</span>
@@ -97,11 +97,11 @@ export default async function AdminBlogPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   {p.status === "PUBLISHED" && (
-                    <Link href={`/blog/${p.slug}`} target="_blank" className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/50 hover:text-white transition-colors">
+                    <Link href={`/blog/${p.slug}`} target="_blank" className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-xs text-slate-500 hover:text-slate-900 transition-colors">
                       <Eye size={12} /> View
                     </Link>
                   )}
-                  <Link href={`/admin/blog/posts/${p.id}/edit`} className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/50 hover:text-white transition-colors">
+                  <Link href={`/admin/blog/posts/${p.id}/edit`} className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-xs text-slate-500 hover:text-slate-900 transition-colors">
                     <Pencil size={12} /> Edit
                   </Link>
                 </div>

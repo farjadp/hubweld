@@ -107,53 +107,53 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
       <div className="mx-auto max-w-[720px] pb-24 pt-10">
         {/* Breadcrumb */}
-        <nav className="mb-8 flex flex-wrap items-center gap-1.5 text-xs text-white/30">
-          <Link href="/blog" className="hover:text-white/60 transition-colors">Blog</Link>
+        <nav className="mb-8 flex flex-wrap items-center gap-1.5 text-xs text-slate-400">
+          <Link href="/blog" className="hover:text-slate-600 transition-colors">Blog</Link>
           <span>/</span>
           {post.category.parent && (
             <>
-              <Link href={`/blog?cat=${post.category.parent.slug}`} className="hover:text-white/60 transition-colors">{post.category.parent.name}</Link>
+              <Link href={`/blog?cat=${post.category.parent.slug}`} className="hover:text-slate-600 transition-colors">{post.category.parent.name}</Link>
               <span>/</span>
             </>
           )}
-          <Link href={`/blog?cat=${post.category.slug}`} className="hover:text-white/60 transition-colors">{post.category.name}</Link>
+          <Link href={`/blog?cat=${post.category.slug}`} className="hover:text-slate-600 transition-colors">{post.category.name}</Link>
           <span>/</span>
-          <span className="text-white/50 truncate max-w-[200px]">{post.title}</span>
+          <span className="text-slate-500 truncate max-w-[200px]">{post.title}</span>
         </nav>
 
         {/* Header */}
         <header className="mb-8">
-          <div className="mb-5 flex flex-wrap items-center gap-3 text-xs font-semibold text-white/50">
-            <Link href={`/blog?cat=${post.category.slug}`} className="inline-flex items-center gap-1.5 rounded-full border border-red-600/30 bg-red-600/10 px-3 py-1 text-red-400 hover:bg-red-600/20 transition-colors">
+          <div className="mb-5 flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-500">
+            <Link href={`/blog?cat=${post.category.slug}`} className="inline-flex items-center gap-1.5 rounded-full border border-red-600/30 bg-red-600/10 px-3 py-1 text-brand hover:bg-red-600/20 transition-colors">
               <FolderOpen size={12} /> {post.category.name}
             </Link>
-            <span className="inline-flex items-center gap-1.5 bg-white/5 rounded-full px-3 py-1"><Calendar size={12} /> {new Date(post.publishedAt).toLocaleString("en", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" })}</span>
-            <span className="inline-flex items-center gap-1.5 bg-white/5 rounded-full px-3 py-1"><Eye size={12} /> {post.views} Views</span>
-            <span className="inline-flex items-center gap-1.5 bg-white/5 rounded-full px-3 py-1"><Clock size={12} /> {mins} min read</span>
+            <span className="inline-flex items-center gap-1.5 bg-slate-100 rounded-full px-3 py-1"><Calendar size={12} /> {new Date(post.publishedAt).toLocaleString("en", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" })}</span>
+            <span className="inline-flex items-center gap-1.5 bg-slate-100 rounded-full px-3 py-1"><Eye size={12} /> {post.views} Views</span>
+            <span className="inline-flex items-center gap-1.5 bg-slate-100 rounded-full px-3 py-1"><Clock size={12} /> {mins} min read</span>
           </div>
 
-          <h1 className="text-3xl font-black leading-tight tracking-tight text-white md:text-5xl">{post.title}</h1>
+          <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-900 md:text-5xl">{post.title}</h1>
 
           {post.excerpt && (
-            <p className="mt-6 text-lg leading-relaxed text-white/60">{post.excerpt}</p>
+            <p className="mt-6 text-lg leading-relaxed text-slate-600">{post.excerpt}</p>
           )}
 
           {post.tags.length > 0 && (
             <div className="mt-6 flex flex-wrap items-center gap-2">
               {post.tags.map((t: any) => (
-                <Link key={t.tag.slug} href={`/blog?tag=${t.tag.slug}`} className="text-sm font-bold text-red-400 hover:text-red-300 transition-colors">
+                <Link key={t.tag.slug} href={`/blog?tag=${t.tag.slug}`} className="text-sm font-bold text-brand hover:text-brand-light transition-colors">
                   #{t.tag.name}
                 </Link>
               ))}
             </div>
           )}
 
-          <div className="mt-8 flex items-center gap-3 border-t border-white/5 pt-6 text-sm text-white/30">
-            <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-sm font-black text-white shadow-lg">
+          <div className="mt-8 flex items-center gap-3 border-t border-slate-200 pt-6 text-sm text-slate-400">
+            <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-sm font-black text-slate-900 shadow-lg">
               {post.author.name.slice(0, 2).toUpperCase()}
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-white/80">{post.author.name}</span>
+              <span className="font-bold text-slate-700">{post.author.name}</span>
               <span className="text-xs">HubWeld Expert</span>
             </div>
           </div>
@@ -161,7 +161,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
         {/* Cover image */}
         {post.coverImage && (
-          <div className="mb-10 overflow-hidden rounded-2xl border border-white/10">
+          <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200">
             <img src={post.coverImage} alt={post.title} className="w-full object-cover max-h-[480px]" />
           </div>
         )}
@@ -174,22 +174,22 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
         {/* Related */}
         {related.length > 0 && (
-          <aside className="mt-16 rounded-2xl border border-white/10 bg-gradient-to-br from-[#111315] to-[#0a0c0e] p-8 shadow-2xl">
+          <aside className="mt-16 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-100 to-ink-900 p-8 shadow-2xl">
             <div className="mb-6 flex items-center gap-3">
               <div className="h-10 w-1 rounded-full bg-red-600" />
-              <h2 className="text-xl font-black tracking-tight text-white">Keep Reading</h2>
+              <h2 className="text-xl font-black tracking-tight text-slate-900">Keep Reading</h2>
             </div>
             <div className="grid gap-6 sm:grid-cols-3">
               {related.map((r: any) => (
-                <Link key={r.id} href={`/blog/${r.slug}`} className="group relative overflow-hidden rounded-xl border border-white/5 bg-black/20 hover:border-red-600/30 hover:bg-black/40 transition-all">
+                <Link key={r.id} href={`/blog/${r.slug}`} className="group relative overflow-hidden rounded-xl border border-slate-200 bg-slate-50 hover:border-brand/40 hover:bg-slate-100 transition-all">
                   {r.coverImage && (
                     <div className="h-32 w-full overflow-hidden">
                       <img src={r.coverImage} alt={r.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     </div>
                   )}
                   <div className="p-4">
-                    <div className="mb-2 text-xs font-bold text-red-400">{r.category.name}</div>
-                    <div className="text-sm font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{r.title}</div>
+                    <div className="mb-2 text-xs font-bold text-brand">{r.category.name}</div>
+                    <div className="text-sm font-semibold leading-snug text-slate-700 group-hover:text-slate-900 transition-colors line-clamp-2">{r.title}</div>
                   </div>
                 </Link>
               ))}
@@ -198,8 +198,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         )}
 
         {/* Back */}
-        <div className="mt-10 pt-6 border-t border-white/5">
-          <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white transition-colors">
+        <div className="mt-10 pt-6 border-t border-slate-200">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900 transition-colors">
             <ArrowLeft size={14} /> Back to Blog
           </Link>
         </div>

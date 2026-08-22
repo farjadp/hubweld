@@ -24,8 +24,8 @@ export default function AddToCartButton({ productId, maxStock }: { productId: st
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-2">
-        <label className="text-sm text-white/60">Qty</label>
-        <div className="flex items-center rounded-xl border border-white/10 bg-white/5">
+        <label className="text-sm text-slate-600">Qty</label>
+        <div className="flex items-center rounded-xl border border-slate-200 bg-slate-100">
           <button type="button" onClick={() => setQty(Math.max(1, qty - 1))} className="px-3 py-2 hover:text-amber">−</button>
           <input value={qty} onChange={(e) => setQty(Math.max(1, Math.min(maxStock || 999, Number(e.target.value) || 1)))} className="w-12 bg-transparent text-center" />
           <button type="button" onClick={() => setQty(qty + 1)} className="px-3 py-2 hover:text-amber">+</button>

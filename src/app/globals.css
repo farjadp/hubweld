@@ -2,96 +2,323 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
+/* ═══════════════════════════════════════════════════════════════════
+   HubWeld — Forged Industrial · Daylight
+   Brushed-aluminum surfaces · DIN-flavored type · red reserved for action
+   ═══════════════════════════════════════════════════════════════════ */
 
-html, body {
-  background: radial-gradient(circle at 50% 0%, #1a1d24 0%, #0b0c0f 100%);
-  background-attachment: fixed;
-  color: #f8fafc;
+:root {
+  color-scheme: light;
+  --ink: #f6f7f9;
+  --panel: #ffffff;
+  --panel-raised: #f3f5f7;
+  --line: #e2e6eb;
+  --text: #16181d;
+  --brand: #c22127;
+  --brand-light: #e23138;
+}
+
+html,
+body {
+  background: var(--ink);
+  color: var(--text);
   min-height: 100vh;
 }
 
+/* Browser surfaces carry the design too */
+::selection {
+  background: var(--brand);
+  color: #fff;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c6ccd4 var(--ink);
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+::-webkit-scrollbar-thumb {
+  background: #c6ccd4;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #aab2bc;
+}
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+input,
+textarea {
+  caret-color: var(--brand);
+}
+
 @layer components {
-  .btn { @apply inline-flex items-center justify-center gap-2 rounded font-bold px-6 py-3 transition-all duration-200; }
-  .btn-primary { @apply btn bg-gradient-to-r from-red-600 to-red-500 text-black shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:scale-[1.02]; }
-  .btn-secondary { @apply btn border border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/30; }
-  .card { @apply rounded-xl border border-white/5 bg-white/5 backdrop-blur-md p-6 shadow-xl; }
-  .card-metal { @apply rounded-xl border border-white/10 bg-gradient-to-br from-[#22262d] to-[#15181c] p-6 shadow-2xl; }
-  .input { @apply w-full rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/80 focus:ring-1 focus:ring-red-500/30 transition-all; }
-  .label { @apply block text-sm font-semibold text-white/80 mb-1.5 uppercase tracking-wide; }
-  .badge { @apply inline-flex items-center rounded px-2.5 py-1 text-xs font-bold; }
-  .section-label { @apply inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-red-400; }
+  /* ── Buttons: plasma-cut plate, condensed uppercase ─────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-display text-[15px] font-bold uppercase tracking-machine transition-all duration-150;
+    clip-path: polygon(
+      8px 0,
+      100% 0,
+      100% calc(100% - 8px),
+      calc(100% - 8px) 100%,
+      0 100%,
+      0 8px
+    );
+  }
+  .btn-primary {
+    @apply btn bg-brand text-white shadow-ember hover:bg-brand-light active:translate-y-px;
+  }
+  .btn-secondary {
+    @apply btn border border-slate-300 bg-white text-slate-800 hover:border-slate-400 hover:bg-slate-50 active:translate-y-px;
+  }
+
+  /* ── Panels: flat white plate, hairline edge, soft real shadow ──── */
+  .card {
+    @apply rounded-sm border border-slate-200 bg-white p-6 shadow-plate-sm;
+  }
+  .card-metal {
+    @apply rounded-sm border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-6 shadow-plate;
+  }
+
+  /* ── Form hardware ──────────────────────────────────────────────── */
+  .input {
+    @apply w-full rounded-sm border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 transition-colors focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand/30;
+  }
+  .label {
+    @apply mb-1.5 block font-mono text-[11px] font-medium uppercase tracking-machine text-slate-500;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-sm px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider;
+  }
+  .section-label {
+    @apply inline-flex items-center gap-2 border-l border-brand pl-2.5 font-mono text-[11px] font-semibold uppercase tracking-machine text-slate-500;
+  }
+
+  /* ── Weld-seam divider: the stitched joint between sections ─────── */
+  .seam {
+    @apply relative h-px w-full;
+    background-image: repeating-linear-gradient(
+      90deg,
+      #c8ced6 0 6px,
+      transparent 6px 11px
+    );
+  }
+  .seam-red {
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(194, 33, 39, 0.75) 0 6px,
+      transparent 6px 11px
+    );
+  }
+
+  /* ── Hazard stripe: sparing, structural, never wallpaper ────────── */
+  .hazard {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--brand) 0 10px,
+      transparent 10px 20px
+    );
+  }
+}
+
+@layer utilities {
+  .clip-plate {
+    clip-path: polygon(
+      12px 0,
+      100% 0,
+      100% calc(100% - 12px),
+      calc(100% - 12px) 100%,
+      0 100%,
+      0 12px
+    );
+  }
+  .text-spec {
+    @apply font-mono text-xs uppercase tracking-wider text-slate-500 tabular-nums;
+  }
+}
+
+/* ── Hero entrance: one authored moment, exponential ease-out ─────── */
+@keyframes forge-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+.forge-rise {
+  animation: forge-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.forge-rise-2 {
+  animation: forge-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+.forge-rise-3 {
+  animation: forge-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+/* ── Scroll reveal: sections rise into view once, quietly ─────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forge-rise,
+  .forge-rise-2,
+  .forge-rise-3 {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* TipTap editor placeholder */
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: rgba(255,255,255,0.2);
+  color: #a3aab4;
   pointer-events: none;
   height: 0;
 }
-.tiptap:focus { outline: none; }
+.tiptap:focus {
+  outline: none;
+}
 
-/* Blog article body typography */
+/* ── Blog article body typography ─────────────────────────────────── */
 .prose-blog {
-  color: rgba(240,237,232,0.80);
+  color: #2c3037;
   font-size: 1.0625rem;
   line-height: 1.8;
+  max-width: 72ch;
 }
-.prose-blog h1,.prose-blog h2,.prose-blog h3,.prose-blog h4 {
-  color: #f0ede8;
-  font-weight: 800;
-  line-height: 1.25;
+.prose-blog h1,
+.prose-blog h2,
+.prose-blog h3,
+.prose-blog h4 {
+  color: #16181d;
+  font-family: var(--font-display), ui-sans-serif, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
   margin-top: 2.25em;
   margin-bottom: 0.75em;
 }
-.prose-blog h2 { font-size: 1.5rem; }
-.prose-blog h3 { font-size: 1.2rem; }
-.prose-blog p { margin-bottom: 1.4em; }
-.prose-blog a { color: #f87171; text-decoration: underline; text-underline-offset: 3px; }
-.prose-blog a:hover { color: #fca5a5; }
-.prose-blog ul,.prose-blog ol { padding-left: 1.5em; margin-bottom: 1.4em; }
-.prose-blog li { margin-bottom: 0.4em; }
+.prose-blog h2 {
+  font-size: 1.65rem;
+}
+.prose-blog h3 {
+  font-size: 1.3rem;
+}
+.prose-blog p {
+  margin-bottom: 1.4em;
+}
+.prose-blog a {
+  color: #c22127;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.prose-blog a:hover {
+  color: #e23138;
+}
+.prose-blog ul,
+.prose-blog ol {
+  padding-left: 1.5em;
+  margin-bottom: 1.4em;
+}
+.prose-blog li {
+  margin-bottom: 0.4em;
+}
+.prose-blog li::marker {
+  color: #c22127;
+}
 .prose-blog blockquote {
-  border-left: 3px solid #dc2626;
+  border-left: 1px solid #c22127;
   padding: 0.75em 1.25em;
   margin: 1.75em 0;
-  background: rgba(220,38,38,0.06);
-  border-radius: 0 0.5rem 0.5rem 0;
-  color: rgba(240,237,232,0.65);
-  font-style: italic;
+  background: #f3f5f7;
+  color: #4b5563;
 }
 .prose-blog code {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 4px;
+  background: #f3f5f7;
+  border: 1px solid #e2e6eb;
+  border-radius: 2px;
   padding: 0.15em 0.4em;
-  font-size: 0.875em;
-  color: #fca5a5;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.85em;
+  color: #9a171c;
 }
 .prose-blog pre {
-  background: #0d0f11;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 0.75rem;
+  background: #16181d;
+  border: 1px solid #e2e6eb;
+  border-radius: 2px;
   padding: 1.25em 1.5em;
   overflow-x: auto;
   margin-bottom: 1.6em;
 }
-.prose-blog pre code { background: none; border: none; padding: 0; color: #f0ede8; }
+.prose-blog pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #f4f4f2;
+}
 .prose-blog img {
   width: 100%;
-  border-radius: 0.875rem;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid #e2e6eb;
   margin: 1.75em 0;
   object-fit: cover;
 }
 .prose-blog hr {
   border: none;
-  border-top: 1px solid rgba(255,255,255,0.07);
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    #c8ced6 0 6px,
+    transparent 6px 11px
+  );
   margin: 2.5em 0;
 }
-.prose-blog strong { color: #f0ede8; font-weight: 700; }
-.prose-blog table { width: 100%; border-collapse: collapse; margin-bottom: 1.6em; font-size: 0.9rem; }
-.prose-blog th { border-bottom: 1px solid rgba(255,255,255,0.12); padding: 0.6em 1em; text-align: left; color: rgba(240,237,232,0.5); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
-.prose-blog td { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 0.7em 1em; }
+.prose-blog strong {
+  color: #16181d;
+  font-weight: 700;
+}
+.prose-blog table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.6em;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.prose-blog th {
+  border-bottom: 1px solid #d5dae0;
+  padding: 0.6em 1em;
+  text-align: left;
+  color: #6b7280;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.prose-blog td {
+  border-bottom: 1px solid #eaedf1;
+  padding: 0.7em 1em;
+}

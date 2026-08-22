@@ -47,32 +47,32 @@ export default async function ProductPage({ params }: { params: { slug: string }
   return (
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
-      <nav className="mb-4 text-xs text-white/50">
-        <Link href="/shop" className="hover:text-white">Shop</Link>
-        {p.category.parent && <> / <Link href={`/shop/c/${p.category.parent.slug}`} className="hover:text-white">{p.category.parent.name}</Link></>}
-        {" / "}<Link href={`/shop/c/${p.category.slug}`} className="hover:text-white">{p.category.name}</Link>
+      <nav className="mb-4 text-xs text-slate-500">
+        <Link href="/shop" className="hover:text-slate-900">Shop</Link>
+        {p.category.parent && <> / <Link href={`/shop/c/${p.category.parent.slug}`} className="hover:text-slate-900">{p.category.parent.name}</Link></>}
+        {" / "}<Link href={`/shop/c/${p.category.slug}`} className="hover:text-slate-900">{p.category.name}</Link>
       </nav>
 
       <div className="grid gap-8 md:grid-cols-[1.1fr_1fr]">
         <div className="card aspect-square overflow-hidden p-0">
-          {p.imageUrl ? <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" /> : <div className="grid h-full place-items-center text-white/30">No image</div>}
+          {p.imageUrl ? <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" /> : <div className="grid h-full place-items-center text-slate-400">No image</div>}
         </div>
         <div>
-          <div className="text-sm uppercase tracking-wide text-white/40">{p.brand}</div>
+          <div className="text-sm uppercase tracking-wide text-slate-500">{p.brand}</div>
           <h1 className="mt-1 text-3xl font-black tracking-tight">{p.name}</h1>
-          <div className="mt-2 text-sm text-white/60">SKU: {p.sku}</div>
+          <div className="mt-2 text-sm text-slate-600">SKU: {p.sku}</div>
           <div className="mt-6 text-4xl font-black text-amber">{formatCents(p.priceCents)}</div>
-          <div className="mt-1 text-sm text-white/60">{p.stock > 0 ? `${p.stock} in stock — ships from ${p.supplier.city ?? "supplier"}` : "Backorder available"}</div>
+          <div className="mt-1 text-sm text-slate-600">{p.stock > 0 ? `${p.stock} in stock — ships from ${p.supplier.city ?? "supplier"}` : "Backorder available"}</div>
 
           <div className="mt-6">
             <AddToCartButton productId={p.id} maxStock={p.stock} />
           </div>
 
-          <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm">
-            <div className="text-white/60">Sold by</div>
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-100 p-4 text-sm">
+            <div className="text-slate-600">Sold by</div>
             <div className="mt-1 font-bold">{p.supplier.supplierProfile?.businessName || p.supplier.name}</div>
             {p.supplier.supplierProfile?.approved && <span className="badge mt-1 bg-amber/20 text-amber">Verified Supplier</span>}
-            {p.supplier.supplierProfile?.description && <p className="mt-2 text-white/70">{p.supplier.supplierProfile.description}</p>}
+            {p.supplier.supplierProfile?.description && <p className="mt-2 text-slate-700">{p.supplier.supplierProfile.description}</p>}
           </div>
         </div>
       </div>
@@ -80,11 +80,11 @@ export default async function ProductPage({ params }: { params: { slug: string }
       <section className="mt-10 grid gap-8 md:grid-cols-[1.1fr_1fr]">
         <div>
           <h2 className="mb-2 font-bold">Description</h2>
-          <p className="whitespace-pre-line text-white/80">{p.description}</p>
+          <p className="whitespace-pre-line text-slate-700">{p.description}</p>
         </div>
         <div className="card">
           <h3 className="mb-3 font-bold">B2B benefits</h3>
-          <ul className="space-y-2 text-sm text-white/70">
+          <ul className="space-y-2 text-sm text-slate-700">
             <li>Free shipping on orders over $500</li>
             <li>Net 30 terms available for approved accounts</li>
             <li>Volume discounts on case orders — contact supplier</li>
@@ -99,7 +99,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((r) => (
               <Link key={r.id} href={`/shop/p/${r.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:border-amber/40">
-                <div className="aspect-[4/3] w-full overflow-hidden bg-white/5">{r.imageUrl && <img src={r.imageUrl} alt={r.name} className="h-full w-full object-cover transition group-hover:scale-105" />}</div>
+                <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100">{r.imageUrl && <img src={r.imageUrl} alt={r.name} className="h-full w-full object-cover transition group-hover:scale-105" />}</div>
                 <div className="flex flex-1 flex-col gap-1 p-4">
                   <h3 className="line-clamp-2 text-sm font-bold leading-tight">{r.name}</h3>
                   <div className="mt-auto pt-2 text-amber font-black">{formatCents(r.priceCents)}</div>

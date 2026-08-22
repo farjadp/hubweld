@@ -53,7 +53,7 @@ export default function JobStatusButtons({
         <button
           disabled={loading}
           onClick={() => transition("CANCELLED")}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-600/30 bg-red-600/10 px-4 py-2 text-sm font-bold text-red-400 hover:bg-red-600/20 disabled:opacity-50 transition-colors"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-600/30 bg-red-600/10 px-4 py-2 text-sm font-bold text-brand hover:bg-red-600/20 disabled:opacity-50 transition-colors"
         >
           <XCircle size={16} /> Cancel Job
         </button>

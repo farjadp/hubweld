@@ -21,12 +21,12 @@ export default async function NewPostPage() {
   return (
     <div>
       <div className="mb-7 flex items-center gap-4">
-        <Link href="/admin/blog" className="grid h-8 w-8 place-items-center rounded-lg border border-white/10 text-white/40 hover:text-white transition-colors">
+        <Link href="/admin/blog" className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-slate-500 hover:text-slate-900 transition-colors">
           <ArrowLeft size={15} />
         </Link>
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-white">New Post</h1>
-          <p className="text-sm text-white/40">Create a new blog article</p>
+          <h1 className="text-2xl font-black tracking-tight text-slate-900">New Post</h1>
+          <p className="text-sm text-slate-500">Create a new blog article</p>
         </div>
       </div>
       <PostEditor categories={cats} allTags={tags} />

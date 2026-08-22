@@ -24,8 +24,8 @@ export default async function AdminEditProductPage({ params }: { params: { id: s
   return (
     <div>
       <div className="mb-6 flex items-center gap-3">
-        <Link href="/admin/products" className="text-white/40 hover:text-white text-sm">← Products</Link>
-        <span className="text-white/20">/</span>
+        <Link href="/admin/products" className="text-slate-500 hover:text-slate-900 text-sm">← Products</Link>
+        <span className="text-slate-300">/</span>
         <h1 className="text-2xl font-black tracking-tight line-clamp-1">Edit: {product.name}</h1>
       </div>
       <AdminProductForm

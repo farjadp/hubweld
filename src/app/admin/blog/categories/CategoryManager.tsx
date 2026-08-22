@@ -41,35 +41,35 @@ export default function CategoryManager({ initialCats }: { initialCats: Cat[] })
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       {/* List */}
-      <div className="overflow-hidden rounded-xl border border-white/10">
-        <div className="border-b border-white/5 bg-[#0d0f11] px-5 py-3">
-          <span className="text-xs font-black uppercase tracking-widest text-white/30">Categories</span>
+      <div className="overflow-hidden rounded-xl border border-slate-200">
+        <div className="border-b border-slate-200 bg-slate-50 px-5 py-3">
+          <span className="text-xs font-black uppercase tracking-widest text-slate-400">Categories</span>
         </div>
         {cats.length === 0 ? (
-          <p className="p-6 text-sm text-white/30">No categories yet.</p>
+          <p className="p-6 text-sm text-slate-400">No categories yet.</p>
         ) : (
-          <ul className="divide-y divide-white/5">
+          <ul className="divide-y divide-slate-200">
             {cats.map((cat) => (
               <li key={cat.id}>
                 <div className="flex items-center justify-between px-5 py-3">
                   <div>
-                    <div className="font-semibold text-white">{cat.name}</div>
-                    <div className="text-xs text-white/30">/{cat.slug} · {cat._count.posts} posts</div>
+                    <div className="font-semibold text-slate-900">{cat.name}</div>
+                    <div className="text-xs text-slate-400">/{cat.slug} · {cat._count.posts} posts</div>
                   </div>
-                  <button onClick={() => del(cat.id)} className="flex items-center gap-1 rounded-lg border border-red-600/20 bg-red-600/10 px-2 py-1 text-xs text-red-400 hover:bg-red-600/20 transition-colors">
+                  <button onClick={() => del(cat.id)} className="flex items-center gap-1 rounded-lg border border-red-600/20 bg-red-600/10 px-2 py-1 text-xs text-brand hover:bg-red-600/20 transition-colors">
                     <Trash2 size={11} />
                   </button>
                 </div>
                 {cat.children.length > 0 && (
-                  <ul className="border-t border-white/5">
+                  <ul className="border-t border-slate-200">
                     {cat.children.map((child: any) => (
-                      <li key={child.id} className="flex items-center justify-between bg-white/[0.02] px-5 py-2.5">
+                      <li key={child.id} className="flex items-center justify-between bg-slate-50 px-5 py-2.5">
                         <div className="flex items-center gap-2 text-sm">
-                          <ChevronRight size={12} className="text-white/20" />
-                          <span className="text-white/70">{child.name}</span>
-                          <span className="text-xs text-white/20">/{child.slug}</span>
+                          <ChevronRight size={12} className="text-slate-300" />
+                          <span className="text-slate-700">{child.name}</span>
+                          <span className="text-xs text-slate-300">/{child.slug}</span>
                         </div>
-                        <button onClick={() => del(child.id)} className="flex items-center gap-1 rounded-lg border border-red-600/20 bg-red-600/10 px-2 py-1 text-xs text-red-400 hover:bg-red-600/20 transition-colors">
+                        <button onClick={() => del(child.id)} className="flex items-center gap-1 rounded-lg border border-red-600/20 bg-red-600/10 px-2 py-1 text-xs text-brand hover:bg-red-600/20 transition-colors">
                           <Trash2 size={11} />
                         </button>
                       </li>
@@ -83,8 +83,8 @@ export default function CategoryManager({ initialCats }: { initialCats: Cat[] })
       </div>
 
       {/* Create form */}
-      <div className="rounded-xl border border-white/10 bg-[#111315] p-6">
-        <h2 className="mb-5 text-sm font-black uppercase tracking-widest text-white/30">New Category</h2>
+      <div className="rounded-xl border border-slate-200 bg-white p-6">
+        <h2 className="mb-5 text-sm font-black uppercase tracking-widest text-slate-400">New Category</h2>
         <div className="grid gap-4">
           <div>
             <label className="label">Name</label>
@@ -110,7 +110,7 @@ export default function CategoryManager({ initialCats }: { initialCats: Cat[] })
               {cats.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </div>
-          {error && <p className="text-sm text-red-400">{error}</p>}
+          {error && <p className="text-sm text-brand">{error}</p>}
           <button onClick={create} disabled={busy} className="flex items-center justify-center gap-2 rounded-xl bg-red-600 py-2.5 text-sm font-semibold text-white hover:bg-red-500 disabled:opacity-50 transition-colors">
             <Plus size={15} /> {busy ? "Creating…" : "Create Category"}
           </button>

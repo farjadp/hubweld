@@ -67,11 +67,11 @@ export default function AdminNewJobForm({ customers }: { customers: Customer[] }
           <input className="input" required minLength={2} value={form.city} onChange={(e) => set("city", e.target.value)} placeholder="e.g. Toronto" />
         </div>
         <div>
-          <label className="label">Budget ($) <span className="text-white/30">optional</span></label>
+          <label className="label">Budget ($) <span className="text-slate-400">optional</span></label>
           <input className="input" type="number" min="1" value={form.budget} onChange={(e) => set("budget", e.target.value)} placeholder="e.g. 2500" />
         </div>
       </div>
-      {err && <p className="text-sm text-red-400">{err}</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
       <div className="flex gap-3">
         <button type="button" onClick={() => router.push("/admin/jobs")} className="btn-secondary">Cancel</button>
         <button type="submit" disabled={loading} className="btn-primary flex-1">

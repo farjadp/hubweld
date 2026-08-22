@@ -56,8 +56,8 @@ export default function AdminNewSupplierForm() {
 
   return (
     <form onSubmit={submit} className="card space-y-4">
-      <div className="mb-2 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/50">
-        This will create a new user account with <strong className="text-white/80">SUPPLIER</strong> role.
+      <div className="mb-2 rounded-lg border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">
+        This will create a new user account with <strong className="text-slate-700">SUPPLIER</strong> role.
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div><label className="label">Contact name</label><input className="input" required minLength={2} value={form.name} onChange={(e) => set("name", e.target.value)} /></div>
@@ -65,12 +65,12 @@ export default function AdminNewSupplierForm() {
         <div><label className="label">Email</label><input className="input" type="email" required value={form.email} onChange={(e) => set("email", e.target.value)} /></div>
         <div><label className="label">Password</label><input className="input" type="password" required minLength={6} value={form.password} onChange={(e) => set("password", e.target.value)} placeholder="Min 6 characters" /></div>
         <div><label className="label">City</label><input className="input" value={form.city} onChange={(e) => set("city", e.target.value)} placeholder="e.g. Toronto" /></div>
-        <div><label className="label">Website <span className="text-white/30">optional</span></label><input className="input" value={form.website} onChange={(e) => set("website", e.target.value)} placeholder="https://..." /></div>
-        <div className="md:col-span-2"><label className="label">Description <span className="text-white/30">optional</span></label>
+        <div><label className="label">Website <span className="text-slate-400">optional</span></label><input className="input" value={form.website} onChange={(e) => set("website", e.target.value)} placeholder="https://..." /></div>
+        <div className="md:col-span-2"><label className="label">Description <span className="text-slate-400">optional</span></label>
           <textarea className="input min-h-20" value={form.description} onChange={(e) => set("description", e.target.value)} placeholder="Short description of products/services..." />
         </div>
       </div>
-      {err && <p className="text-sm text-red-400">{err}</p>}
+      {err && <p className="text-sm text-brand">{err}</p>}
       <div className="flex gap-3">
         <button type="button" onClick={() => router.push("/admin/suppliers")} className="btn-secondary">Cancel</button>
         <button type="submit" disabled={loading} className="btn-primary flex-1">
