@@ -4,6 +4,9 @@ import Link from "next/link";
 import { formatCents } from "@/lib/money";
 import { getDisplayCurrency } from "@/lib/currency.server";
 import { ShopSidebar } from "../../ShopSidebar";
+import { Pagination, parsePage } from "@/components/Pagination";
+
+const PAGE_SIZE = 48;
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return { title: `${cat.name} — HubWeld Shop`, description: `Browse ${cat.name} from verified welding suppliers.` };
 }
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage({ params, searchParams }: { params: { slug: string }; searchParams: { page?: string } }) {
   const currency = getDisplayCurrency();
   const cat = await prisma.productCategory.findUnique({
     where: { slug: params.slug },
@@ -22,10 +25,18 @@ export default async function CategoryPage({ params }: { params: { slug: string 
   if (!cat) notFound();
 
   const childIds = cat.children.map((c) => c.id);
+  const where = { status: "ACTIVE", categoryId: { in: [cat.id, ...childIds] } };
+
+  const total = await prisma.product.count({ where });
+  const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const page = parsePage(searchParams.page, pageCount);
+
   const products = await prisma.product.findMany({
-    where: { status: "ACTIVE", categoryId: { in: [cat.id, ...childIds] } },
+    where,
     include: { supplier: true, category: true },
     orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
+    skip: (page - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
   });
 
   const categories = await prisma.productCategory.findMany({ where: { parentId: null }, include: { children: true }, orderBy: { sortOrder: "asc" } });
@@ -40,7 +51,10 @@ export default async function CategoryPage({ params }: { params: { slug: string 
           {" / "}<span className="text-slate-900">{cat.name}</span>
         </nav>
         <h1 className="mb-1 text-3xl font-black tracking-tight">{cat.name}</h1>
-        <p className="mb-6 text-slate-600">{products.length} {products.length === 1 ? "product" : "products"}</p>
+        <p className="mb-6 text-slate-600">
+          {total.toLocaleString()} {total === 1 ? "product" : "products"}
+          {pageCount > 1 && <span className="text-slate-500"> · page {page} of {pageCount}</span>}
+        </p>
         {products.length === 0 ? (
           <div className="card text-center text-slate-600">No products in this category yet.</div>
         ) : (
@@ -62,6 +76,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
             ))}
           </div>
         )}
+        <Pagination page={page} pageCount={pageCount} basePath={`/shop/c/${cat.slug}`} />
       </section>
     </div>
   );
