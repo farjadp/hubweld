@@ -4,6 +4,7 @@ import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navbar";
+import { getDisplayCurrency } from "@/lib/currency.server";
 import { SITE_URL } from "@/lib/site";
 
 const fontBody = Barlow({
@@ -52,6 +53,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const currency = getDisplayCurrency();
   const orgLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -123,7 +125,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
         <Providers>
-          <Navbar />
+          <Navbar currency={currency} />
           <main className="mx-auto w-[min(1180px,calc(100%-32px))]">{children}</main>
           <footer className="mt-24 bg-ink-800">
             <div className="seam-red seam" aria-hidden />

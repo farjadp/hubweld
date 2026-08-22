@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, ShoppingCart, Store, Users, Cpu, LogOut, LayoutDashboard, ShoppingBag, Shield, Menu, X } from "lucide-react";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
+import type { Currency } from "@/lib/currency";
 
 const solutions = [
   {
@@ -232,7 +234,7 @@ function UserMenu({ name, role, onSignOut }: { name: string; role: string; onSig
   );
 }
 
-export function Navbar() {
+export function Navbar({ currency = "CAD" }: { currency?: Currency }) {
   const { data: session } = useSession();
   const role = (session?.user as any)?.role;
   const name = session?.user?.name ?? "User";
@@ -277,6 +279,8 @@ export function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
+            <CurrencySwitcher current={currency} />
+
             {/* Cart */}
             <Link
               href="/cart"

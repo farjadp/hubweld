@@ -5,6 +5,7 @@ import { ArrowRight, BadgeCheck, Clock3, Factory, HardHat, MapPin, Package, Shie
 import { prisma } from "@/lib/prisma";
 import { Reveal } from "@/components/Reveal";
 import { formatCents } from "@/lib/money";
+import { getDisplayCurrency } from "@/lib/currency.server";
 import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -81,6 +82,7 @@ function SectionHead({ title, href, hrefLabel }: { title: string; href?: string;
 }
 
 export default async function HomePage() {
+  const currency = getDisplayCurrency();
   const [latestProducts, latestJobs] = await Promise.all([
     prisma.product.findMany({
       where: { status: "ACTIVE" },
@@ -280,7 +282,7 @@ export default async function HomePage() {
                   <h3 className="text-sm font-semibold leading-snug text-slate-900 transition-colors line-clamp-2 group-hover:text-brand-light">{p.name}</h3>
                   {p.brand && <div className="mt-1 text-xs text-slate-500">{p.brand}</div>}
                   <div className="mt-auto flex items-baseline justify-between pt-3">
-                    <span className="font-display text-xl font-bold text-slate-900 tabular-nums">{formatCents(p.priceCents)}</span>
+                    <span className="font-display text-xl font-bold text-slate-900 tabular-nums">{formatCents(p.priceCents, currency)}</span>
                     <span className="font-mono text-[11px] uppercase tracking-wider text-slate-500 tabular-nums">Stock {p.stock}</span>
                   </div>
                 </div>

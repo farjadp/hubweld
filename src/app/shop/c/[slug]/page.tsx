@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { formatCents } from "@/lib/money";
+import { getDisplayCurrency } from "@/lib/currency.server";
 import { ShopSidebar } from "../../ShopSidebar";
 
 export const dynamic = "force-dynamic";
@@ -13,6 +14,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function CategoryPage({ params }: { params: { slug: string } }) {
+  const currency = getDisplayCurrency();
   const cat = await prisma.productCategory.findUnique({
     where: { slug: params.slug },
     include: { children: true, parent: true },
@@ -52,7 +54,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
                   <div className="text-xs uppercase tracking-wide text-slate-500">{p.brand}</div>
                   <h3 className="line-clamp-2 font-bold leading-tight">{p.name}</h3>
                   <div className="mt-auto flex items-end justify-between pt-2">
-                    <span className="text-lg font-black text-amber">{formatCents(p.priceCents)}</span>
+                    <span className="text-lg font-black text-amber">{formatCents(p.priceCents, currency)}</span>
                     <span className="text-xs text-slate-500">{p.stock > 0 ? "In stock" : "Backorder"}</span>
                   </div>
                 </div>

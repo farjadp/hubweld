@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { formatCents } from "@/lib/money";
+import { getDisplayCurrency } from "@/lib/currency.server";
+import { BASE_CURRENCY } from "@/lib/currency";
 import AddToCartButton from "./AddToCartButton";
 
 export const dynamic = "force-dynamic";
@@ -17,6 +19,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const currency = getDisplayCurrency();
   const p = await prisma.product.findUnique({
     where: { slug: params.slug },
     include: { supplier: { include: { supplierProfile: true } }, category: { include: { parent: true } } },
@@ -38,7 +41,8 @@ export default async function ProductPage({ params }: { params: { slug: string }
     brand: { "@type": "Brand", name: p.brand },
     offers: {
       "@type": "Offer",
-      priceCurrency: "USD",
+      // Always the settlement currency, never the viewer's display choice.
+      priceCurrency: BASE_CURRENCY,
       price: (p.priceCents / 100).toFixed(2),
       availability: p.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
     },
@@ -61,7 +65,12 @@ export default async function ProductPage({ params }: { params: { slug: string }
           <div className="text-sm uppercase tracking-wide text-slate-500">{p.brand}</div>
           <h1 className="mt-1 text-3xl font-black tracking-tight">{p.name}</h1>
           <div className="mt-2 text-sm text-slate-600">SKU: {p.sku}</div>
-          <div className="mt-6 text-4xl font-black text-amber">{formatCents(p.priceCents)}</div>
+          <div className="mt-6 text-4xl font-black text-amber">{formatCents(p.priceCents, currency)}</div>
+          {currency !== BASE_CURRENCY && (
+            <div className="mt-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-500">
+              Indicative — charged as {formatCents(p.priceCents)} {BASE_CURRENCY}
+            </div>
+          )}
           <div className="mt-1 text-sm text-slate-600">{p.stock > 0 ? `${p.stock} in stock — ships from ${p.supplier.city ?? "supplier"}` : "Backorder available"}</div>
 
           <div className="mt-6">
@@ -102,7 +111,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
                 <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100">{r.imageUrl && <img src={r.imageUrl} alt={r.name} className="h-full w-full object-cover transition group-hover:scale-105" />}</div>
                 <div className="flex flex-1 flex-col gap-1 p-4">
                   <h3 className="line-clamp-2 text-sm font-bold leading-tight">{r.name}</h3>
-                  <div className="mt-auto pt-2 text-amber font-black">{formatCents(r.priceCents)}</div>
+                  <div className="mt-auto pt-2 text-amber font-black">{formatCents(r.priceCents, currency)}</div>
                 </div>
               </Link>
             ))}

@@ -6,9 +6,13 @@
  * best-selling order. Facts about a product are not copyrightable, and the
  * endpoint used is permitted by that site's robots.txt.
  *
- * Deliberately NOT copied: their written marketing descriptions and their
- * product photography. Every description below is generated from the spec
- * facts, and images are generic category photographs.
+ * Deliberately NOT copied: their written marketing descriptions. Every
+ * description below is generated from the spec facts.
+ *
+ * Product photography is self-hosted under public/images/products/<handle>.webp
+ * rather than hot-linked from the source CDN, so the store never depends on
+ * someone else's bandwidth or referrer policy. These are manufacturer product
+ * shots; confirm reseller image rights with each brand.
  *
  * Prices are the source figures in Canadian dollars. See the note in
  * src/lib/money.ts about the store's display currency.
@@ -19,7 +23,7 @@
  * Run: node prisma/seed-catalogue.mjs
  */
 import pkg from "@prisma/client";
-import { readFileSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -28,6 +32,12 @@ const prisma = new PrismaClient();
 const HERE = dirname(fileURLToPath(import.meta.url));
 
 const U = (id) => `https://images.unsplash.com/${id}?w=800&q=80`;
+
+// Self-hosted product photography, keyed by slug.
+const PHOTO_DIR = join(HERE, "..", "public", "images", "products");
+function hasPhoto(slug) {
+  return existsSync(join(PHOTO_DIR, `${slug}.webp`));
+}
 
 // ── Categories: existing slugs plus a few this catalogue needs ───────────
 const NEW_CATEGORIES = [
@@ -224,7 +234,9 @@ async function main() {
         specsJson: buildSpecs(p, variants),
         priceCents,
         stock: stockFor(p.id, variants.some((v) => v.available)),
-        imageUrl: U(CATEGORY_IMAGE[categorySlug] || DEFAULT_IMAGE),
+        imageUrl: hasPhoto(slug)
+          ? `/images/products/${slug}.webp`
+          : U(CATEGORY_IMAGE[categorySlug] || DEFAULT_IMAGE),
         status: "ACTIVE",
         featured: i < 8,
         categoryId,

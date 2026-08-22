@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { contains } from "@/lib/search";
 import Link from "next/link";
 import { formatCents } from "@/lib/money";
+import { getDisplayCurrency } from "@/lib/currency.server";
+import type { Currency } from "@/lib/currency";
 import { ShopSidebar } from "./ShopSidebar";
 
 export const dynamic = "force-dynamic";
@@ -12,6 +14,7 @@ export const metadata = {
 };
 
 export default async function ShopPage({ searchParams }: { searchParams: { q?: string } }) {
+  const currency = getDisplayCurrency();
   const q = searchParams.q?.trim() || "";
   const [categories, featured, products] = await Promise.all([
     prisma.productCategory.findMany({ where: { parentId: null }, include: { children: true }, orderBy: { sortOrder: "asc" } }),
@@ -42,7 +45,7 @@ export default async function ShopPage({ searchParams }: { searchParams: { q?: s
         <section className="mb-10">
           <h2 className="mb-3 font-bold">Featured products</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.map((p) => <ProductCard key={p.id} p={p} />)}
+            {featured.map((p) => <ProductCard key={p.id} p={p} currency={currency} />)}
           </div>
         </section>
       )}
@@ -58,7 +61,7 @@ export default async function ShopPage({ searchParams }: { searchParams: { q?: s
             <div className="card text-center text-slate-600">No products match your search.</div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((p) => <ProductCard key={p.id} p={p} />)}
+              {products.map((p) => <ProductCard key={p.id} p={p} currency={currency} />)}
             </div>
           )}
         </section>
@@ -67,7 +70,7 @@ export default async function ShopPage({ searchParams }: { searchParams: { q?: s
   );
 }
 
-function ProductCard({ p }: { p: any }) {
+function ProductCard({ p, currency }: { p: any; currency: Currency }) {
   return (
     <Link href={`/shop/p/${p.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:border-amber/40">
       <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100">
@@ -77,7 +80,7 @@ function ProductCard({ p }: { p: any }) {
         <div className="text-xs uppercase tracking-wide text-slate-500">{p.brand}</div>
         <h3 className="line-clamp-2 font-bold leading-tight">{p.name}</h3>
         <div className="mt-auto flex items-end justify-between pt-2">
-          <span className="text-lg font-black text-amber">{formatCents(p.priceCents)}</span>
+          <span className="text-lg font-black text-amber">{formatCents(p.priceCents, currency)}</span>
           <span className="text-xs text-slate-500">{p.stock > 0 ? "In stock" : "Backorder"}</span>
         </div>
       </div>
