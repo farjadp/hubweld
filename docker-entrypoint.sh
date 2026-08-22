@@ -22,6 +22,7 @@ npx prisma db push --accept-data-loss
 echo "Seeding content (idempotent)..."
 node /app/prisma/seed-content.mjs || echo "Content seed skipped: $?"
 node /app/prisma/seed-catalogue.mjs || echo "Catalogue seed skipped: $?"
+node /app/prisma/seed-miller.mjs || echo "Miller seed skipped: $?"
 
 echo "Starting application as nextjs..."
 # Drop privileges to the non-root user if we are currently root.

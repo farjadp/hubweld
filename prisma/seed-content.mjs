@@ -43,19 +43,6 @@ const products = [
     featured: true,
   },
   {
-    slug: "er70s6-mig-wire-035-33lb",
-    name: 'ER70S-6 MIG Wire 0.035" — 33 lb Spool',
-    brand: "ForgeGrip",
-    sku: "FG-70S6-035-33",
-    category: "mig-wire",
-    priceCents: 6450,
-    stock: 140,
-    imageUrl: U("photo-1587293852726-70cdb56c2866"),
-    description:
-      "Copper-coated ER70S-6 solid MIG wire with high silicon and manganese deoxidizers for cleaner welds on mill-scale plate. Consistent cast and helix for smooth feeding on long liners. AWS A5.18 certified, lot-traceable.",
-    featured: false,
-  },
-  {
     slug: "autoshade-x110-welding-helmet",
     name: "AutoShade X110 Auto-Darkening Welding Helmet",
     brand: "AutoShade",

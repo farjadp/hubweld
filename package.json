@@ -8,10 +8,11 @@
     "start": "npx prisma db push && next start",
     "lint": "next lint",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts && tsx prisma/seed-blog.ts && tsx prisma/seed-welders-jobs.ts && tsx prisma/seed-more-blogs.ts && tsx prisma/seed-project.ts && node prisma/seed-content.mjs && node prisma/seed-catalogue.mjs",
+    "db:seed": "tsx prisma/seed.ts && tsx prisma/seed-blog.ts && tsx prisma/seed-welders-jobs.ts && tsx prisma/seed-more-blogs.ts && tsx prisma/seed-project.ts && node prisma/seed-content.mjs && node prisma/seed-catalogue.mjs && node prisma/seed-miller.mjs",
     "postinstall": "prisma generate",
     "db:seed:content": "node prisma/seed-content.mjs",
-    "db:seed:catalogue": "node prisma/seed-catalogue.mjs"
+    "db:seed:catalogue": "node prisma/seed-catalogue.mjs",
+    "db:seed:miller": "node prisma/seed-miller.mjs"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
