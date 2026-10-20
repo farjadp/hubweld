@@ -2,8 +2,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2, ChevronRight } from "lucide-react";
+import { mutate, errorMessage } from "@/lib/api";
 
-type Cat = { id: string; slug: string; name: string; description: string; children: Cat[]; _count: { posts: number } };
+// Children are fetched one level deep without their own counts, so they are
+// deliberately a narrower shape than their parent.
+type ChildCat = { id: string; slug: string; name: string; description: string };
+type Cat = ChildCat & { children: ChildCat[]; _count: { posts: number } };
 
 function slugify(s: string) {
   return s.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
@@ -19,24 +23,33 @@ export default function CategoryManager({ initialCats }: { initialCats: Cat[] })
   async function create() {
     if (!form.name || !form.slug) { setError("Name and slug are required."); return; }
     setBusy(true); setError("");
-    const res = await fetch("/api/admin/blog/categories", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: form.name, slug: form.slug, description: form.description, parentId: form.parentId || null }),
-    });
-    setBusy(false);
-    if (!res.ok) { setError("Slug already exists or error."); return; }
-    setForm({ name: "", slug: "", description: "", parentId: "" });
-    router.refresh();
+    try {
+      await mutate("/api/admin/blog/categories", {
+        body: { name: form.name, slug: form.slug, description: form.description, parentId: form.parentId || null },
+      });
+      setForm({ name: "", slug: "", description: "", parentId: "" });
+      router.refresh();
+    } catch (e) {
+      setError(errorMessage(e, "Could not create that category"));
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function del(id: string) {
     if (!confirm("Delete this category? Posts will need to be re-assigned.")) return;
-    await fetch(`/api/admin/blog/categories/${id}`, { method: "DELETE" });
-    router.refresh();
+    setError("");
+    try {
+      // The API refuses to delete a category that still has posts or children;
+      // this used to swallow that and silently refresh an unchanged list.
+      await mutate(`/api/admin/blog/categories/${id}`, { method: "DELETE" });
+      router.refresh();
+    } catch (e) {
+      setError(errorMessage(e, "Could not delete that category"));
+    }
   }
 
-  const allFlat: Cat[] = cats.flatMap((c) => [c, ...c.children]);
+  const allFlat: ChildCat[] = cats.flatMap((c) => [c, ...c.children]);
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
@@ -67,7 +80,7 @@ export default function CategoryManager({ initialCats }: { initialCats: Cat[] })
                         <div className="flex items-center gap-2 text-sm">
                           <ChevronRight size={12} className="text-slate-300" />
                           <span className="text-slate-700">{child.name}</span>
-                          <span className="text-xs text-slate-300">/{child.slug}</span>
+                          <span className="text-xs text-slate-500">/{child.slug}</span>
                         </div>
                         <button onClick={() => del(child.id)} className="flex items-center gap-1 rounded-lg border border-red-600/20 bg-red-600/10 px-2 py-1 text-xs text-brand hover:bg-red-600/20 transition-colors">
                           <Trash2 size={11} />

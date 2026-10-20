@@ -37,14 +37,14 @@ export default async function SupplierProductsPage() {
         <ul className="grid gap-2">
           {products.map((p) => (
             <li key={p.id} className="card flex items-center gap-4">
-              <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-slate-100">{p.imageUrl && <img src={p.imageUrl} alt="" className="h-full w-full object-cover" />}</div>
+              <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-slate-100">{p.imageUrl && <img loading="lazy" decoding="async" src={p.imageUrl} alt="" className="h-full w-full object-cover" />}</div>
               <div className="flex-1 min-w-0">
-                <Link href={`/shop/p/${p.slug}`} className="font-bold hover:text-amber line-clamp-1">{p.name}</Link>
+                <Link href={`/shop/p/${p.slug}`} className="font-bold hover:text-brand line-clamp-1">{p.name}</Link>
                 <div className="text-xs text-slate-600">{p.category.name} · SKU {p.sku} · Stock {p.stock}</div>
               </div>
               <div className="text-right">
                 <div className="font-black">{formatCents(p.priceCents)}</div>
-                <div className="text-xs"><span className={`badge ${p.status === "ACTIVE" ? "bg-amber/20 text-amber" : "bg-slate-100"}`}>{p.status}</span></div>
+                <div className="text-xs"><span className={`badge ${p.status === "ACTIVE" ? "border border-emerald-600/30 bg-emerald-600/10 text-emerald-700" : "bg-slate-100"}`}>{p.status}</span></div>
               </div>
               <Link href={`/dashboard/supplier/products/${p.id}/edit`} className="btn-secondary text-xs">Edit</Link>
             </li>

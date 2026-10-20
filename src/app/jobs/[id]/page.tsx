@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 const STATUS_STYLES: Record<string, string> = {
   OPEN:        "border-blue-600/30 bg-blue-600/10 text-blue-700",
   ASSIGNED:    "border-amber-600/30 bg-amber-600/10 text-amber-700",
-  IN_PROGRESS: "border-violet-600/30 bg-violet-600/10 text-violet-400",
+  IN_PROGRESS: "border-violet-600/30 bg-violet-600/10 text-violet-700",
   COMPLETED:   "border-green-600/30 bg-green-600/10 text-green-700",
   CANCELLED:   "border-red-900/30 bg-red-900/10 text-red-500",
 };
@@ -78,7 +78,7 @@ export default async function JobDetailPage({ params }: { params: { id: string }
                   </div>
                   {b.message && <p className="mt-1 text-sm text-slate-700">{b.message}</p>}
                   <div className="mt-2 flex items-center justify-between">
-                    <span className={`text-xs font-bold ${b.status === "ACCEPTED" ? "text-green-700" : b.status === "REJECTED" ? "text-brand/60" : "text-slate-500"}`}>
+                    <span className={`text-xs font-bold ${b.status === "ACCEPTED" ? "text-green-700" : b.status === "REJECTED" ? "text-brand" : "text-slate-500"}`}>
                       {b.status}
                     </span>
                     {isOwner && job.status === "OPEN" && b.status === "PENDING" && <AcceptBidButton jobId={job.id} bidId={b.id} />}
@@ -99,7 +99,7 @@ export default async function JobDetailPage({ params }: { params: { id: string }
               <ul className="space-y-3 mb-4">
                 {job.reviews.map((r) => (
                   <li key={r.id} className="rounded-xl border border-slate-200 bg-slate-100 p-3">
-                    <div className="text-amber-700">{"★".repeat(r.rating)}<span className="text-slate-300">{"★".repeat(5 - r.rating)}</span></div>
+                    <div className="text-amber-700">{"★".repeat(r.rating)}<span className="text-slate-400">{"★".repeat(5 - r.rating)}</span></div>
                     {r.comment && <p className="mt-1 text-sm text-slate-700">{r.comment}</p>}
                     <div className="mt-1 text-xs text-slate-500">— {r.author.name}</div>
                   </li>
@@ -128,7 +128,7 @@ export default async function JobDetailPage({ params }: { params: { id: string }
             <div className="rounded-xl border border-slate-200 bg-slate-100 p-3 text-sm">
               <div className="text-slate-600">Your bid</div>
               <div className="font-bold text-brand">{formatDollars(myBid.amount)}</div>
-              <div className={`text-xs mt-1 font-bold ${myBid.status === "ACCEPTED" ? "text-green-700" : myBid.status === "REJECTED" ? "text-brand/60" : "text-slate-500"}`}>
+              <div className={`text-xs mt-1 font-bold ${myBid.status === "ACCEPTED" ? "text-green-700" : myBid.status === "REJECTED" ? "text-brand" : "text-slate-500"}`}>
                 {myBid.status}
               </div>
             </div>

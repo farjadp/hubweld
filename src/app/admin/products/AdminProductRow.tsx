@@ -35,9 +35,9 @@ export default function AdminProductRow({ product, formattedPrice }: { product: 
   }
   return (
     <li className="card flex flex-wrap items-center gap-3">
-      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-100">{product.imageUrl && <img src={product.imageUrl} alt="" className="h-full w-full object-cover" />}</div>
+      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-100">{product.imageUrl && <img loading="lazy" decoding="async" src={product.imageUrl} alt="" className="h-full w-full object-cover" />}</div>
       <div className="flex-1 min-w-0">
-        <Link href={`/shop/p/${product.slug}`} className="font-bold hover:text-amber line-clamp-1">{product.name}</Link>
+        <Link href={`/shop/p/${product.slug}`} className="font-bold hover:text-brand line-clamp-1">{product.name}</Link>
         <div className="text-xs text-slate-600">{product.supplierName} · {product.categoryName} · SKU {product.sku}</div>
       </div>
       <div className="text-right text-sm">

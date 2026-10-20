@@ -30,7 +30,7 @@ export default async function SupplierOrdersPage() {
           {items.map((it) => (
             <li key={it.id} className="card flex flex-wrap items-center justify-between gap-3">
               <div className="min-w-0">
-                <Link href={`/dashboard/supplier/orders/${it.orderId}`} className="font-bold hover:text-amber line-clamp-1">{it.nameSnapshot}</Link>
+                <Link href={`/dashboard/supplier/orders/${it.orderId}`} className="font-bold hover:text-brand line-clamp-1">{it.nameSnapshot}</Link>
                 <div className="text-xs text-slate-600">Order #{it.orderId.slice(-8).toUpperCase()} · Buyer: {it.order.buyer.name} · {new Date(it.order.createdAt).toLocaleDateString()}</div>
                 <div className="text-xs text-slate-500">Ship to: {it.order.shipCity}, {it.order.shipRegion} {it.order.shipCountry}</div>
               </div>

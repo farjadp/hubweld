@@ -60,7 +60,7 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
               key={id}
               type="button"
               onClick={() => { setMode(id === "url" ? "url" : "topic"); setResult(null); }}
-              className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${(id === "url" ? mode === "url" : mode !== "url") ? "border-red-600/40 bg-red-600/10 text-brand" : "border-slate-200 text-slate-500 hover:text-white"}`}
+              className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${(id === "url" ? mode === "url" : mode !== "url") ? "border-red-600/40 bg-red-600/10 text-brand" : "border-slate-200 text-slate-500 hover:text-slate-900"}`}
             >
               <Icon size={12} /> {label}
             </button>
@@ -74,7 +74,7 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
               <label className="label">Mode</label>
               <div className="flex gap-2">
                 {(["topic", "rewrite"] as const).map((m) => (
-                  <button key={m} type="button" onClick={() => setMode(m)} className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${mode === m ? "border-red-600/30 bg-red-600/10 text-brand" : "border-slate-200 text-slate-400 hover:text-white"}`}>
+                  <button key={m} type="button" onClick={() => setMode(m)} className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${mode === m ? "border-red-600/30 bg-red-600/10 text-brand" : "border-slate-200 text-slate-400 hover:text-slate-900"}`}>
                     {m === "topic" ? "New topic" : "Rewrite draft"}
                   </button>
                 ))}
@@ -104,7 +104,7 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
             <label className="label">Optimise for</label>
             <div className="flex flex-wrap gap-1.5">
               {(["SEO", "AEO", "GEO"] as const).map((f) => (
-                <button key={f} type="button" onClick={() => setFocus(f)} className={`rounded-full border px-2.5 py-1 text-xs font-black transition-colors ${focus === f ? "border-red-600/40 bg-red-600/10 text-brand" : "border-slate-200 text-slate-400 hover:text-white"}`}>{f}</button>
+                <button key={f} type="button" onClick={() => setFocus(f)} className={`rounded-full border px-2.5 py-1 text-xs font-black transition-colors ${focus === f ? "border-red-600/40 bg-red-600/10 text-brand" : "border-slate-200 text-slate-400 hover:text-slate-900"}`}>{f}</button>
               ))}
             </div>
           </div>
@@ -112,7 +112,7 @@ function AiPanel({ onApply }: { onApply: (body: string, meta: any) => void }) {
             <label className="label">Length</label>
             <div className="flex flex-wrap gap-1.5">
               {([["short", "~600w"], ["medium", "~1200w"], ["long", "~2000w"]] as const).map(([l, lbl]) => (
-                <button key={l} type="button" onClick={() => setLength(l)} className={`rounded-full border px-2.5 py-1 text-xs font-bold transition-colors ${length === l ? "border-red-600/40 bg-red-600/10 text-brand" : "border-slate-200 text-slate-400 hover:text-white"}`}>{lbl}</button>
+                <button key={l} type="button" onClick={() => setLength(l)} className={`rounded-full border px-2.5 py-1 text-xs font-bold transition-colors ${length === l ? "border-red-600/40 bg-red-600/10 text-brand" : "border-slate-200 text-slate-400 hover:text-slate-900"}`}>{lbl}</button>
               ))}
             </div>
           </div>
@@ -185,7 +185,7 @@ function CoverImageInput({ value, onChange }: { value: string; onChange: (url: s
       </div>
       {value && (
         <div className="mt-3 overflow-hidden rounded-lg border border-slate-200">
-          <img src={value} alt="cover" className="h-40 w-full object-cover" />
+          <img loading="lazy" decoding="async" src={value} alt="cover" className="h-40 w-full object-cover" />
         </div>
       )}
     </div>
@@ -270,7 +270,7 @@ export default function PostEditor({
           <button type="button" onClick={() => setTab("write")} className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold transition-colors ${tab === "write" ? "bg-slate-100 text-slate-900" : "text-slate-500 hover:text-slate-900"}`}>
             <FileText size={14} /> Write Manually
           </button>
-          <button type="button" onClick={() => setTab("ai")} className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold transition-colors ${tab === "ai" ? "bg-red-600/20 text-brand" : "text-slate-500 hover:text-white"}`}>
+          <button type="button" onClick={() => setTab("ai")} className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold transition-colors ${tab === "ai" ? "bg-red-600/20 text-brand" : "text-slate-500 hover:text-slate-900"}`}>
             <Sparkles size={14} /> Generate with AI
           </button>
         </div>
@@ -314,12 +314,12 @@ export default function PostEditor({
                 <div>
                   <label className="label">SEO Title</label>
                   <input className="input" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder={title || "SEO optimized title…"} />
-                  <p className="mt-1 text-right text-xs text-slate-300">{seoTitle.length}/60</p>
+                  <p className="mt-1 text-right text-xs text-slate-500">{seoTitle.length}/60</p>
                 </div>
                 <div>
                   <label className="label">Meta Description</label>
                   <textarea className="input min-h-[72px] resize-none" value={seoDesc} onChange={(e) => setSeoDesc(e.target.value)} placeholder={excerpt || "Meta description…"} />
-                  <p className="mt-1 text-right text-xs text-slate-300">{seoDesc.length}/160</p>
+                  <p className="mt-1 text-right text-xs text-slate-500">{seoDesc.length}/160</p>
                 </div>
                 <div>
                   <label className="label">Keywords</label>
@@ -374,7 +374,7 @@ export default function PostEditor({
           <div className="mb-3 flex flex-wrap gap-1.5">
             {allTags.map((tag) => (
               <button key={tag.slug} type="button" onClick={() => toggleTag(tag.slug)}
-                className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${selectedTags.includes(tag.slug) ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:text-white"}`}>
+                className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${selectedTags.includes(tag.slug) ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:text-slate-900"}`}>
                 {selectedTags.includes(tag.slug) && <X size={9} className="mr-1 inline" />}{tag.name}
               </button>
             ))}

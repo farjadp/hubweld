@@ -15,12 +15,12 @@ export default async function EditPostPage({ params }: { params: { id: string } 
   if (!me || me.role !== "ADMIN") redirect("/dashboard");
 
   const [post, cats, tags] = await Promise.all([
-    (prisma as any).post.findUnique({
+    prisma.post.findUnique({
       where: { id: params.id },
       include: { tags: { include: { tag: true } }, category: true },
     }),
-    (prisma as any).postCategory.findMany({ orderBy: { name: "asc" } }),
-    (prisma as any).postTag.findMany({ orderBy: { name: "asc" } }),
+    prisma.postCategory.findMany({ orderBy: { name: "asc" } }),
+    prisma.postTag.findMany({ orderBy: { name: "asc" } }),
   ]);
 
   if (!post) notFound();

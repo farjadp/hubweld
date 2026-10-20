@@ -21,7 +21,7 @@ function Btn({ onClick, active, title, children }: { onClick: () => void; active
       type="button"
       onMouseDown={(e) => { e.preventDefault(); onClick(); }}
       title={title}
-      className={`grid h-7 w-7 place-items-center rounded text-xs transition-colors ${active ? "bg-red-600/20 text-brand" : "text-slate-500 hover:bg-slate-100 hover:text-white"}`}
+      className={`grid h-7 w-7 place-items-center rounded text-xs transition-colors ${active ? "bg-red-600/20 text-brand" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"}`}
     >
       {children}
     </button>

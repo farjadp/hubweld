@@ -24,7 +24,6 @@ export default {
         },
         // Legacy alias kept for existing pages
         "brand-light": "#E23138",
-        amber: { DEFAULT: "#B45309" },
       },
       fontFamily: {
         sans: ["var(--font-body)", "ui-sans-serif", "system-ui", "sans-serif"],

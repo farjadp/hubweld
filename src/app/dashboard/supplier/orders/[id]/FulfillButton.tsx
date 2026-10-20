@@ -8,7 +8,7 @@ export default function FulfillButton({ itemId, status }: { itemId: string; stat
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
 
-  if (status === "FULFILLED") return <span className="badge bg-amber/20 text-amber">Fulfilled</span>;
+  if (status === "FULFILLED") return <span className="badge border border-emerald-600/30 bg-emerald-600/10 text-emerald-700">Fulfilled</span>;
   if (status === "CANCELLED") return <span className="badge bg-slate-100">Cancelled</span>;
 
   async function mark() {

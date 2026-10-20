@@ -31,7 +31,7 @@ export default async function WelderPage({ params }: { params: { id: string } })
         <div className="flex items-start gap-4">
           <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-100">
             {p?.avatarUrl
-              ? <img src={p.avatarUrl} alt={welder.name} className="h-full w-full object-cover" />
+              ? <img loading="lazy" decoding="async" src={p.avatarUrl} alt={welder.name} className="h-full w-full object-cover" />
               : <User size={26} className="text-slate-400" />}
           </div>
           <div className="flex-1">
@@ -55,7 +55,7 @@ export default async function WelderPage({ params }: { params: { id: string } })
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {gallery.map((url) => (
                 <a key={url} href={url} target="_blank" rel="noopener noreferrer" className="aspect-square overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
-                  <img src={url} alt="project" className="h-full w-full object-cover transition-transform hover:scale-105" />
+                  <img loading="lazy" decoding="async" src={url} alt="project" className="h-full w-full object-cover transition-transform hover:scale-105" />
                 </a>
               ))}
             </div>

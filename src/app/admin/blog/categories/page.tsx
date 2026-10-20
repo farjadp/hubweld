@@ -13,7 +13,7 @@ export default async function AdminBlogCategoriesPage() {
   const me = session?.user as any;
   if (!me || me.role !== "ADMIN") redirect("/dashboard");
 
-  const cats = await (prisma as any).postCategory.findMany({
+  const cats = await prisma.postCategory.findMany({
     include: { children: true, _count: { select: { posts: true } } },
     where: { parentId: null },
     orderBy: { sortOrder: "asc" },

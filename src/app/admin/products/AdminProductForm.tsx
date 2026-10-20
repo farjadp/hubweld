@@ -105,7 +105,7 @@ export default function AdminProductForm({
       </div>
       {form.imageUrl && (
         <div className="aspect-[4/3] max-w-xs overflow-hidden rounded-xl bg-slate-100">
-          <img src={form.imageUrl} alt="" className="h-full w-full object-cover" />
+          <img loading="lazy" decoding="async" src={form.imageUrl} alt="" className="h-full w-full object-cover" />
         </div>
       )}
       {err && <p className="text-sm text-brand">{err}</p>}

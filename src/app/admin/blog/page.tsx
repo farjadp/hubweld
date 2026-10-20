@@ -13,13 +13,13 @@ export default async function AdminBlogPage() {
   if (!me || me.role !== "ADMIN") redirect("/dashboard");
 
   const [posts, cats, tags] = await Promise.all([
-    (prisma as any).post.findMany({
+    prisma.post.findMany({
       include: { category: true, author: { select: { name: true } }, tags: { include: { tag: true } } },
       orderBy: { createdAt: "desc" },
       take: 50,
     }),
-    (prisma as any).postCategory.count(),
-    (prisma as any).postTag.count(),
+    prisma.postCategory.count(),
+    prisma.postTag.count(),
   ]);
 
   const published = posts.filter((p: any) => p.status === "PUBLISHED").length;

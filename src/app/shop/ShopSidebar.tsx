@@ -9,11 +9,11 @@ export function ShopSidebar({ categories, activeSlug }: { categories: Cat[]; act
       <ul className="space-y-3 text-sm">
         {categories.map((c) => (
           <li key={c.id}>
-            <Link href={`/shop/c/${c.slug}`} className={`block font-bold ${activeSlug === c.slug ? "text-amber" : "hover:text-amber"}`}>{c.name}</Link>
+            <Link href={`/shop/c/${c.slug}`} className={`block font-bold ${activeSlug === c.slug ? "text-brand" : "hover:text-brand"}`}>{c.name}</Link>
             <ul className="mt-1 space-y-1 border-l border-slate-200 pl-3 text-slate-600">
               {c.children.map((ch) => (
                 <li key={ch.id}>
-                  <Link href={`/shop/c/${ch.slug}`} className={`block hover:text-slate-900 ${activeSlug === ch.slug ? "text-amber" : ""}`}>{ch.name}</Link>
+                  <Link href={`/shop/c/${ch.slug}`} className={`block hover:text-slate-900 ${activeSlug === ch.slug ? "text-brand" : ""}`}>{ch.name}</Link>
                 </li>
               ))}
             </ul>

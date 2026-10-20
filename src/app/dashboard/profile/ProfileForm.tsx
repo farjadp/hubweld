@@ -102,7 +102,7 @@ export default function ProfileForm({ initial }: { initial: Initial }) {
         <div className="flex items-center gap-4">
           <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-100">
             {form.avatarUrl
-              ? <img src={form.avatarUrl} alt="avatar" className="h-full w-full object-cover" />
+              ? <img loading="lazy" decoding="async" src={form.avatarUrl} alt="avatar" className="h-full w-full object-cover" />
               : <User size={28} className="text-slate-400" />}
           </div>
           <div className="flex flex-col gap-2">
@@ -190,7 +190,7 @@ export default function ProfileForm({ initial }: { initial: Initial }) {
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
           {form.gallery.map((url) => (
             <div key={url} className="group relative aspect-square overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
-              <img src={url} alt="project" className="h-full w-full object-cover" />
+              <img loading="lazy" decoding="async" src={url} alt="project" className="h-full w-full object-cover" />
               <button type="button" onClick={() => setForm((f) => ({ ...f, gallery: f.gallery.filter((g) => g !== url) }))}
                 className="absolute right-1 top-1 rounded-full bg-black/60 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-red-600">
                 <X size={13} />

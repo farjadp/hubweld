@@ -36,7 +36,7 @@ export default function NewJobPage() {
             </select>
           </div>
         </div>
-        <div><label className="label">Budget (USD, optional)</label><input className="input" type="number" min={0} value={form.budget} onChange={(e) => set("budget", e.target.value)} /></div>
+        <div><label className="label">Budget (CAD, optional)</label><input className="input" type="number" min={0} value={form.budget} onChange={(e) => set("budget", e.target.value)} /></div>
         {err && <p className="text-sm text-brand">{err}</p>}
         <button className="btn-primary w-full" disabled={loading}>{loading ? "Posting..." : "Post Job"}</button>
       </form>

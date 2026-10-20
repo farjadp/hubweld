@@ -40,7 +40,7 @@ export default function ReviewForm({ jobId }: { jobId: string }) {
           >
             <Star
               size={28}
-              className={(hover || rating) >= s ? "fill-amber-400 text-amber-700" : "text-slate-300"}
+              className={(hover || rating) >= s ? "fill-amber-400 text-amber-700" : "text-slate-400"}
             />
           </button>
         ))}

@@ -37,7 +37,7 @@ function RegisterInner() {
         <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
           {(["CUSTOMER", "WELDER", "SUPPLIER"] as const).map((r) => (
             <button key={r} type="button" onClick={() => set("role", r)}
-              className={`rounded-xl border p-3 text-left text-sm transition ${form.role === r ? "border-amber/60 bg-amber/10" : "border-slate-200 bg-slate-100 hover:bg-slate-100"}`}>
+              className={`rounded-xl border p-3 text-left text-sm transition ${form.role === r ? "border-brand/60 bg-brand/5" : "border-slate-200 bg-slate-100 hover:bg-slate-100"}`}>
               <div className="font-bold">{r === "CUSTOMER" ? "I need welding work" : r === "WELDER" ? "I provide welding services" : "I sell welding supplies"}</div>
               <div className="text-slate-600">{r === "CUSTOMER" ? "Post jobs, receive bids" : r === "WELDER" ? "Get matched to jobs" : "List products on the marketplace"}</div>
             </button>
@@ -52,7 +52,7 @@ function RegisterInner() {
         <div><label className="label">City</label><input className="input" value={form.city} onChange={(e) => set("city", e.target.value)} placeholder="e.g. Toronto" /></div>
         {err && <p className="text-sm text-brand">{err}</p>}
         <button className="btn-primary w-full" disabled={loading}>{loading ? "Creating account..." : "Create account"}</button>
-        <p className="text-center text-sm text-slate-600">Already have an account? <Link href="/login" className="text-amber hover:underline">Sign in</Link></p>
+        <p className="text-center text-sm text-slate-600">Already have an account? <Link href="/login" className="text-brand hover:underline">Sign in</Link></p>
       </form>
     </div>
   );

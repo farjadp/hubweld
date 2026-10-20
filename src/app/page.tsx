@@ -272,7 +272,7 @@ export default async function HomePage() {
                 className="group flex flex-col overflow-hidden rounded-sm border border-slate-200 bg-ink-700 shadow-plate-sm transition-colors hover:border-brand/50">
                 <div className="relative h-40 w-full overflow-hidden border-b border-slate-200 bg-ink-800">
                   {p.imageUrl ? (
-                    <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
+                    <img loading="lazy" decoding="async" src={p.imageUrl} alt={p.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center"><Package size={36} className="text-slate-300" /></div>
                   )}
@@ -333,7 +333,7 @@ export default async function HomePage() {
                 className="group flex flex-col overflow-hidden rounded-sm border border-slate-200 bg-ink-700 shadow-plate-sm transition-colors hover:border-brand/50">
                 <div className="relative h-44 w-full overflow-hidden border-b border-slate-200 bg-ink-800">
                   {(post as any).coverImage ? (
-                    <img src={(post as any).coverImage} alt={post.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
+                    <img loading="lazy" decoding="async" src={(post as any).coverImage} alt={post.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
                       <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>

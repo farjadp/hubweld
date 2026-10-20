@@ -60,15 +60,15 @@ export default async function CategoryPage({ params, searchParams }: { params: {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((p) => (
-              <Link key={p.id} href={`/shop/p/${p.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:border-amber/40">
+              <Link key={p.id} href={`/shop/p/${p.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:border-brand/40">
                 <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100">
-                  {p.imageUrl ? <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover transition group-hover:scale-105" /> : null}
+                  {p.imageUrl ? <img loading="lazy" decoding="async" src={p.imageUrl} alt={p.name} className="h-full w-full object-cover transition group-hover:scale-105" /> : null}
                 </div>
                 <div className="flex flex-1 flex-col gap-1 p-4">
                   <div className="text-xs uppercase tracking-wide text-slate-500">{p.brand}</div>
                   <h3 className="line-clamp-2 font-bold leading-tight">{p.name}</h3>
                   <div className="mt-auto flex items-end justify-between pt-2">
-                    <span className="text-lg font-black text-amber">{formatCents(p.priceCents, currency)}</span>
+                    <span className="text-lg font-black text-slate-900">{formatCents(p.priceCents, currency)}</span>
                     <span className="text-xs text-slate-500">{p.stock > 0 ? "In stock" : "Backorder"}</span>
                   </div>
                 </div>

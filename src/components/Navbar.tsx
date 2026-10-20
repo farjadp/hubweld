@@ -28,13 +28,18 @@ const solutions = [
   },
 ];
 
+/**
+ * `text-white` here was left over from the dark theme: on the light bar
+ * (bg-ink-900 is #F6F7F9) active and hovered links rendered white on white,
+ * so Blog / Shop / Jobs / Welders disappeared exactly when you touched them.
+ */
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   const path = usePathname();
   const active = path === href;
   return (
     <Link
       href={href}
-      className={`relative py-1 text-sm font-medium transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-brand-light after:transition-transform after:duration-200 hover:text-white hover:after:scale-x-100 ${active ? "text-white after:scale-x-100" : "text-slate-600"}`}
+      className={`relative py-1 text-sm font-medium transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-brand after:transition-transform after:duration-200 hover:text-slate-900 hover:after:scale-x-100 ${active ? "text-slate-900 after:scale-x-100" : "text-slate-600"}`}
     >
       {children}
     </Link>
@@ -218,7 +223,7 @@ function UserMenu({ name, role, onSignOut }: { name: string; role: string; onSig
               <Settings size={14} /> Account settings
             </Link>
             {role === "ADMIN" && (
-              <Link href="/admin" className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-brand-light transition-colors hover:bg-brand/10">
+              <Link href="/admin" className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-brand transition-colors hover:bg-brand/10">
                 <Shield size={14} /> Admin Panel
               </Link>
             )}
@@ -258,7 +263,7 @@ export function Navbar({ currency = "CAD" }: { currency?: Currency }) {
 
   return (
     <>
-      <header className="sticky top-0 z-30 w-full border-b border-slate-200 bg-ink-900/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-30 w-full border-b border-slate-200 bg-ink-900">
         <div className="h-[2px] w-full bg-brand" aria-hidden />
         <div className="mx-auto flex h-14 w-full max-w-[1180px] items-center justify-between px-6">
           {/* Logo */}
@@ -327,13 +332,13 @@ export function Navbar({ currency = "CAD" }: { currency?: Currency }) {
             <div className="flex flex-col gap-1">
               {solutions.map(({ label, href, icon: Icon }) => (
                 <Link key={href} href={href} className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900">
-                  <Icon size={15} className="text-brand-light" /> {label}
+                  <Icon size={15} className="text-brand" /> {label}
                 </Link>
               ))}
               <div className="my-1 h-px bg-slate-100" />
               {aboutLinks.map(({ label, href, icon: Icon }) => (
                 <Link key={href} href={href} className="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900">
-                  <Icon size={15} className="text-brand-light" /> {label}
+                  <Icon size={15} className="text-brand" /> {label}
                 </Link>
               ))}
               <div className="my-1 h-px bg-slate-100" />

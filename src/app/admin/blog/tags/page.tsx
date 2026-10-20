@@ -13,7 +13,7 @@ export default async function AdminBlogTagsPage() {
   const me = session?.user as any;
   if (!me || me.role !== "ADMIN") redirect("/dashboard");
 
-  const tags = await (prisma as any).postTag.findMany({
+  const tags = await prisma.postTag.findMany({
     include: { _count: { select: { posts: true } } },
     orderBy: { name: "asc" },
   });

@@ -22,7 +22,7 @@ export default async function DashboardPage() {
         {jobs.length === 0 ? <p className="text-slate-600">No jobs yet. Post your first one.</p> : (
           <ul className="grid gap-3">{jobs.map((j) => (
             <li key={j.id} className="card flex items-center justify-between">
-              <div><Link href={`/jobs/${j.id}`} className="font-bold hover:text-amber">{j.title}</Link><div className="text-xs text-slate-600">{j.city} · {j.category} · {j._count.bids} bids</div></div>
+              <div><Link href={`/jobs/${j.id}`} className="font-bold hover:text-brand">{j.title}</Link><div className="text-xs text-slate-600">{j.city} · {j.category} · {j._count.bids} bids</div></div>
               <span className="badge bg-slate-100">{j.status}</span>
             </li>
           ))}</ul>
@@ -42,7 +42,7 @@ export default async function DashboardPage() {
 
     const statusColor: Record<string, string> = {
       ASSIGNED: "bg-amber-600/20 text-amber-700",
-      IN_PROGRESS: "bg-violet-600/20 text-violet-400",
+      IN_PROGRESS: "bg-violet-600/15 text-violet-700",
       COMPLETED: "bg-green-600/20 text-green-700",
       PENDING: "bg-slate-100 text-slate-600",
       REJECTED: "bg-red-900/20 text-brand/60",
@@ -56,7 +56,7 @@ export default async function DashboardPage() {
         </div>
 
         {!profile?.approved && (
-          <div className="mb-4 rounded-xl border border-amber-600/30 bg-amber-600/10 p-4 text-sm text-amber-300">
+          <div className="mb-4 rounded-xl border border-amber-600/30 bg-amber-600/10 p-4 text-sm text-amber-800">
             ⚠ Complete your profile to appear in the directory and attract more clients.
           </div>
         )}

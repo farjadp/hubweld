@@ -14,8 +14,8 @@ export default async function NewPostPage() {
   if (!me || me.role !== "ADMIN") redirect("/dashboard");
 
   const [cats, tags] = await Promise.all([
-    (prisma as any).postCategory.findMany({ orderBy: { name: "asc" } }),
-    (prisma as any).postTag.findMany({ orderBy: { name: "asc" } }),
+    prisma.postCategory.findMany({ orderBy: { name: "asc" } }),
+    prisma.postTag.findMany({ orderBy: { name: "asc" } }),
   ]);
 
   return (

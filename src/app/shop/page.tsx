@@ -91,15 +91,15 @@ export default async function ShopPage({ searchParams }: { searchParams: { q?: s
 
 function ProductCard({ p, currency }: { p: any; currency: Currency }) {
   return (
-    <Link href={`/shop/p/${p.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:border-amber/40">
+    <Link href={`/shop/p/${p.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:border-brand/40">
       <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100">
-        {p.imageUrl ? <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover transition group-hover:scale-105" /> : <div className="grid h-full place-items-center text-slate-400">No image</div>}
+        {p.imageUrl ? <img loading="lazy" decoding="async" src={p.imageUrl} alt={p.name} className="h-full w-full object-cover transition group-hover:scale-105" /> : <div className="grid h-full place-items-center text-slate-400">No image</div>}
       </div>
       <div className="flex flex-1 flex-col gap-1 p-4">
         <div className="text-xs uppercase tracking-wide text-slate-500">{p.brand}</div>
         <h3 className="line-clamp-2 font-bold leading-tight">{p.name}</h3>
         <div className="mt-auto flex items-end justify-between pt-2">
-          <span className="text-lg font-black text-amber">{formatCents(p.priceCents, currency)}</span>
+          <span className="text-lg font-black text-slate-900">{formatCents(p.priceCents, currency)}</span>
           <span className="text-xs text-slate-500">{p.stock > 0 ? "In stock" : "Backorder"}</span>
         </div>
       </div>

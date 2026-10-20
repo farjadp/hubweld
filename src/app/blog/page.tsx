@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { Pagination } from "@/components/Pagination";
 import Link from "next/link";
 import Image from "next/image";
 import { Tag, Calendar, ArrowRight, FolderOpen } from "lucide-react";
@@ -26,21 +27,21 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
   if (searchParams.tag) where.tags = { some: { tag: { slug: searchParams.tag } } };
 
   const [posts, total, cats, featuredPosts] = await Promise.all([
-    (prisma as any).post.findMany({
+    prisma.post.findMany({
       where,
       include: { category: true, author: { select: { name: true } }, tags: { include: { tag: true } } },
       orderBy: { publishedAt: "desc" },
       skip,
       take: TAKE,
     }),
-    (prisma as any).post.count({ where }),
-    (prisma as any).postCategory.findMany({
+    prisma.post.count({ where }),
+    prisma.postCategory.findMany({
       where: { posts: { some: { status: "PUBLISHED" } } },
       include: { _count: { select: { posts: true } } },
       orderBy: { name: "asc" },
     }),
     page === 1 && !searchParams.cat && !searchParams.tag
-      ? (prisma as any).post.findMany({ where: { status: "PUBLISHED" }, orderBy: { publishedAt: "desc" }, take: 1, include: { category: true, author: { select: { name: true } }, tags: { include: { tag: true } } } })
+      ? prisma.post.findMany({ where: { status: "PUBLISHED" }, orderBy: { publishedAt: "desc" }, take: 1, include: { category: true, author: { select: { name: true } }, tags: { include: { tag: true } } } })
       : Promise.resolve([]),
   ]);
 
@@ -108,7 +109,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
         <div className="mb-8 flex flex-wrap gap-2">
           <Link
             href="/blog"
-            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${!searchParams.cat ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-white"}`}
+            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${!searchParams.cat ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-900"}`}
           >
             All Posts ({total})
           </Link>
@@ -116,7 +117,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
             <Link
               key={c.id}
               href={`/blog?cat=${c.slug}`}
-              className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${searchParams.cat === c.slug ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-white"}`}
+              className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${searchParams.cat === c.slug ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-900"}`}
             >
               {c.name} ({c._count.posts})
             </Link>
@@ -131,7 +132,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
                 <div className="grid md:grid-cols-[1.2fr_1fr]">
                   {featured.coverImage && (
                     <div className="relative h-64 w-full overflow-hidden md:h-auto">
-                      <img src={featured.coverImage} alt={featured.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                      <img loading="lazy" decoding="async" src={featured.coverImage} alt={featured.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#111315]/80 md:to-transparent" />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-100 via-transparent to-transparent md:hidden" />
                     </div>
@@ -142,7 +143,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
                         <FolderOpen size={11} /> {featured.category.name}
                       </span>
                       <span className="inline-flex items-center gap-1 text-slate-500">
-                        <Calendar size={11} /> {new Date(featured.publishedAt).toLocaleDateString("en", { year: "numeric", month: "long", day: "numeric" })}
+                        <Calendar size={11} /> {(featured.publishedAt ?? featured.createdAt).toLocaleDateString("en", { year: "numeric", month: "long", day: "numeric" })}
                       </span>
                     </div>
                     <h2 className="text-2xl font-black text-slate-900 transition-colors group-hover:text-brand md:text-3xl">{featured.title}</h2>
@@ -171,7 +172,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
                   <Link key={post.id} href={`/blog/${post.slug}`} className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-300 hover:border-red-600/30 hover:shadow-lg hover:shadow-red-600/5">
                     {post.coverImage && (
                       <div className="relative h-48 overflow-hidden">
-                        <img src={post.coverImage} alt={post.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <img loading="lazy" decoding="async" src={post.coverImage} alt={post.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-100 via-slate-100/20 to-transparent" />
                       </div>
                     )}
@@ -196,28 +197,23 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
               </div>
             )}
 
-            {/* Pagination */}
-            {pages > 1 && (
-              <div className="mt-8 flex items-center justify-center gap-2">
-                {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
-                  <Link
-                    key={p}
-                    href={`/blog?page=${p}${searchParams.cat ? `&cat=${searchParams.cat}` : ""}${searchParams.tag ? `&tag=${searchParams.tag}` : ""}`}
-                    className={`grid h-9 w-9 place-items-center rounded-lg border text-sm font-semibold transition-colors ${p === page ? "border-red-600/40 bg-red-600/15 text-brand" : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-white"}`}
-                  >
-                    {p}
-                  </Link>
-                ))}
-              </div>
-            )}
+            {/* Pagination — the shared component, which windows the page
+                numbers. This used to print every page as a button, and the
+                cron publishes three more articles a week. */}
+            <Pagination
+              page={page}
+              pageCount={pages}
+              basePath="/blog"
+              params={{ cat: searchParams.cat, tag: searchParams.tag }}
+            />
           </div>
 
           {/* Sidebar */}
           <aside className="self-start">
             <div className="sticky top-20 grid gap-5">
               {/* Newsletter Box */}
-              <div className="relative overflow-hidden rounded-xl border border-red-600/20 bg-gradient-to-br from-red-600/10 to-[#111315] p-6">
-                <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-red-600/10 blur-2xl" />
+              <div className="relative overflow-hidden rounded-xl border border-brand/20 bg-gradient-to-br from-brand/10 to-white p-6">
+                <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-brand/10 blur-2xl" />
                 <h3 className="relative mb-2 text-sm font-black text-slate-900">Stay Updated</h3>
                 <p className="relative mb-4 text-xs leading-relaxed text-slate-500">Get welding industry insights delivered to your inbox weekly.</p>
                 <div className="relative flex gap-2">
@@ -233,7 +229,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
                 </h3>
                 <ul className="grid gap-1">
                   <li>
-                    <Link href="/blog" className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors ${!searchParams.cat ? "bg-red-600/10 text-brand font-semibold" : "text-slate-500 hover:bg-slate-100 hover:text-white"}`}>
+                    <Link href="/blog" className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors ${!searchParams.cat ? "bg-red-600/10 text-brand font-semibold" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"}`}>
                       <span className="flex items-center gap-2">
                         <span className={`h-1.5 w-1.5 rounded-full ${!searchParams.cat ? "bg-red-400" : "bg-slate-200"}`} />
                         All Posts
@@ -243,7 +239,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
                   </li>
                   {cats.map((c: any) => (
                     <li key={c.id}>
-                      <Link href={`/blog?cat=${c.slug}`} className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors ${searchParams.cat === c.slug ? "bg-red-600/10 text-brand font-semibold" : "text-slate-500 hover:bg-slate-100 hover:text-white"}`}>
+                      <Link href={`/blog?cat=${c.slug}`} className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors ${searchParams.cat === c.slug ? "bg-red-600/10 text-brand font-semibold" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"}`}>
                         <span className="flex items-center gap-2">
                           <span className={`h-1.5 w-1.5 rounded-full ${searchParams.cat === c.slug ? "bg-red-400" : "bg-slate-200"}`} />
                           {c.name}

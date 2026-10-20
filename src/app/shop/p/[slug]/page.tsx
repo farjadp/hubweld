@@ -59,13 +59,13 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
       <div className="grid gap-8 md:grid-cols-[1.1fr_1fr]">
         <div className="card aspect-square overflow-hidden p-0">
-          {p.imageUrl ? <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" /> : <div className="grid h-full place-items-center text-slate-400">No image</div>}
+          {p.imageUrl ? <img loading="lazy" decoding="async" src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" /> : <div className="grid h-full place-items-center text-slate-400">No image</div>}
         </div>
         <div>
           <div className="text-sm uppercase tracking-wide text-slate-500">{p.brand}</div>
           <h1 className="mt-1 text-3xl font-black tracking-tight">{p.name}</h1>
           <div className="mt-2 text-sm text-slate-600">SKU: {p.sku}</div>
-          <div className="mt-6 text-4xl font-black text-amber">{formatCents(p.priceCents, currency)}</div>
+          <div className="mt-6 text-4xl font-black text-slate-900">{formatCents(p.priceCents, currency)}</div>
           {currency !== BASE_CURRENCY && (
             <div className="mt-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-500">
               Indicative — charged as {formatCents(p.priceCents)} {BASE_CURRENCY}
@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
           <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-100 p-4 text-sm">
             <div className="text-slate-600">Sold by</div>
             <div className="mt-1 font-bold">{p.supplier.supplierProfile?.businessName || p.supplier.name}</div>
-            {p.supplier.supplierProfile?.approved && <span className="badge mt-1 bg-amber/20 text-amber">Verified Supplier</span>}
+            {p.supplier.supplierProfile?.approved && <span className="badge mt-1 border border-emerald-600/30 bg-emerald-600/10 text-emerald-700">Verified Supplier</span>}
             {p.supplier.supplierProfile?.description && <p className="mt-2 text-slate-700">{p.supplier.supplierProfile.description}</p>}
           </div>
         </div>
@@ -107,11 +107,11 @@ export default async function ProductPage({ params }: { params: { slug: string }
           <h2 className="mb-3 font-bold">Related products</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((r) => (
-              <Link key={r.id} href={`/shop/p/${r.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:border-amber/40">
-                <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100">{r.imageUrl && <img src={r.imageUrl} alt={r.name} className="h-full w-full object-cover transition group-hover:scale-105" />}</div>
+              <Link key={r.id} href={`/shop/p/${r.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:border-brand/40">
+                <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100">{r.imageUrl && <img loading="lazy" decoding="async" src={r.imageUrl} alt={r.name} className="h-full w-full object-cover transition group-hover:scale-105" />}</div>
                 <div className="flex flex-1 flex-col gap-1 p-4">
                   <h3 className="line-clamp-2 text-sm font-bold leading-tight">{r.name}</h3>
-                  <div className="mt-auto pt-2 text-amber font-black">{formatCents(r.priceCents, currency)}</div>
+                  <div className="mt-auto pt-2 font-black text-slate-900">{formatCents(r.priceCents, currency)}</div>
                 </div>
               </Link>
             ))}

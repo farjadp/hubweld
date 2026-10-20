@@ -67,7 +67,7 @@ export default function TeamPage() {
             {teamMembers.map((m) => (
               <div key={m.name} className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-white bg-slate-100">
                 <span className="absolute inset-0 flex items-center justify-center text-[10px] font-black text-slate-400">{m.initials}</span>
-                <img src={m.image} alt={m.name} className="relative z-10 h-full w-full object-cover" />
+                <img loading="lazy" decoding="async" src={m.image} alt={m.name} className="relative z-10 h-full w-full object-cover" />
               </div>
             ))}
           </div>
@@ -85,7 +85,7 @@ export default function TeamPage() {
                 <div className="absolute inset-0 flex items-end justify-center pb-0">
                   <div className="relative h-44 w-44">
                     <div className="absolute inset-0 flex items-center justify-center text-5xl font-black text-slate-200 select-none">{member.initials}</div>
-                    <img src={member.image} alt={member.name} className="relative z-10 h-full w-full object-cover object-top" />
+                    <img loading="lazy" decoding="async" src={member.image} alt={member.name} className="relative z-10 h-full w-full object-cover object-top" />
                   </div>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function TeamPage() {
                 <div className="absolute inset-0 flex items-end justify-center pb-0">
                   <div className="relative h-44 w-44">
                     <div className="absolute inset-0 flex items-center justify-center text-5xl font-black text-slate-200 select-none">{member.initials}</div>
-                    <img src={member.image} alt={member.name} className="relative z-10 h-full w-full object-cover object-top" />
+                    <img loading="lazy" decoding="async" src={member.image} alt={member.name} className="relative z-10 h-full w-full object-cover object-top" />
                   </div>
                 </div>
               </div>

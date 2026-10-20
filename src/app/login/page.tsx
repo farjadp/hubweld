@@ -34,7 +34,7 @@ function LoginInner() {
         <div><label className="label">Password</label><input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /></div>
         {err && <p className="text-sm text-brand">{err}</p>}
         <button className="btn-primary w-full" disabled={loading}>{loading ? "Signing in..." : "Sign in"}</button>
-        <p className="text-center text-sm text-slate-600">No account? <Link href="/register" className="text-amber hover:underline">Create one</Link></p>
+        <p className="text-center text-sm text-slate-600">No account? <Link href="/register" className="text-brand hover:underline">Create one</Link></p>
       </form>
     </div>
   );
