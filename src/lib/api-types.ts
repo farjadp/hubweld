@@ -60,6 +60,12 @@ export type ProductDetail = ProductSummary & {
   related: ProductSummary[];
 };
 
+export type CartResponse = {
+  items: CartItemDto[];
+  /** Present when ?country= (and ?region=) were given: the same estimate checkout will record. */
+  totals?: { subtotalCents: number; shippingCents: number; taxCents: number; totalCents: number; taxLabel: string; taxResolved: boolean };
+};
+
 export type CartItemDto = {
   id: string;
   productId: string;
@@ -148,6 +154,7 @@ export type ReviewDto = { id: string; rating: number; comment: string; authorNam
 
 export type JobDetail = JobSummary & {
   description: string;
+  photos: string[];
   customer: { id: string; name: string };
   bids: BidDto[];
   reviews: ReviewDto[];

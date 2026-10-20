@@ -10,6 +10,7 @@ import JobStatusButtons from "./JobStatusButtons";
 import ReviewForm from "./ReviewForm";
 import MessageThread from "./MessageThread";
 import { formatDollars } from "@/lib/money";
+import { parseGallery } from "@/lib/api-dto";
 
 export const dynamic = "force-dynamic";
 
@@ -41,6 +42,7 @@ export default async function JobDetailPage({ params }: { params: { id: string }
   const canMessage = me && (isOwner || (isWelder && !!myBid));
   const alreadyReviewed = isOwner && job.reviews.some((r) => r.authorId === me.id);
   const statusStyle = STATUS_STYLES[job.status] ?? "bg-slate-100 text-slate-600";
+  const photos = parseGallery(job.photosJson);
 
   return (
     <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
@@ -59,6 +61,15 @@ export default async function JobDetailPage({ params }: { params: { id: string }
             <span>by {job.customer.name}</span>
           </div>
           <p className="mt-4 whitespace-pre-line text-slate-700">{job.description}</p>
+          {photos.length > 0 && (
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {photos.map((url) => (
+                <a key={url} href={url} target="_blank" rel="noopener noreferrer" className="aspect-square overflow-hidden rounded-sm border border-slate-200 bg-slate-100">
+                  <img loading="lazy" decoding="async" src={url} alt="Job site photo" className="h-full w-full object-cover" />
+                </a>
+              ))}
+            </div>
+          )}
           {job.budget && <p className="mt-3 font-bold text-brand">Budget: {formatDollars(job.budget)}</p>}
         </div>
 

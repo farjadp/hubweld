@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
-import { toBid, toReview } from "@/lib/api-dto";
+import { parseGallery, toBid, toReview } from "@/lib/api-dto";
 import type { JobDetail } from "@/lib/api-types";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +37,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
     id: job.id,
     title: job.title,
     description: job.description,
+    photos: parseGallery(job.photosJson),
     city: job.city,
     category: job.category as JobDetail["category"],
     budget: job.budget,

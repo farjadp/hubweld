@@ -12,6 +12,12 @@ const schema = z.object({
   city: z.string().min(2),
   category: z.enum(["mobile", "fabrication", "repair", "structural", "other"]),
   budget: z.number().int().positive().nullable().optional(),
+  // Site photos uploaded through /api/profile/upload. Only our own upload
+  // URLs: a job page must not hotlink whatever address a client sends.
+  photos: z
+    .array(z.string().max(300).regex(/^\/(api\/files|uploads)\/[\w.-]+$/, "Invalid photo"))
+    .max(8)
+    .optional(),
 });
 
 export const dynamic = "force-dynamic";
@@ -71,6 +77,9 @@ export async function POST(req: Request) {
   const body = await req.json();
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
-  const job = await prisma.job.create({ data: { ...parsed.data, budget: parsed.data.budget ?? null, customerId: me.id } });
+  const { photos, ...fields } = parsed.data;
+  const job = await prisma.job.create({
+    data: { ...fields, budget: fields.budget ?? null, photosJson: JSON.stringify(photos ?? []), customerId: me.id },
+  });
   return NextResponse.json({ id: job.id });
 }

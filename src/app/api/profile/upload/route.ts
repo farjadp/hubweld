@@ -15,18 +15,16 @@ const MAX_RESUME = 10 * 1024 * 1024; // 10 MB
 export async function POST(req: NextRequest) {
   const me = await getCurrentUser();
   if (!me) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
-  // Welders upload their avatar, gallery and résumé; suppliers upload product
-  // photos (the app takes them straight from the camera).
-  if (me.role !== "WELDER" && me.role !== "SUPPLIER" && me.role !== "ADMIN") {
-    return NextResponse.json({ error: "Welders and suppliers only" }, { status: 403 });
-  }
+  // Any signed-in user may upload an image: welders their avatar and gallery,
+  // suppliers product photos, customers photos of the job site. Résumés are
+  // welders only.
 
   const formData = await req.formData();
   const file = formData.get("file") as File | null;
-  const kind = (formData.get("kind") as string) || "image"; // avatar | gallery | resume | product
+  const kind = (formData.get("kind") as string) || "image"; // avatar | gallery | resume | product | job
   if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
-  if (me.role === "SUPPLIER" && kind === "resume") {
-    return NextResponse.json({ error: "Suppliers can upload images only" }, { status: 400 });
+  if (kind === "resume" && me.role !== "WELDER") {
+    return NextResponse.json({ error: "Only welders upload a résumé" }, { status: 403 });
   }
 
   const isResume = kind === "resume";

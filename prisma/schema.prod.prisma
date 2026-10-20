@@ -65,6 +65,7 @@ model Job {
   budget      Int?
   status      String   @default("OPEN") // OPEN | ASSIGNED | IN_PROGRESS | COMPLETED | CANCELLED
   acceptedBidId String? @unique
+  photosJson  String   @default("[]") // JSON array of image URLs (site photos, from the app's camera)
   createdAt   DateTime @default(now())
   bids        Bid[]
   reviews     Review[]
