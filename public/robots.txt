@@ -1,4 +1,14 @@
 User-agent: *
 Allow: /
 
+# Nothing behind a login belongs in an index, and the API is not content.
+Disallow: /admin
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /cart
+Disallow: /checkout
+Disallow: /orders
+Disallow: /login
+Disallow: /register
+
 Sitemap: https://hubweld.ca/sitemap.xml

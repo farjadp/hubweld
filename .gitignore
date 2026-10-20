@@ -11,3 +11,7 @@ prisma/dev.db-journal
 # Local tooling / build artifacts
 .claude/
 tsconfig.tsbuildinfo
+
+# Local scratch databases
+prisma/dev2.db
+prisma/*.db-journal
