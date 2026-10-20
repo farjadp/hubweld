@@ -1,31 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { requireAdmin, forbidden } from "@/lib/admin-guard";
+import { saveUpload } from "@/lib/uploads";
+
+export const dynamic = "force-dynamic";
+
+/**
+ * Image upload for the blog editor.
+ *
+ * Three things were wrong here and all three bit in production:
+ *  - the extension came straight off the uploaded filename, so an admin could
+ *    write a .html or .svg into a statically served directory;
+ *  - there was no size cap at all, unlike every other upload route;
+ *  - the destination was hard-coded to public/uploads, which ignores
+ *    UPLOAD_DIR — so on Railway every blog image vanished on the next deploy.
+ *
+ * saveUpload() handles all three: it picks the extension from an allowlist and
+ * writes to the configured upload directory (the persistent volume in prod).
+ */
+const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const IMAGE_EXT = ["jpg", "jpeg", "png", "webp", "gif"];
+const MAX_IMAGE = 5 * 1024 * 1024; // 5 MB, matching the welder image limit
 
 export async function POST(req: NextRequest) {
-  const s = await getServerSession(authOptions);
-  if ((s?.user as any)?.role !== "ADMIN")
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!(await requireAdmin())) return forbidden();
 
   const formData = await req.formData();
   const file = formData.get("file") as File | null;
   if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
 
-  const allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-  if (!allowed.includes(file.type))
-    return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
+  if (!IMAGE_TYPES.includes(file.type)) {
+    return NextResponse.json({ error: "Image must be JPG, PNG, WebP, or GIF." }, { status: 400 });
+  }
+  if (file.size > MAX_IMAGE) {
+    return NextResponse.json({ error: `File too large. Max ${MAX_IMAGE / 1024 / 1024}MB.` }, { status: 400 });
+  }
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-
-  const ext = file.name.split(".").pop() ?? "jpg";
-  const name = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-  const uploadDir = join(process.cwd(), "public", "uploads");
-
-  await mkdir(uploadDir, { recursive: true });
-  await writeFile(join(uploadDir, name), buffer);
-
-  return NextResponse.json({ url: `/uploads/${name}` });
+  const url = await saveUpload(file, IMAGE_EXT);
+  return NextResponse.json({ url });
 }

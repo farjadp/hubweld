@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin, forbidden } from "@/lib/admin-guard";
 
 export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
-  const s = await getServerSession(authOptions);
-  if ((s?.user as any)?.role !== "ADMIN") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  await (prisma as any).postTag.delete({ where: { id: params.id } });
+  if (!(await requireAdmin())) return forbidden();
+  const tag = await prisma.postTag.findUnique({ where: { id: params.id }, select: { id: true } });
+  if (!tag) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  // PostToTag cascades on tag delete, so the join rows go with it.
+  await prisma.postTag.delete({ where: { id: params.id } });
   return NextResponse.json({ ok: true });
 }

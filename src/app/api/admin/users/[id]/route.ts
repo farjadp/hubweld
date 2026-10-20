@@ -1,18 +1,10 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-
-async function adminGuard() {
-  const session = await getServerSession(authOptions);
-  const me = session?.user as any;
-  if (!me || me.role !== "ADMIN") return null;
-  return me;
-}
+import { requireAdmin, forbidden } from "@/lib/admin-guard";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
-  const me = await adminGuard();
-  if (!me) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  const me = await requireAdmin();
+  if (!me) return forbidden();
   const body = await req.json();
   const { action } = body;
   switch (action) {
@@ -39,8 +31,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 }
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
-  const me = await adminGuard();
-  if (!me) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  const me = await requireAdmin();
+  if (!me) return forbidden();
   const body = await req.json();
   const user = await prisma.user.findUnique({ where: { id: params.id } });
   if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -62,8 +54,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const me = await adminGuard();
-  if (!me) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  const me = await requireAdmin();
+  if (!me) return forbidden();
   const user = await prisma.user.findUnique({ where: { id: params.id } });
   if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
   if (user.id === me.id) return NextResponse.json({ error: "Cannot delete yourself" }, { status: 400 });

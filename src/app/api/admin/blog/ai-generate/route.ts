@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { requireAdmin, forbidden } from "@/lib/admin-guard";
 import OpenAI from "openai";
 import http from "http";
 import https from "https";
@@ -53,11 +52,6 @@ async function assertPublicUrl(raw: string): Promise<URL> {
     throw new Error("That URL points to a private or internal address and cannot be fetched");
   }
   return u;
-}
-
-async function guard() {
-  const s = await getServerSession(authOptions);
-  return (s?.user as any)?.role === "ADMIN";
 }
 
 // Lazy initialization - only create client when needed
@@ -246,7 +240,7 @@ async function scrapeUrl(url: string): Promise<string> {
 
 // ── Main handler ─────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
-  if (!await guard()) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!(await requireAdmin())) return forbidden();
 
   if (!process.env.OPENAI_API_KEY) {
     return NextResponse.json({ error: "OPENAI_API_KEY is not configured in .env" }, { status: 500 });

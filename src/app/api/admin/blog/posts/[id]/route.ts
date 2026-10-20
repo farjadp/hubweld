@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-
-async function guard() {
-  const s = await getServerSession(authOptions);
-  return (s?.user as any)?.role === "ADMIN";
-}
+import { requireAdmin, forbidden } from "@/lib/admin-guard";
+import { postPatchInput, resolveTagSlugs } from "@/lib/blog";
 
 export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
-  const post = await (prisma as any).post.findUnique({
+  // Unguarded, this served any post by id, drafts included.
+  if (!(await requireAdmin())) return forbidden();
+  const post = await prisma.post.findUnique({
     where: { id: params.id },
     include: { category: true, author: { select: { name: true } }, tags: { include: { tag: true } } },
   });
@@ -18,25 +15,41 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  if (!await guard()) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!(await requireAdmin())) return forbidden();
 
-  const { tagSlugs, status, ...data } = await req.json();
-
-  if (status === "PUBLISHED") {
-    const existing = await (prisma as any).post.findUnique({ where: { id: params.id }, select: { publishedAt: true } });
-    if (!existing?.publishedAt) data.publishedAt = new Date();
+  // Only the fields in postPatchInput are writable. Spreading the request body
+  // let a caller set views, authorId, createdAt — anything on the row.
+  const parsed = postPatchInput.safeParse(await req.json());
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.errors[0]?.message ?? "Invalid input" }, { status: 400 });
   }
-  data.status = status;
+  const { tagSlugs, ...d } = parsed.data;
 
-  const post = await (prisma as any).post.update({
+  const existing = await prisma.post.findUnique({
+    where: { id: params.id },
+    select: { publishedAt: true, slug: true },
+  });
+  if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  if (d.slug && d.slug !== existing.slug) {
+    const dup = await prisma.post.findUnique({ where: { slug: d.slug }, select: { id: true } });
+    if (dup) return NextResponse.json({ error: "That slug is already in use" }, { status: 409 });
+  }
+  if (d.categoryId) {
+    const category = await prisma.postCategory.findUnique({ where: { id: d.categoryId }, select: { id: true } });
+    if (!category) return NextResponse.json({ error: "Unknown category" }, { status: 400 });
+  }
+
+  // First publish stamps publishedAt; re-publishing keeps the original date.
+  const publishedAt = d.status === "PUBLISHED" && !existing.publishedAt ? new Date() : undefined;
+
+  const post = await prisma.post.update({
     where: { id: params.id },
     data: {
-      ...data,
+      ...d,
+      ...(publishedAt ? { publishedAt } : {}),
       ...(tagSlugs !== undefined && {
-        tags: {
-          deleteMany: {},
-          create: await resolveTagSlugs(tagSlugs),
-        },
+        tags: { deleteMany: {}, create: await resolveTagSlugs(tagSlugs) },
       }),
     },
     include: { category: true, tags: { include: { tag: true } } },
@@ -45,21 +58,9 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 }
 
 export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
-  if (!await guard()) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  await (prisma as any).post.delete({ where: { id: params.id } });
+  if (!(await requireAdmin())) return forbidden();
+  const existing = await prisma.post.findUnique({ where: { id: params.id }, select: { id: true } });
+  if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  await prisma.post.delete({ where: { id: params.id } });
   return NextResponse.json({ ok: true });
-}
-
-async function resolveTagSlugs(slugs: string[]) {
-  const result = [];
-  for (const slug of slugs) {
-    const name = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-    const tag = await (prisma as any).postTag.upsert({
-      where: { slug },
-      update: {},
-      create: { slug, name },
-    });
-    result.push({ tagId: tag.id });
-  }
-  return result;
 }

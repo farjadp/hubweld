@@ -1,15 +1,7 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin, forbidden } from "@/lib/admin-guard";
 import { z } from "zod";
-
-async function adminGuard() {
-  const session = await getServerSession(authOptions);
-  const me = session?.user as any;
-  if (!me || me.role !== "ADMIN") return null;
-  return me;
-}
 
 const patchSchema = z.object({
   title: z.string().min(3).optional(),
@@ -21,8 +13,8 @@ const patchSchema = z.object({
 });
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
-  const me = await adminGuard();
-  if (!me) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  const me = await requireAdmin();
+  if (!me) return forbidden();
   const job = await prisma.job.findUnique({ where: { id: params.id } });
   if (!job) return NextResponse.json({ error: "Not found" }, { status: 404 });
   const parsed = patchSchema.safeParse(await req.json());
@@ -32,8 +24,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const me = await adminGuard();
-  if (!me) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  const me = await requireAdmin();
+  if (!me) return forbidden();
   const job = await prisma.job.findUnique({ where: { id: params.id } });
   if (!job) return NextResponse.json({ error: "Not found" }, { status: 404 });
   await prisma.job.delete({ where: { id: params.id } });

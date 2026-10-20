@@ -1,25 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-
-async function guard() {
-  const s = await getServerSession(authOptions);
-  return (s?.user as any)?.role === "ADMIN";
-}
+import { requireAdmin, forbidden } from "@/lib/admin-guard";
+import { tagInput } from "@/lib/blog";
 
 export async function GET() {
-  const tags = await (prisma as any).postTag.findMany({ orderBy: { name: "asc" } });
+  if (!(await requireAdmin())) return forbidden();
+  const tags = await prisma.postTag.findMany({ orderBy: { name: "asc" } });
   return NextResponse.json(tags);
 }
 
 export async function POST(req: NextRequest) {
-  if (!await guard()) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const { name, slug } = await req.json();
-  const tag = await (prisma as any).postTag.upsert({
-    where: { slug },
-    update: { name },
-    create: { name, slug },
-  });
+  if (!(await requireAdmin())) return forbidden();
+  const parsed = tagInput.safeParse(await req.json());
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.errors[0]?.message ?? "Invalid input" }, { status: 400 });
+  }
+  const { name, slug } = parsed.data;
+  const tag = await prisma.postTag.upsert({ where: { slug }, update: { name }, create: { name, slug } });
   return NextResponse.json(tag);
 }
