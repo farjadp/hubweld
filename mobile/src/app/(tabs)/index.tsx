@@ -136,7 +136,7 @@ function CustomerHome() {
             <Row
               key={o.id}
               title={`Order ${o.reference}`}
-              sub={`${o.itemCount} items · ${formatCents(o.totalCents)}`}
+              sub={`${o.itemCount} ${o.itemCount === 1 ? "item" : "items"} · ${formatCents(o.totalCents)}`}
               right={<Badge {...ORDER_STATUS[o.status]} />}
               onPress={() => router.push({ pathname: "/order/[id]", params: { id: o.id } })}
             />
