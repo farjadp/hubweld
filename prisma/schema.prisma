@@ -144,7 +144,7 @@ model Product {
   brand       String   @default("")
   sku         String   @default("")
   description String   @default("")
-  priceCents  Int      // in cents, USD
+  priceCents  Int      // in cents, CAD (the settlement currency)
   stock       Int      @default(0)
   imageUrl    String   @default("")
   specsJson   String   @default("{}") // JSON string for specs
@@ -179,6 +179,10 @@ model Order {
   buyerId       String
   buyer         User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
   status        String   @default("PENDING") // PENDING | PAID | SHIPPED | COMPLETED | CANCELLED
+  // How the buyer asked to settle: "contact" (we call them) or "net30"
+  // (invoice on 30-day terms). The checkout form has always collected this and
+  // it was being dropped on the floor, so a Net 30 request never reached ops.
+  paymentMethod String   @default("contact") // contact | net30
   subtotalCents Int
   shippingCents Int      @default(0)
   taxCents      Int      @default(0)

@@ -12,9 +12,22 @@ chown -R nextjs:nodejs /app/data 2>/dev/null || true
 # Use the production PostgreSQL schema at runtime
 cp /app/prisma/schema.prod.prisma /app/prisma/schema.prisma
 
-# Run database sync (creates tables if they don't exist)
-echo "Running database sync..."
-npx prisma db push --accept-data-loss
+# ── Schema migrations ─────────────────────────────────────────────────────
+# This used to run `prisma db push --accept-data-loss` on every boot, which
+# let a single schema edit drop a production column — and its data — silently,
+# with no record of what changed. Migrations are applied explicitly instead.
+#
+# A failure here is deliberately fatal: starting the app against a schema we
+# could not migrate is worse than not starting at all.
+echo "Applying database migrations..."
+if ! npx prisma migrate deploy; then
+  # A database created by the old `db push` flow already has the tables but no
+  # migration history, so `migrate deploy` refuses to touch it (P3005). Mark
+  # the baseline as applied once, then let the newer migrations run.
+  echo "migrate deploy failed — baselining an existing database as 0_init"
+  npx prisma migrate resolve --applied 0_init
+  npx prisma migrate deploy
+fi
 
 # Seed catalogue and article content. The script is idempotent — it skips any
 # slug that already exists — so it is safe on every boot. Never fatal: a fresh
