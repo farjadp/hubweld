@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
+import { toProductSummary } from "@/lib/api-dto";
+import type { ProductDetail } from "@/lib/api-types";
 
 const patchSchema = z.object({
   name: z.string().min(3).optional(),
@@ -22,6 +24,47 @@ async function ownerCheck(id: string, me: any) {
   if (!p) return { error: "Not found", status: 404 as const };
   if (p.supplierId !== me.id && me.role !== "ADMIN") return { error: "Forbidden", status: 403 as const };
   return { product: p };
+}
+
+export const dynamic = "force-dynamic";
+
+/**
+ * One product, by id or by slug. Drafts and archived items are visible only to
+ * their supplier and to admins — the same rule as the /shop/p page, which 404s
+ * anything not ACTIVE.
+ */
+export async function GET(_req: Request, { params }: { params: { id: string } }) {
+  const p = await prisma.product.findFirst({
+    where: { OR: [{ id: params.id }, { slug: params.id }] },
+    include: { supplier: { include: { supplierProfile: true } }, category: true },
+  });
+  if (!p) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (p.status !== "ACTIVE") {
+    const me = await getCurrentUser();
+    if (!me || (me.id !== p.supplierId && me.role !== "ADMIN")) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  const related = await prisma.product.findMany({
+    where: { categoryId: p.categoryId, status: "ACTIVE", NOT: { id: p.id } },
+    take: 4,
+  });
+
+  const body: ProductDetail = {
+    ...toProductSummary(p),
+    sku: p.sku,
+    description: p.description,
+    status: p.status as ProductDetail["status"],
+    category: { id: p.category.id, slug: p.category.slug, name: p.category.name },
+    supplier: {
+      id: p.supplierId,
+      name: p.supplier.supplierProfile?.businessName || p.supplier.name,
+      city: p.supplier.city,
+      approved: !!p.supplier.supplierProfile?.approved,
+      description: p.supplier.supplierProfile?.description ?? "",
+    },
+    related: related.map(toProductSummary),
+  };
+  return NextResponse.json(body);
 }
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {

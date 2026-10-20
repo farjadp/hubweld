@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
+import { randomBytes } from "crypto";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
+import { deleteUpload } from "@/lib/uploads";
+import { parseGallery } from "@/lib/api-dto";
 
 /**
  * Account self-service for every signed-in role.
@@ -71,6 +74,79 @@ export async function PATCH(req: Request) {
       },
     });
   }
+
+  return NextResponse.json({ ok: true });
+}
+
+const deleteSchema = z.object({ password: z.string().min(1, "Enter your password to delete your account") });
+
+/**
+ * Delete your own account.
+ *
+ * Required by both app stores for any app that lets people sign up (Apple
+ * 5.1.1(v), Google Play's account-deletion policy), and offered on the web for
+ * the same reason.
+ *
+ * The account is anonymised rather than hard-deleted. `Order` cascades from
+ * `User`, so a real delete would erase sales records that have to be kept for
+ * tax purposes, and the other party's side of a job or a conversation would
+ * vanish with it. What is removed is everything that identifies the person:
+ * name, email, phone, city, password, the welder profile with its photos and
+ * résumé, the storefront details, the cart and every device session. Orders
+ * keep the shipping details given at checkout, because those are the record
+ * of the sale.
+ */
+export async function DELETE(req: Request) {
+  const me = await getCurrentUser();
+  if (!me) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
+  if (me.role === "ADMIN") {
+    return NextResponse.json({ error: "Admin accounts are removed by another admin, not from here." }, { status: 400 });
+  }
+
+  const parsed = deleteSchema.safeParse(await req.json().catch(() => null));
+  if (!parsed.success) return NextResponse.json({ error: parsed.error.errors[0]?.message ?? "Invalid input" }, { status: 400 });
+
+  const user = await prisma.user.findUnique({ where: { id: me.id }, include: { welderProfile: true } });
+  if (!user) return NextResponse.json({ error: "Account not found" }, { status: 404 });
+  if (!(await bcrypt.compare(parsed.data.password, user.passwordHash))) {
+    return NextResponse.json({ error: "Password is incorrect" }, { status: 400 });
+  }
+
+  const files = user.welderProfile
+    ? [user.welderProfile.avatarUrl, user.welderProfile.resumeUrl, ...parseGallery(user.welderProfile.galleryJson)]
+        // Only our own uploads; a pasted external URL is not ours to unlink.
+        .filter((u) => u.startsWith("/api/files/") || u.startsWith("/uploads/"))
+    : [];
+
+  await prisma.$transaction([
+    prisma.user.update({
+      where: { id: me.id },
+      data: {
+        email: `deleted-${me.id}@deleted.invalid`,
+        name: "Deleted user",
+        // A random hash nobody knows: the account can never be signed into again.
+        passwordHash: await bcrypt.hash(randomBytes(32).toString("hex"), 10),
+        city: null,
+        phone: null,
+        banned: true,
+      },
+    }),
+    prisma.welderProfile.deleteMany({ where: { userId: me.id } }),
+    prisma.supplierProfile.updateMany({
+      where: { userId: me.id },
+      data: { businessName: "Deleted supplier", description: "", website: "", logoUrl: "", approved: false },
+    }),
+    // Off the shelves, but kept so past order lines still point somewhere.
+    prisma.product.updateMany({ where: { supplierId: me.id }, data: { status: "ARCHIVED", featured: false } }),
+    // Nobody is left to award open jobs or to do the work for pending bids.
+    prisma.job.updateMany({ where: { customerId: me.id, status: "OPEN" }, data: { status: "CANCELLED" } }),
+    prisma.bid.deleteMany({ where: { welderId: me.id, status: "PENDING" } }),
+    prisma.cart.deleteMany({ where: { userId: me.id } }),
+    prisma.mobileSession.deleteMany({ where: { userId: me.id } }),
+  ]);
+
+  // After the commit: a failed unlink must not undo the deletion.
+  await Promise.all(files.map((url) => deleteUpload(url)));
 
   return NextResponse.json({ ok: true });
 }

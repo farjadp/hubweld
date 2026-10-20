@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
+import { contains } from "@/lib/search";
+import { pageParam, toProductSummary } from "@/lib/api-dto";
+import type { Paged, ProductSummary } from "@/lib/api-types";
 
 const schema = z.object({
   name: z.string().min(3),
@@ -16,6 +19,49 @@ const schema = z.object({
   status: z.enum(["DRAFT", "ACTIVE", "ARCHIVED"]).default("ACTIVE"),
   featured: z.boolean().default(false),
 });
+
+export const dynamic = "force-dynamic";
+
+const PAGE_SIZE = 24;
+
+/**
+ * Active catalogue, same filter and ordering as /shop.
+ * `?q=` searches name, brand and description; `?category=<slug>` includes the
+ * category's subcategories; `?featured=1` returns featured items only.
+ */
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const q = url.searchParams.get("q")?.trim() ?? "";
+  const categorySlug = url.searchParams.get("category")?.trim() ?? "";
+  const featuredOnly = url.searchParams.get("featured") === "1";
+
+  let categoryIds: string[] | null = null;
+  if (categorySlug) {
+    const cat = await prisma.productCategory.findUnique({ where: { slug: categorySlug }, include: { children: { select: { id: true } } } });
+    if (!cat) return NextResponse.json({ items: [], page: 1, pageCount: 1, total: 0 } satisfies Paged<ProductSummary>);
+    categoryIds = [cat.id, ...cat.children.map((c) => c.id)];
+  }
+
+  const where = {
+    status: "ACTIVE",
+    ...(featuredOnly ? { featured: true } : {}),
+    ...(categoryIds ? { categoryId: { in: categoryIds } } : {}),
+    ...(q ? { OR: [{ name: contains(q) }, { brand: contains(q) }, { description: contains(q) }] } : {}),
+  };
+
+  const total = await prisma.product.count({ where });
+  const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const page = pageParam(url, pageCount);
+  const products = await prisma.product.findMany({
+    where,
+    orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
+    skip: (page - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
+  });
+
+  const body: Paged<ProductSummary> = { items: products.map(toProductSummary), page, pageCount, total };
+  return NextResponse.json(body);
+}
 
 export async function POST(req: Request) {
   const me = await getCurrentUser();

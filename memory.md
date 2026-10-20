@@ -47,6 +47,8 @@ The database has several interconnected entities:
     - Every handler under `src/app/api/admin` must start with `requireAdmin()` from `src/lib/admin-guard.ts` — **including `GET`**. Unguarded GETs leaked unpublished drafts once; do not hand-roll a new guard.
   - Validate request bodies with zod before they reach Prisma, and never spread a request body into a Prisma `data` object.
 
+- **Mobile app (Oct 2026):** non-admin API routes get the user from `getCurrentUser()` in `src/lib/current-user.ts` (cookie OR Bearer token), never `getServerSession` directly — otherwise the route silently stops working in the app. New JSON responses use a type from `src/lib/api-types.ts` (keep that file import-free; the app imports it) built by a mapper in `src/lib/api-dto.ts`. Notify the other party with `notifyUsers()` from `src/lib/push.ts` when an action concerns them.
+
 ## 5. Automated AI Blog Generation
 - **Endpoint:** `/api/cron/generate-article`
 - **Function:** Uses OpenAI API (`gpt-4o`) to write and publish SEO/GEO/AIO optimized articles **in English** (the prompt has always been English — this file used to say Persian).

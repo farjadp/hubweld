@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
+import { notifyUsers, preview } from "@/lib/push";
 
 // GET — fetch messages for this job (only participants: owner or assigned welder)
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
@@ -115,6 +116,11 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   const message = await prisma.message.create({
     data: { jobId: params.id, fromId: me.id, toId, body: parsed.data.body },
     include: { from: { select: { id: true, name: true } } },
+  });
+  notifyUsers(toId, {
+    title: `${me.name} · ${job.title}`,
+    body: preview(parsed.data.body),
+    data: { type: "message", jobId: job.id },
   });
   return NextResponse.json(message);
 }

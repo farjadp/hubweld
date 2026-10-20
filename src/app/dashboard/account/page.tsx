@@ -4,6 +4,7 @@ import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AccountForm from "./AccountForm";
+import DeleteAccount from "./DeleteAccount";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Account settings" };
@@ -54,6 +55,8 @@ export default async function AccountPage() {
             : null
         }
       />
+
+      {user.role !== "ADMIN" && <DeleteAccount />}
     </div>
   );
 }

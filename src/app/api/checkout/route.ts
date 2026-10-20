@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
+import { notifyUsers } from "@/lib/push";
 import { getOrCreateCart, cartTotals } from "@/lib/cart";
 import { sendOrderReceivedToBuyer, sendOrderAlertToOps, sendOrderAlertToSupplier } from "@/lib/order-emails";
 
@@ -119,6 +120,15 @@ export async function POST(req: Request) {
       })
     ),
   ]);
+
+  for (const s of suppliers) {
+    const lines = items.filter((i) => i.supplierId === s.id).length;
+    notifyUsers(s.id, {
+      title: `New order ${payload.reference}`,
+      body: `${lines} line${lines === 1 ? "" : "s"} to fulfil · ship to ${d.city}`,
+      data: { type: "supplier-order", orderId: order.id },
+    });
+  }
 
   return NextResponse.json({ id: order.id });
 }

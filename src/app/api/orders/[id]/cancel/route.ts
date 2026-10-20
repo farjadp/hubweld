@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
+import { notifyUsers } from "@/lib/push";
+import { orderReference } from "@/lib/api-dto";
 import { restoreStockFor } from "@/lib/orders";
 
 /**
@@ -52,6 +54,15 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
     });
     await tx.order.update({ where: { id: order.id }, data: { status: "CANCELLED" } });
   });
+
+  const ref = orderReference(order.id);
+  notifyUsers(
+    [...new Set(live.map((i) => i.supplierId))].filter((id) => id !== me.id),
+    { title: `Order ${ref} cancelled`, body: "Do not ship it. The stock has been returned.", data: { type: "supplier-order", orderId: order.id } }
+  );
+  if (!isBuyer) {
+    notifyUsers(order.buyerId, { title: `Order ${ref} cancelled`, body: "HubWeld cancelled this order.", data: { type: "order", orderId: order.id } });
+  }
 
   return NextResponse.json({ ok: true });
 }

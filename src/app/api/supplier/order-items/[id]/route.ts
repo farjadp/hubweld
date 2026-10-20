@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
+import { notifyUsers } from "@/lib/push";
+import { orderReference } from "@/lib/api-dto";
 import { restoreStockFor, orderStatusFromItems } from "@/lib/orders";
 
 const schema = z.object({ status: z.enum(["PENDING", "FULFILLED", "CANCELLED"]) });
@@ -22,7 +24,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   // is closed. Touching a line on either would double-count the inventory.
   const parent = await prisma.order.findUnique({
     where: { id: item.orderId },
-    select: { status: true },
+    select: { status: true, buyerId: true },
   });
   if (parent?.status === "CANCELLED") {
     return NextResponse.json({ error: "This order was cancelled" }, { status: 400 });
@@ -59,6 +61,14 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       }
     }
   });
+
+  if (parent && (next === "FULFILLED" || next === "CANCELLED")) {
+    notifyUsers(parent.buyerId, {
+      title: next === "FULFILLED" ? `Shipped: ${item.nameSnapshot}` : `Cancelled: ${item.nameSnapshot}`,
+      body: `Order ${orderReference(item.orderId)}`,
+      data: { type: "order", orderId: item.orderId },
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }

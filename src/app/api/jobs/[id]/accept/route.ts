@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
+import { notifyUsers } from "@/lib/push";
+import { formatDollars } from "@/lib/money";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const me = await getCurrentUser();
@@ -18,5 +20,15 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     prisma.bid.updateMany({ where: { jobId: job.id, NOT: { id: bidId } }, data: { status: "REJECTED" } }),
     prisma.job.update({ where: { id: job.id }, data: { status: "ASSIGNED", acceptedBidId: bidId } }),
   ]);
+
+  notifyUsers(bid.welderId, {
+    title: "Your bid was accepted",
+    body: `${job.title} — ${formatDollars(bid.amount)}`,
+    data: { type: "job", jobId: job.id },
+  });
+  notifyUsers(
+    job.bids.filter((b) => b.id !== bidId && b.status === "PENDING").map((b) => b.welderId),
+    { title: "Job awarded", body: `${job.title} went to another welder.`, data: { type: "job", jobId: job.id } }
+  );
   return NextResponse.json({ ok: true });
 }

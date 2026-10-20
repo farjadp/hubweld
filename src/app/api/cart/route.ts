@@ -30,6 +30,6 @@ export async function GET() {
   if (!me) return NextResponse.json({ items: [] });
   const cart = await getOrCreateCart(me.id);
   return NextResponse.json({
-    items: cart.items.map((i) => ({ id: i.id, productId: i.productId, name: i.product.name, priceCents: i.product.priceCents, quantity: i.quantity, imageUrl: i.product.imageUrl, slug: i.product.slug })),
+    items: cart.items.map((i) => ({ id: i.id, productId: i.productId, name: i.product.name, priceCents: i.product.priceCents, quantity: i.quantity, imageUrl: i.product.imageUrl, slug: i.product.slug, stock: i.product.stock })),
   });
 }

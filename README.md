@@ -78,6 +78,17 @@ Sales tax comes from the destination province (`src/lib/totals.ts`), quoted as a
 
 Article HTML is run through an allowlist (`src/lib/sanitize.ts`) before it reaches a reader.
 
+## Mobile app API
+
+The Expo app in `mobile/` uses the same API routes as the site. `getCurrentUser()` (`src/lib/current-user.ts`) accepts either the NextAuth cookie or `Authorization: Bearer <access token>`, so one handler and one set of permission rules serve both clients. **Use it, not `getServerSession`, in any non-admin route.** Admin routes stay cookie-only.
+
+- `POST /api/mobile/auth/login` → access token (15 min) + refresh token (60 days, sliding). Refresh tokens are stored hashed in `MobileSession` and rotate on every `POST /api/mobile/auth/refresh`, so each one works once.
+- `POST /api/mobile/auth/logout` revokes the device; `PUT /api/mobile/push-token` registers its Expo push token.
+- Read endpoints the app needs: `/api/me`, `/api/me/jobs`, `/api/me/bids`, `/api/products`, `/api/products/[id|slug]`, `/api/categories`, `/api/jobs`, `/api/jobs/[id]`, `/api/orders`, `/api/orders/[id]`, `/api/supplier/products`, `/api/supplier/order-items`, `/api/welders`, `/api/welders/[id]`.
+- Response shapes are in `src/lib/api-types.ts` (import-free, shared with the app); mappers in `src/lib/api-dto.ts`. Return a mapped shape, never a raw Prisma row.
+- Push notifications go out through Expo (`src/lib/push.ts`): new bid, bid accepted, message, job status, new/cancelled order, item shipped. `notifyUsers()` never throws and is not awaited.
+- `DELETE /api/account` anonymises the account (both stores require in-app deletion, and Google Play also wants a web page: `/dashboard/account#delete`). Orders are kept for tax records.
+
 ## Conventions
 
 - Server components fetch with Prisma directly; `"use client"` only where state or browser APIs are needed.
