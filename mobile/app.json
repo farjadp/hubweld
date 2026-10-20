@@ -1,0 +1,62 @@
+{
+  "expo": {
+    "name": "HubWeld",
+    "slug": "hubweld",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "hubweld",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "ca.hubweld.app",
+      "supportsTablet": false,
+      "config": { "usesNonExemptEncryption": false }
+    },
+    "android": {
+      "package": "ca.hubweld.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#D42B2B",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F6F7F9",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 96
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "HubWeld uses the camera so you can photograph a job site, your welding work, or a product you sell.",
+          "photosPermission": "HubWeld uses your photo library so you can attach pictures of a job site, your welding work, or a product you sell.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#C22127"
+        }
+      ],
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

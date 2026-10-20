@@ -1,0 +1,37 @@
+@import "tailwindcss";
+@import "uniwind";
+
+/*
+ * "Forged Industrial · Daylight" — the site's design system (see ../memory.md),
+ * carried over to the app. Light surfaces, red reserved for actions and status,
+ * flat opaque plates, no glass.
+ *
+ * Surface names are semantic here rather than the site's inverted `ink-*`
+ * scale, but the values are the same.
+ *
+ * Fonts: React Native needs one family per weight, so each weight is its own
+ * token (loaded in src/app/_layout.tsx). Never pair these with font-bold /
+ * font-semibold: a fontWeight on a custom family falls back to the system font
+ * on Android. Use <Text> from src/components/ui, which applies `font-body`.
+ */
+@theme {
+  --color-ground: #f6f7f9;   /* page background */
+  --color-recess: #eef1f4;   /* recessed panel */
+  --color-panel: #ffffff;    /* cards */
+  --color-raised: #f3f5f7;   /* hover / raised */
+  --color-pressed: #e7eaee;  /* pressed surface, hairlines on grey */
+
+  --color-brand: #c22127;
+  --color-brand-light: #e23138;
+  --color-brand-dark: #9a171c;
+
+  --font-body: "Barlow_400Regular";
+  --font-body-medium: "Barlow_500Medium";
+  --font-body-semibold: "Barlow_600SemiBold";
+  --font-body-bold: "Barlow_700Bold";
+  --font-display: "BarlowCondensed_700Bold";
+  --font-display-semibold: "BarlowCondensed_600SemiBold";
+  --font-mono: "IBMPlexMono_500Medium";
+
+  --tracking-machine: 0.14em;
+}
