@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 
 const patchSchema = z.object({
@@ -26,8 +25,7 @@ async function ownerCheck(id: string, me: any) {
 }
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
-  const me = session?.user as any;
+  const me = await getCurrentUser();
   if (!me) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
   const check = await ownerCheck(params.id, me);
   if ("error" in check) return NextResponse.json({ error: check.error }, { status: check.status });
@@ -42,8 +40,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
-  const me = session?.user as any;
+  const me = await getCurrentUser();
   if (!me) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
   const check = await ownerCheck(params.id, me);
   if ("error" in check) return NextResponse.json({ error: check.error }, { status: check.status });

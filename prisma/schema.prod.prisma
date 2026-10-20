@@ -31,6 +31,7 @@ model User {
   orders        Order[]
   supplierOrderItems OrderItem[] @relation("SupplierItems")
   posts         Post[]
+  mobileSessions MobileSession[]
 }
 
 model WelderProfile {
@@ -293,4 +294,27 @@ model ProjectTask {
   sortOrder   Int          @default(0)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+}
+
+// ============ Mobile app ============
+
+// One row per signed-in device. The refresh token is stored only as a SHA-256
+// hash, rotated on every use, and revoked on sign-out, so a lost phone can be
+// cut off without touching the user's web session. The device's Expo push
+// token lives here too: it belongs to the install, not to the user.
+model MobileSession {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshHash String    @unique
+  deviceName  String    @default("")
+  platform    String    @default("") // ios | android
+  pushToken   String?
+  createdAt   DateTime  @default(now())
+  lastUsedAt  DateTime  @default(now())
+  expiresAt   DateTime
+  revokedAt   DateTime?
+
+  @@index([userId])
+  @@index([pushToken])
 }

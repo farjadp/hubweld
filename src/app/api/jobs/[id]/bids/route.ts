@@ -1,14 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 
 const schema = z.object({ amount: z.number().int().positive(), message: z.string().max(2000).optional().default("") });
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
-  const me = session?.user as any;
+  const me = await getCurrentUser();
   if (!me) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
   if (me.role !== "WELDER") return NextResponse.json({ error: "Only welders can bid" }, { status: 403 });
   const body = await req.json();

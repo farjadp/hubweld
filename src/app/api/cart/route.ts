@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 import { getOrCreateCart } from "@/lib/cart";
 
 const schema = z.object({ productId: z.string(), quantity: z.number().int().min(1).max(999) });
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  const me = session?.user as any;
+  const me = await getCurrentUser();
   if (!me) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
   const parsed = schema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: "Invalid input" }, { status: 400 });
@@ -28,8 +26,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
-  const me = session?.user as any;
+  const me = await getCurrentUser();
   if (!me) return NextResponse.json({ items: [] });
   const cart = await getOrCreateCart(me.id);
   return NextResponse.json({

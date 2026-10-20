@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 import { restoreStockFor, orderStatusFromItems } from "@/lib/orders";
 
 const schema = z.object({ status: z.enum(["PENDING", "FULFILLED", "CANCELLED"]) });
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
-  const me = session?.user as any;
+  const me = await getCurrentUser();
   if (!me) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
   const parsed = schema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: "Invalid input" }, { status: 400 });

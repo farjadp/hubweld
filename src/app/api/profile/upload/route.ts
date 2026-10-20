@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/current-user";
 import { saveUpload } from "@/lib/uploads";
 
 export const dynamic = "force-dynamic";
@@ -14,8 +13,7 @@ const MAX_IMAGE = 5 * 1024 * 1024;  // 5 MB
 const MAX_RESUME = 10 * 1024 * 1024; // 10 MB
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const me = session?.user as any;
+  const me = await getCurrentUser();
   if (!me) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
   if (me.role !== "WELDER") return NextResponse.json({ error: "Welders only" }, { status: 403 });
 

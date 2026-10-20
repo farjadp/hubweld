@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/current-user";
 import { readUpload, contentTypeFor } from "@/lib/uploads";
 
 export const dynamic = "force-dynamic";
@@ -22,8 +21,7 @@ export async function GET(_req: NextRequest, { params }: { params: { path: strin
   // address and a work history, and were previously readable by anyone who
   // had the URL. Signing in is a low bar, but it is a bar.
   if (DOCUMENT_TYPES.includes(contentType)) {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
+    if (!(await getCurrentUser())) {
       return NextResponse.json({ error: "Sign in to view this document" }, { status: 401 });
     }
   }
