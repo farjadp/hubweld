@@ -5,12 +5,32 @@ import OpenAI from "openai";
 export const dynamic = "force-dynamic"; // Ensure it's not cached
 export const maxDuration = 60; // Max duration for Vercel/Railway (if supported)
 
+/**
+ * Authorise the caller.
+ *
+ * The secret used to travel as `?secret=`, which puts it in the access log of
+ * every proxy on the way and in Railway's own request log. It now comes in a
+ * header. The query form is still accepted so an already-deployed GitHub
+ * Action keeps working through one release — remove it after the workflow
+ * ships, and rotate CRON_SECRET, since the old value has been logged.
+ */
+function authorised(request: Request): boolean {
+  const expected = process.env.CRON_SECRET;
+  // An unset secret must never mean "open to everyone".
+  if (!expected) return false;
+
+  const header = request.headers.get("authorization") ?? "";
+  const bearer = header.toLowerCase().startsWith("bearer ") ? header.slice(7) : "";
+  if (bearer && bearer === expected) return true;
+  if (request.headers.get("x-cron-secret") === expected) return true;
+
+  // Deprecated: query-string fallback.
+  return new URL(request.url).searchParams.get("secret") === expected;
+}
+
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const secret = searchParams.get("secret");
-
-    if (secret !== process.env.CRON_SECRET) {
+    if (!authorised(request)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

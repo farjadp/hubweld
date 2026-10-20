@@ -24,9 +24,12 @@ jobs:
           fi
 
           echo "Pinging HubWeld generation endpoint..."
-          
-          # We use -f to fail on HTTP errors (like 401 or 500)
-          # We use -s for silent mode but capture output if needed.
-          curl -f -X GET "https://${PRODUCTION_DOMAIN}/api/cron/generate-article?secret=${CRON_SECRET}"
-          
+
+          # The secret goes in a header, not the query string: a URL is written
+          # to every proxy and platform access log it passes through.
+          # -f fails the step on an HTTP error (401, 500, ...).
+          curl -f -X GET \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            "https://${PRODUCTION_DOMAIN}/api/cron/generate-article"
+
           echo "Successfully triggered AI generation."
