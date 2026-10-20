@@ -8,6 +8,7 @@ export type OrderForEmail = {
   reference: string;
   buyerName: string;
   buyerEmail: string;
+  paymentMethod: "contact" | "net30";
   items: LineItem[];
   subtotalCents: number;
   shippingCents: number;
@@ -57,6 +58,11 @@ export async function sendOrderReceivedToBuyer(order: OrderForEmail) {
         "Card payments are temporarily unavailable",
         "Our payment gateway is being reconnected, so nothing has been charged and no card details were stored. A member of our team will contact you shortly to confirm the order and arrange payment — by invoice, transfer, or card over the phone, whichever suits you."
       )}
+      ${P(`<strong style="color:#16181D;">You asked us to:</strong> ${
+        order.paymentMethod === "net30"
+          ? "invoice you on Net 30 terms (subject to account approval)"
+          : "contact you to arrange payment"
+      }.`)}
       ${itemsTable(order.items, totals)}
       ${addressBlock(addressLines(order.ship))}
       ${order.notes ? P(`<strong style="color:#16181D;">Your notes:</strong> ${escapeHtml(order.notes)}`) : ""}
@@ -74,6 +80,10 @@ export async function sendOrderReceivedToBuyer(order: OrderForEmail) {
     `Our payment gateway is being reconnected, so nothing has been charged and no`,
     `card details were stored. A member of our team will contact you shortly to`,
     `confirm the order and arrange payment.`,
+    ``,
+    order.paymentMethod === "net30"
+      ? `You asked us to invoice you on Net 30 terms (subject to account approval).`
+      : `You asked us to contact you to arrange payment.`,
     ``,
     `Items:`,
     ...order.items.map((i) => `  ${i.quantity} x ${i.name} — ${formatAmount(i.priceCents * i.quantity)}`),
@@ -94,13 +104,30 @@ export async function sendOrderReceivedToBuyer(order: OrderForEmail) {
 /** To the team: somebody has to make the promised call. */
 export async function sendOrderAlertToOps(order: OrderForEmail) {
   const to = opsAddress();
-  if (!to) return;
+  if (!to) {
+    // Checkout has just promised this buyer a phone call. If nobody is
+    // configured to receive the alert, that promise is already broken and the
+    // order will sit untouched — so say so loudly rather than returning
+    // quietly. Verified live on 20 Oct: with OPS_EMAIL unset, the buyer and
+    // both suppliers were emailed and the team was not.
+    console.error(
+      `[email] OPS_EMAIL and EMAIL_FROM are both unset — nobody was told about order ${order.reference} ` +
+        `(${order.buyerName} <${order.buyerEmail}>, ${formatAmount(order.totalCents)}). ` +
+        `The buyer was promised a follow-up call.`
+    );
+    return;
+  }
 
   const html = layout({
     preheader: `${order.buyerName} placed order ${order.reference} for ${formatAmount(order.totalCents)} — needs a follow-up call.`,
     heading: `Action: call ${order.reference}`,
     body: `
-      ${notice("Payment not collected", "The buyer was told the gateway is down and that we would contact them to arrange payment. This order needs a follow-up.")}
+      ${notice(
+        order.paymentMethod === "net30" ? "Net 30 requested — payment not collected" : "Payment not collected",
+        order.paymentMethod === "net30"
+          ? "The buyer asked to be invoiced on Net 30 terms. Approve the account or call them back with an alternative, then confirm the order."
+          : "The buyer was told the gateway is down and that we would contact them to arrange payment. This order needs a follow-up."
+      )}
       ${P(`<strong style="color:#16181D;">${escapeHtml(order.buyerName)}</strong><br>
            <a href="mailto:${escapeHtml(order.buyerEmail)}" style="color:#C22127;">${escapeHtml(order.buyerEmail)}</a>
            ${order.ship.phone ? `<br>${escapeHtml(order.ship.phone)}` : ""}`)}
@@ -119,7 +146,9 @@ export async function sendOrderAlertToOps(order: OrderForEmail) {
   const text = [
     `ACTION: call ${order.reference}`,
     ``,
-    `Payment was not collected — the buyer expects a call to arrange it.`,
+    order.paymentMethod === "net30"
+      ? `NET 30 REQUESTED — buyer asked to be invoiced on 30-day terms.`
+      : `Payment was not collected — the buyer expects a call to arrange it.`,
     ``,
     `${order.buyerName} <${order.buyerEmail}>${order.ship.phone ? ` — ${order.ship.phone}` : ""}`,
     ``,
@@ -134,7 +163,9 @@ export async function sendOrderAlertToOps(order: OrderForEmail) {
   await sendMailSafe({
     to,
     replyTo: order.buyerEmail,
-    subject: `[Action] Order ${order.reference} — ${formatAmount(order.totalCents)} — payment to arrange`,
+    subject: `[Action] Order ${order.reference} — ${formatAmount(order.totalCents)} — ${
+      order.paymentMethod === "net30" ? "Net 30 requested" : "payment to arrange"
+    }`,
     html,
     text,
   });

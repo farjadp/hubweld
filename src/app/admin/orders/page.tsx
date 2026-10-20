@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { formatCents } from "@/lib/money";
+import CancelOrderButton from "@/app/orders/[id]/CancelOrderButton";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ export default async function AdminOrdersPage() {
     PENDING:    "bg-amber-600/15 text-amber-700 border-amber-600/25",
     PAID:       "bg-green-600/15 text-green-700 border-green-600/30",
     SHIPPED:    "bg-blue-600/15 text-blue-700 border-blue-600/25",
-    DELIVERED:  "bg-slate-100 text-slate-500 border-slate-200",
+    COMPLETED:  "bg-slate-100 text-slate-600 border-slate-200",
     CANCELLED:  "bg-red-600/15 text-brand border-red-600/25",
   };
   return (
@@ -46,14 +47,25 @@ export default async function AdminOrdersPage() {
                   <span className={`inline-flex items-center rounded border px-2 py-0.5 text-[10px] font-black uppercase tracking-widest ${statusColor[o.status] ?? "bg-slate-100 text-slate-500 border-slate-200"}`}>
                     {o.status}
                   </span>
+                  {o.paymentMethod === "net30" && (
+                    <span className="inline-flex items-center rounded border border-blue-600/25 bg-blue-600/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-widest text-blue-700">
+                      Net 30
+                    </span>
+                  )}
                 </div>
                 <div className="mt-0.5 text-xs text-slate-500">
                   {o.buyer.name} · {o.buyer.email} · {o._count.items} items · {new Date(o.createdAt).toLocaleString()}
                 </div>
                 <div className="text-xs text-slate-400">{o.shipCity}, {o.shipRegion} {o.shipCountry}</div>
               </div>
-              <div className="text-right">
+              <div className="flex items-center gap-3 text-right">
                 <div className="text-lg font-black text-slate-900">{formatCents(o.totalCents)}</div>
+                {/* Releases the stock checkout reserved. */}
+                {o.status !== "COMPLETED" && o.status !== "CANCELLED" && (
+                  <div className="w-36 shrink-0">
+                    <CancelOrderButton orderId={o.id} label="Cancel" />
+                  </div>
+                )}
               </div>
             </li>
           ))}

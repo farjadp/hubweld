@@ -1,5 +1,9 @@
 import { prisma } from "@/lib/prisma";
 
+// cartTotals now lives in lib/totals.ts so client components can recompute a
+// total as the buyer types their address. Re-exported for existing callers.
+export { cartTotals, type Totals, type Destination } from "@/lib/totals";
+
 export async function getOrCreateCart(userId: string) {
   const cart = await prisma.cart.upsert({
     where: { userId },
@@ -8,14 +12,6 @@ export async function getOrCreateCart(userId: string) {
     include: { items: { include: { product: true } } },
   });
   return cart;
-}
-
-export function cartTotals(items: Array<{ priceCents: number; quantity: number }>) {
-  const subtotalCents = items.reduce((a, i) => a + i.priceCents * i.quantity, 0);
-  const shippingCents = subtotalCents === 0 ? 0 : subtotalCents >= 50000 ? 0 : 1500;
-  const taxCents = Math.round(subtotalCents * 0.08);
-  const totalCents = subtotalCents + shippingCents + taxCents;
-  return { subtotalCents, shippingCents, taxCents, totalCents };
 }
 
 export async function cartItemCount(userId: string | undefined) {

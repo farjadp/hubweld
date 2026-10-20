@@ -110,7 +110,14 @@ export function notice(title: string, text: string): string {
   </table>`;
 }
 
-export type LineItem = { name: string; quantity: number; priceCents: number; supplier?: string };
+export type LineItem = {
+  name: string;
+  quantity: number;
+  priceCents: number;
+  supplier?: string;
+  /** Used to split an order into per-supplier emails; never rendered. */
+  supplierId?: string;
+};
 
 export function itemsTable(
   items: LineItem[],

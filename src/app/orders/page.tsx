@@ -31,7 +31,7 @@ export default async function OrdersPage() {
             <li key={o.id} className="card">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <Link href={`/orders/${o.id}`} className="font-bold hover:text-amber">Order #{o.id.slice(-8).toUpperCase()}</Link>
+                  <Link href={`/orders/${o.id}`} className="font-bold hover:text-brand">Order #{o.id.slice(-8).toUpperCase()}</Link>
                   <div className="text-xs text-slate-600">{new Date(o.createdAt).toLocaleDateString()} · {o.items.length} items</div>
                 </div>
                 <div className="flex items-center gap-3">

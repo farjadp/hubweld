@@ -5,6 +5,7 @@ import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { formatCents } from "@/lib/money";
 import ConfirmReceiptButton from "./ConfirmReceiptButton";
+import CancelOrderButton from "./CancelOrderButton";
 
 export const dynamic = "force-dynamic";
 
@@ -71,6 +72,15 @@ export default async function OrderDetailPage({ params, searchParams }: { params
             {order.shipPhone && <div>{order.shipPhone}</div>}
           </div>
 
+          <div className="mt-4 text-xs text-slate-600">
+            <div className="mb-1 font-bold text-slate-700">Payment</div>
+            <div>
+              {order.paymentMethod === "net30"
+                ? "Net 30 invoice requested (subject to account approval)"
+                : "We contact you to arrange payment"}
+            </div>
+          </div>
+
           {/* Closes the loop: suppliers ship, the buyer confirms, the order ends. */}
           {order.buyerId === me.id && order.status !== "COMPLETED" && order.status !== "CANCELLED" && (
             <div className="mt-5 border-t border-slate-200 pt-4">
@@ -83,9 +93,24 @@ export default async function OrderDetailPage({ params, searchParams }: { params
               )}
             </div>
           )}
+          {/* Nothing is charged until we call, so a buyer may walk away while
+              the order is still PENDING. Cancelling releases the stock. */}
+          {(order.buyerId === me.id || me.role === "ADMIN") &&
+            order.status !== "COMPLETED" &&
+            order.status !== "CANCELLED" &&
+            (me.role === "ADMIN" || order.status === "PENDING") && (
+              <div className="mt-3">
+                <CancelOrderButton orderId={order.id} />
+              </div>
+            )}
           {order.status === "COMPLETED" && (
             <p className="mt-5 border-t border-slate-200 pt-4 text-xs font-semibold text-green-700">
               ✓ Receipt confirmed — this order is complete.
+            </p>
+          )}
+          {order.status === "CANCELLED" && (
+            <p className="mt-5 border-t border-slate-200 pt-4 text-xs font-semibold text-brand">
+              This order was cancelled and the reserved stock was released.
             </p>
           )}
         </aside>
@@ -97,7 +122,7 @@ export default async function OrderDetailPage({ params, searchParams }: { params
 function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   return (
     <div className={`flex justify-between ${bold ? "font-black text-base" : "text-slate-700"}`}>
-      <span>{label}</span><span className={bold ? "text-amber" : "text-slate-900"}>{value}</span>
+      <span>{label}</span><span className="text-slate-900">{value}</span>
     </div>
   );
 }

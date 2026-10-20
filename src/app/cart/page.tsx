@@ -36,9 +36,10 @@ export default async function CartPage() {
             <h3 className="mb-3 font-bold">Order summary</h3>
             <Row label="Subtotal" value={formatCents(totals.subtotalCents)} />
             <Row label={totals.shippingCents === 0 ? "Shipping (free over $500)" : "Shipping (est.)"} value={formatCents(totals.shippingCents)} />
-            <Row label="Tax (est. 8%)" value={formatCents(totals.taxCents)} />
+            {/* No shipping address yet, so there is no province to tax against. */}
+            <Row label="Tax" value="Set at checkout" />
             <div className="my-3 h-px bg-slate-100" />
-            <Row label="Total" value={formatCents(totals.totalCents)} bold />
+            <Row label="Total before tax" value={formatCents(totals.totalCents)} bold />
             <Link href="/checkout" className="btn-primary mt-4 block text-center">Proceed to Checkout</Link>
             <Link href="/shop" className="btn-secondary mt-2 block text-center">Continue shopping</Link>
             <p className="mt-3 text-xs text-slate-500">Approved business buyers can switch to Net 30 terms at checkout.</p>
@@ -52,7 +53,7 @@ export default async function CartPage() {
 function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   return (
     <div className={`flex justify-between py-1 text-sm ${bold ? "font-black text-base" : "text-slate-700"}`}>
-      <span>{label}</span><span className={bold ? "text-amber" : "text-slate-900"}>{value}</span>
+      <span>{label}</span><span className="text-slate-900">{value}</span>
     </div>
   );
 }

@@ -38,7 +38,8 @@ export async function POST(req: Request) {
   const insufficient = items.find((i) => i.quantity > i.stock);
   if (insufficient) return NextResponse.json({ error: `Insufficient stock for ${insufficient.name}` }, { status: 400 });
 
-  const totals = cartTotals(items);
+  // Tax is a function of the destination province, not a flat rate.
+  const totals = cartTotals(items, { country: d.country, region: d.region });
 
   const order = await prisma.$transaction(async (tx) => {
     const o = await tx.order.create({
@@ -47,6 +48,7 @@ export async function POST(req: Request) {
         // No gateway is connected, so nothing has been charged. Every order
         // starts PENDING and is settled by the team contacting the buyer.
         status: "PENDING",
+        paymentMethod: d.paymentMethod,
         subtotalCents: totals.subtotalCents,
         shippingCents: totals.shippingCents,
         taxCents: totals.taxCents,
@@ -84,10 +86,12 @@ export async function POST(req: Request) {
     reference: `#${order.id.slice(-8).toUpperCase()}`,
     buyerName: d.name,
     buyerEmail: me.email as string,
+    paymentMethod: d.paymentMethod,
     items: items.map((i) => ({
       name: i.name,
       quantity: i.quantity,
       priceCents: i.priceCents,
+      supplierId: i.supplierId,
       supplier:
         suppliers.find((s) => s.id === i.supplierId)?.supplierProfile?.businessName ??
         suppliers.find((s) => s.id === i.supplierId)?.name,
@@ -110,7 +114,10 @@ export async function POST(req: Request) {
       sendOrderAlertToSupplier(payload, {
         email: s.email,
         name: s.supplierProfile?.businessName || s.name,
-        items: payload.items.filter((_, idx) => items[idx].supplierId === s.id),
+        // Matched on supplierId rather than by position: the old index
+        // alignment between `items` and `payload.items` was one refactor away
+        // from mailing a supplier somebody else's order lines.
+        items: payload.items.filter((li) => li.supplierId === s.id),
       })
     ),
   ]);
