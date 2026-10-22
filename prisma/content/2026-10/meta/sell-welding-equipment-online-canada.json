@@ -1,0 +1,37 @@
+{
+  "slug": "sell-welding-equipment-online-canada",
+  "title": "Selling Welding Equipment Online in Canada: A Supplier's Guide to HubWeld",
+  "excerpt": "Want to sell welding equipment online in Canada? This supplier's guide covers HubWeld sign-up, writing listings that sell, CAD pricing, stock reservation and fulfilling orders.",
+  "seoTitle": "Sell Welding Equipment Online in Canada",
+  "seoDesc": "Sell welding equipment online in Canada on HubWeld: list in CAD, write listings buyers trust, fulfil order lines and earn the Verified Supplier badge.",
+  "seoKeywords": "sell welding equipment online, welding distributor Canada, list welding products online, B2B welding marketplace, welding supplier marketplace, HubWeld",
+  "category": "hubweld-guides",
+  "tags": [
+    {
+      "slug": "welding-suppliers",
+      "name": "Welding Suppliers"
+    },
+    {
+      "slug": "hubweld-guides",
+      "name": "HubWeld Guides"
+    },
+    {
+      "slug": "distribution",
+      "name": "Distribution"
+    }
+  ],
+  "coverAlt": "Welding supply distributor warehouse with boxed welding machines ready to ship across Canada",
+  "coverPrompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 16:9. Interior of a Canadian welding supply distributor warehouse, pallets of plain boxed welding machines and gas cylinders on racks, a worker with a hand scanner walking an aisle, high bay lighting, unbranded boxes.",
+  "images": [
+    {
+      "file": "product-photo.webp",
+      "prompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 3:2. A warehouse worker photographing a plain unbranded compact welding machine on a white sweep backdrop on a table, a softbox light beside it, camera on a tripod.",
+      "alt": "Warehouse worker photographing a boxed welding machine on a plain background to sell welding equipment online"
+    },
+    {
+      "file": "packing-order.webp",
+      "prompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 3:2. Staff at a welding supply counter packing a shipping box with a spool of welding wire and an auto-darkening helmet, packing paper, tape gun, unbranded products, natural light.",
+      "alt": "Welding supply counter staff packing an online order of welding wire and helmets for shipping in Canada"
+    }
+  ]
+}

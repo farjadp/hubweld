@@ -1,0 +1,286 @@
+{
+  "categories": [
+    {
+      "slug": "certification-careers",
+      "name": "Certification & Careers",
+      "description": "CWB tickets, Red Seal, apprenticeships and welding careers in Canada",
+      "sortOrder": 6
+    },
+    {
+      "slug": "canada-market",
+      "name": "Canada Market",
+      "description": "Wages, demand and trade conditions for welding in Canada",
+      "sortOrder": 7
+    },
+    {
+      "slug": "hubweld-guides",
+      "name": "HubWeld Guides",
+      "description": "How to hire welders, find work, buy and sell on HubWeld",
+      "sortOrder": 8
+    }
+  ],
+  "articles": [
+    {
+      "slug": "cwb-certification-canada-guide",
+      "title": "How to Get CWB Certified in Canada: A Step-by-Step Guide for Welders",
+      "excerpt": "CWB certification is the welding ticket Canadian shops ask for first. This guide covers the CSA standards, the three testing routes, the bend test, 2026 test costs and how to keep your ticket current.",
+      "seoTitle": "CWB Certification in Canada: 2026 Welder Guide",
+      "seoDesc": "How to get CWB certification in Canada: CSA W47.1 tickets, test routes, bend test, 2026 costs ($170–$185 per position) and renewal rules, step by step.",
+      "seoKeywords": "CWB certification, CWB welding ticket, CSA W47.1, CWB test cost, how to get a welding ticket in Canada, CWB bend test, CWB renewal, CWB vs Red Seal",
+      "category": "certification-careers",
+      "tags": [
+        {
+          "slug": "cwb-certification",
+          "name": "CWB Certification"
+        },
+        {
+          "slug": "welding-careers",
+          "name": "Welding Careers"
+        },
+        {
+          "slug": "csa-standards",
+          "name": "CSA Standards"
+        },
+        {
+          "slug": "canada",
+          "name": "Canada"
+        }
+      ],
+      "coverImage": "/images/blog/cwb-certification-canada-guide/cover.webp",
+      "publishedAt": "2026-10-22T13:45:00.000Z"
+    },
+    {
+      "slug": "mig-welding-for-beginners",
+      "title": "MIG Welding for Beginners: Setup, Settings Chart and Technique",
+      "excerpt": "MIG welding for beginners, explained the way a shop foreman would: polarity, drive rolls, gas flow, a voltage and wire speed chart built from Lincoln's published data, gun angles and common defects. Includes a four-week practice plan and the next step toward a CWB ticket.",
+      "seoTitle": "MIG Welding for Beginners: Settings Chart & Setup",
+      "seoDesc": "MIG welding for beginners: machine setup, a voltage and wire speed settings chart, C25 gas flow, push vs pull, common defects and a 4-week practice plan.",
+      "seoKeywords": "MIG welding for beginners, MIG welding settings chart, wire feed speed and voltage, MIG shielding gas 75/25, how to MIG weld, MIG welding tips, MIG weld defects",
+      "category": "welding-techniques",
+      "tags": [
+        {
+          "slug": "mig-welding",
+          "name": "MIG Welding"
+        },
+        {
+          "slug": "beginner-welding",
+          "name": "Beginner Welding"
+        },
+        {
+          "slug": "welding-settings",
+          "name": "Welding Settings"
+        }
+      ],
+      "coverImage": "/images/blog/mig-welding-for-beginners/cover.webp",
+      "publishedAt": "2026-10-22T13:40:00.000Z"
+    },
+    {
+      "slug": "welding-machine-buying-guide-canada",
+      "title": "How to Choose a Welding Machine in Canada: The 2026 Buyer's Guide",
+      "excerpt": "A step-by-step welding machine buying guide for Canada: match the process, input power (120 V, 240 V or 600 V three-phase), amperage and duty cycle to your work. Then check the certification mark, Canadian service support, and the real cost in CAD with sales tax.",
+      "seoTitle": "Welding Machine Buying Guide Canada (2026)",
+      "seoDesc": "How to choose a welder in Canada: 120V vs 240V vs 575V power, duty cycle, CSA certification marks, warranty, CAD price ranges and sales tax by province.",
+      "seoKeywords": "welding machine buying guide Canada, best welder to buy in Canada, 120V vs 240V welder, CSA certified welder, 575V welder, multi-process welder, buy a welder in Canada",
+      "category": "parts-sourcing",
+      "tags": [
+        {
+          "slug": "welding-equipment",
+          "name": "Welding Equipment"
+        },
+        {
+          "slug": "buying-guide",
+          "name": "Buying Guide"
+        },
+        {
+          "slug": "canada",
+          "name": "Canada"
+        },
+        {
+          "slug": "mig-welding",
+          "name": "MIG Welding"
+        }
+      ],
+      "coverImage": "/images/blog/welding-machine-buying-guide-canada/cover.webp",
+      "publishedAt": "2026-10-22T13:35:00.000Z"
+    },
+    {
+      "slug": "welder-salary-canada-2026",
+      "title": "Welder Salary in Canada (2026): Hourly Pay by Province",
+      "excerpt": "The median welder salary in Canada is $30 an hour, but Alberta pays $38 and Ontario $28. Here is the Job Bank wage data by province and what moves a welder's pay up.",
+      "seoTitle": "Welder Salary in Canada 2026: Pay by Province",
+      "seoDesc": "Welder salary in Canada by province: Job Bank median $30/hr, Alberta $38, Ontario $28. See low/high ranges and what raises welder pay in 2026.",
+      "seoKeywords": "welder salary Canada, welder wage Ontario, how much do welders make in Canada, welder pay Alberta, NOC 72106 wages, welder hourly rate Canada",
+      "category": "canada-market",
+      "tags": [
+        {
+          "slug": "welder-salary",
+          "name": "Welder Salary"
+        },
+        {
+          "slug": "canada",
+          "name": "Canada"
+        },
+        {
+          "slug": "welding-careers",
+          "name": "Welding Careers"
+        }
+      ],
+      "coverImage": "/images/blog/welder-salary-canada-2026/cover.webp",
+      "publishedAt": "2026-10-22T13:30:00.000Z"
+    },
+    {
+      "slug": "red-seal-welder-canada",
+      "title": "Red Seal Welder in Canada: Apprenticeship, Hours and the Exam",
+      "excerpt": "How to become a Red Seal welder in Canada: apprenticeship hours in Ontario, Alberta and BC, what is on the 125-question exam, and how a Red Seal differs from a CWB ticket.",
+      "seoTitle": "Red Seal Welder in Canada: Hours, Exam, CWB",
+      "seoDesc": "Become a Red Seal welder in Canada: Ontario 456A hours, Alberta and BC apprenticeships, the 125-question exam (70% pass) and CWB ticket vs Red Seal.",
+      "seoKeywords": "Red Seal welder, welding apprenticeship Ontario, 456A welder, Red Seal welder exam, interprovincial welder, CWB vs Red Seal",
+      "category": "canada-market",
+      "tags": [
+        {
+          "slug": "red-seal",
+          "name": "Red Seal"
+        },
+        {
+          "slug": "welding-apprenticeship",
+          "name": "Welding Apprenticeship"
+        },
+        {
+          "slug": "canada",
+          "name": "Canada"
+        },
+        {
+          "slug": "welding-careers",
+          "name": "Welding Careers"
+        }
+      ],
+      "coverImage": "/images/blog/red-seal-welder-canada/cover.webp",
+      "publishedAt": "2026-10-22T13:25:00.000Z"
+    },
+    {
+      "slug": "welding-jobs-canada-2026",
+      "title": "Welding Jobs in Canada 2026: Where the Demand Is",
+      "excerpt": "Welding jobs in Canada in 2026 depend on province and ticket: PEI and Nova Scotia rate good, Ontario very limited. See the Job Bank outlook, the projects hiring and the tariff effect.",
+      "seoTitle": "Welding Jobs in Canada 2026: Demand by Province",
+      "seoDesc": "Where are the welding jobs in Canada in 2026? Job Bank outlook by province, LNG Canada Phase 2, nuclear and shipbuilding demand, and how tariffs hit shops.",
+      "seoKeywords": "welding jobs Canada, welder shortage Canada, welder demand by province, welding jobs Ontario, LNG welding jobs, welding jobs 2026",
+      "category": "canada-market",
+      "tags": [
+        {
+          "slug": "welding-jobs",
+          "name": "Welding Jobs"
+        },
+        {
+          "slug": "canada",
+          "name": "Canada"
+        },
+        {
+          "slug": "welding-careers",
+          "name": "Welding Careers"
+        }
+      ],
+      "coverImage": "/images/blog/welding-jobs-canada-2026/cover.webp",
+      "publishedAt": "2026-10-22T13:20:00.000Z"
+    },
+    {
+      "slug": "hire-a-welder-canada",
+      "title": "How to Hire a Welder in Canada: Post a Job and Compare Bids on HubWeld",
+      "excerpt": "Need to hire a welder in Canada? Post a free job on HubWeld, compare bids from local welders on price, tickets and reviews, and award the work with everything agreed in writing.",
+      "seoTitle": "How to Hire a Welder in Canada",
+      "seoDesc": "Hire a welder in Canada: post a free job on HubWeld, write a scope that gets accurate bids, check CWB tickets and reviews, then accept the right bid.",
+      "seoKeywords": "hire a welder, find a welder near me, welding contractor Ontario, hire a mobile welder, welding job posting, HubWeld",
+      "category": "hubweld-guides",
+      "tags": [
+        {
+          "slug": "hire-a-welder",
+          "name": "Hire a Welder"
+        },
+        {
+          "slug": "hubweld-guides",
+          "name": "HubWeld Guides"
+        },
+        {
+          "slug": "cwb-certification",
+          "name": "CWB Certification"
+        }
+      ],
+      "coverImage": "/images/blog/hire-a-welder-canada/cover.webp",
+      "publishedAt": "2026-10-22T13:15:00.000Z"
+    },
+    {
+      "slug": "find-welding-contracts-hubweld",
+      "title": "Find Welding Contracts: How Welders Win Work on HubWeld",
+      "excerpt": "Looking for welding contracts in Canada? Here is how to set up a HubWeld welder profile, price and write bids that customers pick, and build the reviews that win the next job.",
+      "seoTitle": "Find Welding Contracts in Canada",
+      "seoDesc": "Find welding contracts on HubWeld: build a welder profile, filter open jobs by city, price a bid that covers your costs and earn reviews that win more work.",
+      "seoKeywords": "welding contracts, freelance welding jobs Canada, welding side jobs, welder profile, how to bid on welding jobs, HubWeld",
+      "category": "hubweld-guides",
+      "tags": [
+        {
+          "slug": "welding-contracts",
+          "name": "Welding Contracts"
+        },
+        {
+          "slug": "hubweld-guides",
+          "name": "HubWeld Guides"
+        },
+        {
+          "slug": "welding-careers",
+          "name": "Welding Careers"
+        }
+      ],
+      "coverImage": "/images/blog/find-welding-contracts-hubweld/cover.webp",
+      "publishedAt": "2026-10-22T13:10:00.000Z"
+    },
+    {
+      "slug": "buy-welding-supplies-online-canada",
+      "title": "Buying Welding Supplies Online in Canada: How the HubWeld Shop Works",
+      "excerpt": "Buy welding supplies online in Canada with prices in CAD, flat CAD $15 shipping (free over $500) and provincial tax shown up front. Here is how the HubWeld shop and checkout work.",
+      "seoTitle": "Buy Welding Supplies Online in Canada",
+      "seoDesc": "Buy welding supplies online in Canada: CAD prices, CAD $15 flat shipping (free over $500), GST/HST/PST by province and Net 30 for approved accounts.",
+      "seoKeywords": "buy welding supplies online Canada, welding supply store Canada, welding equipment prices CAD, net 30 welding supplier, welding consumables online, HubWeld",
+      "category": "hubweld-guides",
+      "tags": [
+        {
+          "slug": "welding-supplies",
+          "name": "Welding Supplies"
+        },
+        {
+          "slug": "hubweld-guides",
+          "name": "HubWeld Guides"
+        },
+        {
+          "slug": "parts-sourcing",
+          "name": "Parts Sourcing"
+        }
+      ],
+      "coverImage": "/images/blog/buy-welding-supplies-online-canada/cover.webp",
+      "publishedAt": "2026-10-22T13:05:00.000Z"
+    },
+    {
+      "slug": "sell-welding-equipment-online-canada",
+      "title": "Selling Welding Equipment Online in Canada: A Supplier's Guide to HubWeld",
+      "excerpt": "Want to sell welding equipment online in Canada? This supplier's guide covers HubWeld sign-up, writing listings that sell, CAD pricing, stock reservation and fulfilling orders.",
+      "seoTitle": "Sell Welding Equipment Online in Canada",
+      "seoDesc": "Sell welding equipment online in Canada on HubWeld: list in CAD, write listings buyers trust, fulfil order lines and earn the Verified Supplier badge.",
+      "seoKeywords": "sell welding equipment online, welding distributor Canada, list welding products online, B2B welding marketplace, welding supplier marketplace, HubWeld",
+      "category": "hubweld-guides",
+      "tags": [
+        {
+          "slug": "welding-suppliers",
+          "name": "Welding Suppliers"
+        },
+        {
+          "slug": "hubweld-guides",
+          "name": "HubWeld Guides"
+        },
+        {
+          "slug": "distribution",
+          "name": "Distribution"
+        }
+      ],
+      "coverImage": "/images/blog/sell-welding-equipment-online-canada/cover.webp",
+      "publishedAt": "2026-10-22T13:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "slug": "red-seal-welder-canada",
+  "title": "Red Seal Welder in Canada: Apprenticeship, Hours and the Exam",
+  "excerpt": "How to become a Red Seal welder in Canada: apprenticeship hours in Ontario, Alberta and BC, what is on the 125-question exam, and how a Red Seal differs from a CWB ticket.",
+  "seoTitle": "Red Seal Welder in Canada: Hours, Exam, CWB",
+  "seoDesc": "Become a Red Seal welder in Canada: Ontario 456A hours, Alberta and BC apprenticeships, the 125-question exam (70% pass) and CWB ticket vs Red Seal.",
+  "seoKeywords": "Red Seal welder, welding apprenticeship Ontario, 456A welder, Red Seal welder exam, interprovincial welder, CWB vs Red Seal",
+  "category": "canada-market",
+  "tags": [
+    {"slug": "red-seal", "name": "Red Seal"},
+    {"slug": "welding-apprenticeship", "name": "Welding Apprenticeship"},
+    {"slug": "canada", "name": "Canada"},
+    {"slug": "welding-careers", "name": "Welding Careers"}
+  ],
+  "coverAlt": "Red Seal welder apprentice running a vertical weld in a Canadian college welding shop",
+  "coverPrompt": "Documentary photograph, 16:9. Inside a Canadian college welding lab with a row of grey welding booths separated by flame-resistant curtains. In the foreground, a young apprentice welder in a black auto-darkening helmet (helmet down), FR jacket and gloves runs a vertical-up flux-core weld on a steel test plate clamped in a positioner; a bright arc and a few sparks. In the soft-focus background, an instructor with a clipboard watches. Fluorescent and daylight mix, realistic, no readable text, no logos, no brand names, no watermark.",
+  "images": [
+    {
+      "file": "apprentice-welding-booth-instructor.webp",
+      "prompt": "Documentary photograph, 3:2. A welding apprentice in a college booth practising a vertical fillet weld on a steel T-joint coupon held by a positioner arm, helmet down, gloves, FR jacket. An instructor in safety glasses stands just outside the booth curtain watching the puddle through a handheld shade-10 filter plate. Grey booth walls, fume extraction arm overhead, realistic, no readable text, no logos, no watermark.",
+      "alt": "Welding apprentice in a college booth practising a vertical fillet weld while an instructor watches, part of Red Seal welder training in Canada"
+    },
+    {
+      "file": "journeyperson-certificate-and-coupon.webp",
+      "prompt": "Documentary still life photograph, 3:2. On a steel shop bench: two bent weld test straps (guided bend test coupons) cut from a steel plate, bent into U shapes showing clean outer surfaces, next to a closed dark-blue certificate folder with no visible text, a pair of leather gloves and a pair of safety glasses. Soft window light, shallow depth of field, realistic metal textures, no readable text, no logos, no watermark.",
+      "alt": "Bent weld test coupon and a blank certificate folder on a shop bench, comparing a CWB ticket and a Red Seal welder certificate"
+    }
+  ]
+}

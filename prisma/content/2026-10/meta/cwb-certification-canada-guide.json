@@ -1,0 +1,34 @@
+{
+  "slug": "cwb-certification-canada-guide",
+  "title": "How to Get CWB Certified in Canada: A Step-by-Step Guide for Welders",
+  "excerpt": "CWB certification is the welding ticket Canadian shops ask for first. This guide covers the CSA standards, the three testing routes, the bend test, 2026 test costs and how to keep your ticket current.",
+  "seoTitle": "CWB Certification in Canada: 2026 Welder Guide",
+  "seoDesc": "How to get CWB certification in Canada: CSA W47.1 tickets, test routes, bend test, 2026 costs ($170–$185 per position) and renewal rules, step by step.",
+  "seoKeywords": "CWB certification, CWB welding ticket, CSA W47.1, CWB test cost, how to get a welding ticket in Canada, CWB bend test, CWB renewal, CWB vs Red Seal",
+  "category": "certification-careers",
+  "tags": [
+    {"slug": "cwb-certification", "name": "CWB Certification"},
+    {"slug": "welding-careers", "name": "Welding Careers"},
+    {"slug": "csa-standards", "name": "CSA Standards"},
+    {"slug": "canada", "name": "Canada"}
+  ],
+  "coverAlt": "Canadian welder in a CWB test booth welding an overhead test plate with sparks falling",
+  "coverPrompt": "Documentary photograph, 16:9. A welder in a Canadian college welding test booth, welding an overhead groove test plate clamped to a positioning arm, black auto-darkening helmet down, brown leather FR jacket and gauntlet gloves, bright arc with sparks falling, grey steel booth walls with a heavy fire-resistant curtain partly open, soft daylight from a high window, a second empty booth visible in the background. Realistic, natural colour, shallow depth of field. No readable text, no logos, no brand names, no watermarks.",
+  "images": [
+    {
+      "file": "test-booth-vertical-plate.webp",
+      "prompt": "Documentary photograph, 3:2. Close side view of a welder running a vertical-up root pass on a steel groove test plate clamped vertically in a welding test booth. Helmet down, leather gloves, stick electrode holder, bright arc, small slag spatter, the plate has a steel backing strip and tack welds visible at the ends. Grey booth wall behind, realistic lighting from the arc and overhead fluorescent light. No readable text, no logos, no watermarks.",
+      "alt": "Welder running a vertical-up root pass on a CWB certification test plate in a test booth"
+    },
+    {
+      "file": "bend-test-coupons.webp",
+      "prompt": "Top-down product-style photograph, 3:2, on a scuffed steel workbench: three steel weld bend test specimens, each a flat bar about 40 mm wide bent into a tight U shape (180 degrees), weld zone visible across the outside of each bend with a clean, smooth stretched surface, ground flush. Beside them a hydraulic bend tester die partly in frame, a soapstone marker and a pair of safety glasses. Natural overhead light, realistic metal texture. No readable text, no stamps legible, no logos, no watermarks.",
+      "alt": "Three CWB bend test coupons bent 180 degrees, two root bends and one face bend, on a steel workbench"
+    },
+    {
+      "file": "welder-reviewing-test-plate.webp",
+      "prompt": "Documentary photograph, 3:2. A welder with helmet flipped up and safety glasses on, wearing a navy FR jacket, holding a finished steel groove-weld test plate at chest height and inspecting the weld cap under shop light. Fabrication shop background slightly out of focus, a roll-up bay door showing a snowy yard outside. Calm, realistic, natural colour. Hands with five fingers, gloves on. No readable text, no logos, no watermarks.",
+      "alt": "Welder in FR jacket inspecting a finished CWB test plate cap before it is cut into bend specimens"
+    }
+  ]
+}

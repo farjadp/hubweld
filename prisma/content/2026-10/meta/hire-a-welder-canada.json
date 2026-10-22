@@ -1,0 +1,37 @@
+{
+  "slug": "hire-a-welder-canada",
+  "title": "How to Hire a Welder in Canada: Post a Job and Compare Bids on HubWeld",
+  "excerpt": "Need to hire a welder in Canada? Post a free job on HubWeld, compare bids from local welders on price, tickets and reviews, and award the work with everything agreed in writing.",
+  "seoTitle": "How to Hire a Welder in Canada",
+  "seoDesc": "Hire a welder in Canada: post a free job on HubWeld, write a scope that gets accurate bids, check CWB tickets and reviews, then accept the right bid.",
+  "seoKeywords": "hire a welder, find a welder near me, welding contractor Ontario, hire a mobile welder, welding job posting, HubWeld",
+  "category": "hubweld-guides",
+  "tags": [
+    {
+      "slug": "hire-a-welder",
+      "name": "Hire a Welder"
+    },
+    {
+      "slug": "hubweld-guides",
+      "name": "HubWeld Guides"
+    },
+    {
+      "slug": "cwb-certification",
+      "name": "CWB Certification"
+    }
+  ],
+  "coverAlt": "Facility manager and a mobile welder discussing a steel repair at a Canadian industrial site",
+  "coverPrompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 16:9. A facility manager in a hi-vis vest and a mobile welder in an FR jacket, helmet tipped up and not welding, standing beside a welding service truck in an industrial yard in Ontario in late autumn, pointing at a damaged steel stair stringer, overcast daylight, shallow depth of field.",
+  "images": [
+    {
+      "file": "job-site-planning.webp",
+      "prompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 3:2. Close shot of a facility manager and a mobile welder crouching beside a cracked steel stair stringer inside a plant, the welder measuring the crack with a tape measure, a clipboard with a blank sketch, soft overhead light.",
+      "alt": "Facility manager reviewing a damaged steel stair stringer with a mobile welder before they hire a welder for the repair"
+    },
+    {
+      "file": "checking-ticket.webp",
+      "prompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 3:2. Over-the-shoulder shot in a fabrication shop of a contractor holding a plain blank plastic wallet card handed over by a welder in an FR jacket, card text not readable, steel beams and a welding machine blurred in the background.",
+      "alt": "Contractor checking a welder's certification wallet card at a fabrication shop before hiring"
+    }
+  ]
+}

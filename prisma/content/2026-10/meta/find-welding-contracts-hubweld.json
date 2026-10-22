@@ -1,0 +1,37 @@
+{
+  "slug": "find-welding-contracts-hubweld",
+  "title": "Find Welding Contracts: How Welders Win Work on HubWeld",
+  "excerpt": "Looking for welding contracts in Canada? Here is how to set up a HubWeld welder profile, price and write bids that customers pick, and build the reviews that win the next job.",
+  "seoTitle": "Find Welding Contracts in Canada",
+  "seoDesc": "Find welding contracts on HubWeld: build a welder profile, filter open jobs by city, price a bid that covers your costs and earn reviews that win more work.",
+  "seoKeywords": "welding contracts, freelance welding jobs Canada, welding side jobs, welder profile, how to bid on welding jobs, HubWeld",
+  "category": "hubweld-guides",
+  "tags": [
+    {
+      "slug": "welding-contracts",
+      "name": "Welding Contracts"
+    },
+    {
+      "slug": "hubweld-guides",
+      "name": "HubWeld Guides"
+    },
+    {
+      "slug": "welding-careers",
+      "name": "Welding Careers"
+    }
+  ],
+  "coverAlt": "Independent welder TIG welding a stainless steel railing in a small Canadian shop",
+  "coverPrompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 16:9. An independent welder in a small one-bay shop in Canada, helmet down, TIG welding a stainless steel handrail section clamped on a steel table, blue arc light, a snowy yard visible through a partly open bay door, shallow depth of field.",
+  "images": [
+    {
+      "file": "gallery-photo.webp",
+      "prompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 3:2. A welder holding a smartphone to photograph a finished stainless steel TIG weld on a railing joint, side lighting showing the bead ripples, the phone screen facing away from the camera.",
+      "alt": "Welder photographing a finished stainless TIG weld for a portfolio used to win welding contracts"
+    },
+    {
+      "file": "mobile-welder-truck.webp",
+      "prompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 3:2. A mobile welder in winter workwear unloading leads from an engine-driven welder mounted on a pickup service body in a snowy Canadian farm yard, overcast morning light, no text on the truck.",
+      "alt": "Mobile welder at a service truck in a snowy Canadian yard preparing for a repair contract"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "slug": "welding-machine-buying-guide-canada",
+  "title": "How to Choose a Welding Machine in Canada: The 2026 Buyer's Guide",
+  "excerpt": "A step-by-step welding machine buying guide for Canada: match the process, input power (120 V, 240 V or 600 V three-phase), amperage and duty cycle to your work. Then check the certification mark, Canadian service support, and the real cost in CAD with sales tax.",
+  "seoTitle": "Welding Machine Buying Guide Canada (2026)",
+  "seoDesc": "How to choose a welder in Canada: 120V vs 240V vs 575V power, duty cycle, CSA certification marks, warranty, CAD price ranges and sales tax by province.",
+  "seoKeywords": "welding machine buying guide Canada, best welder to buy in Canada, 120V vs 240V welder, CSA certified welder, 575V welder, multi-process welder, buy a welder in Canada",
+  "category": "parts-sourcing",
+  "tags": [
+    {"slug": "welding-equipment", "name": "Welding Equipment"},
+    {"slug": "buying-guide", "name": "Buying Guide"},
+    {"slug": "canada", "name": "Canada"},
+    {"slug": "mig-welding", "name": "MIG Welding"}
+  ],
+  "coverAlt": "Three welding machines side by side in a Canadian fabrication shop, a compact inverter MIG, a multi-process unit on a cart and an industrial power source, ready to compare before buying",
+  "coverPrompt": "Documentary photograph, 16:9. Inside a clean, well-lit Canadian metal fabrication shop in winter: three different welding machines lined up on the concrete floor for comparison: a compact portable inverter MIG welder, a mid-size multi-process welder on a wheeled cart with a gas cylinder, and a large industrial welding power source with a separate wire feeder. A welder in a grey FR jacket and work gloves, helmet tipped up and held under one arm, crouches to inspect the back panel of the middle machine. Through an open bay door in the background, a snowy yard and a pickup truck. Natural daylight from skylights mixed with warm shop lighting, shallow depth of field, realistic colours, no readable text, no logos, no brand names, no watermarks.",
+  "images": [
+    {
+      "file": "240v-receptacle-welder.webp",
+      "prompt": "Documentary photograph, 3:2. Close-up in a residential garage workshop: a heavy-duty 240 volt, 50 amp three-prong wall receptacle in a grey steel box mounted on a painted drywall wall, with a thick black welder power cord and its matching three-blade plug held in a gloved hand just before plugging in. A compact dual-voltage MIG welder sits on a steel welding cart below, slightly out of focus. Soft daylight from a side window, realistic, sharp focus on the receptacle and plug, no readable text, no logos, no brand names, no watermarks.",
+      "alt": "A 240 V NEMA 6-50 welder receptacle on a garage wall next to a dual-voltage MIG welder, the kind of input power check in a welding machine buying guide for Canada"
+    },
+    {
+      "file": "engine-drive-truck-winter.webp",
+      "prompt": "Documentary photograph, 3:2. A yellow-and-black engine-driven welding generator mounted on the flat deck of a white service pickup truck at a snowy Canadian construction site, early morning winter light, frost on the truck, exhaust vapour visible from the welder's engine in the cold air. Welding leads run from the machine across packed snow to a steel column base where a welder in an insulated FR jacket, gloves and lowered welding helmet is stick welding with a small bright arc. Pine trees and a partly built steel frame in the background. Realistic, natural colours, no readable text, no logos, no brand names, no watermarks.",
+      "alt": "Engine-driven welder mounted on the deck of a service truck at a snowy Canadian job site, with welding leads running to a steel structure"
+    },
+    {
+      "file": "welder-nameplate-closeup.webp",
+      "prompt": "Macro documentary photograph, 3:2. Close-up of the rear panel of an industrial welding power source in a shop: a riveted metal rating nameplate with rows of small engraved specification lines and a small circular certification symbol, all text deliberately soft and unreadable, next to a thick input power cable gland and cooling vents. A gloved finger points at the nameplate. Shallow depth of field, cool shop lighting with a warm rim light, realistic metal texture and light dust, no readable text, no logos, no brand names, no watermarks.",
+      "alt": "Close-up of the rating nameplate on the back of an industrial welding power source showing input voltage, duty cycle and a certification mark area"
+    }
+  ]
+}

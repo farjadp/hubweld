@@ -1,0 +1,42 @@
+{
+  "slug": "mig-welding-for-beginners",
+  "title": "MIG Welding for Beginners: Setup, Settings Chart and Technique",
+  "excerpt": "MIG welding for beginners, explained the way a shop foreman would: polarity, drive rolls, gas flow, a voltage and wire speed chart built from Lincoln's published data, gun angles and common defects. Includes a four-week practice plan and the next step toward a CWB ticket.",
+  "seoTitle": "MIG Welding for Beginners: Settings Chart & Setup",
+  "seoDesc": "MIG welding for beginners: machine setup, a voltage and wire speed settings chart, C25 gas flow, push vs pull, common defects and a 4-week practice plan.",
+  "seoKeywords": "MIG welding for beginners, MIG welding settings chart, wire feed speed and voltage, MIG shielding gas 75/25, how to MIG weld, MIG welding tips, MIG weld defects",
+  "category": "welding-techniques",
+  "tags": [
+    {
+      "slug": "mig-welding",
+      "name": "MIG Welding"
+    },
+    {
+      "slug": "beginner-welding",
+      "name": "Beginner Welding"
+    },
+    {
+      "slug": "welding-settings",
+      "name": "Welding Settings"
+    }
+  ],
+  "coverAlt": "Beginner welder in an auto-darkening helmet MIG welding a fillet on mild steel plate at a workbench in a Canadian garage shop",
+  "coverPrompt": "Documentary photograph, 16:9. A beginner welder at a steel workbench in a small Canadian garage workshop in late autumn, MIG welding a T-joint fillet on mild steel plate. Black auto-darkening helmet down, brown leather MIG gloves, navy flame-resistant cotton jacket. Compact red-and-grey MIG welder on a cart beside the bench with a grey gas cylinder chained to it. Bright blue-white arc with a short spray of orange sparks. Garage door partly open showing a snowy driveway and bare trees outside, cool daylight mixing with warm shop light. Shallow depth of field, realistic textures, slight grain. No readable text, no logos, no brand names, no watermarks.",
+  "images": [
+    {
+      "file": "mig-drive-rolls-setup.webp",
+      "prompt": "Close-up documentary photograph, 3:2. The open side panel of a compact MIG welder showing the wire drive mechanism: a spool of copper-coated steel welding wire, a V-groove drive roll with a spring tension arm, and the wire threading into the gun liner inlet. A gloved hand adjusting the tension knob. Clean, slightly worn machine interior, even soft workshop light, sharp focus on the drive roll groove. No readable text, no labels, no logos, no brand names.",
+      "alt": "Open MIG welder wire compartment showing a V-groove drive roll, tension arm and spool of 0.030 inch ER70S-6 wire during beginner setup"
+    },
+    {
+      "file": "mig-fillet-gun-angle.webp",
+      "prompt": "Documentary photograph, 3:2, side view at bench height. A welder wearing a black auto-darkening helmet (lowered), leather gloves and a flame-resistant jacket holds a MIG gun at a 45 degree angle into the corner of a T-joint made of two mild steel plates clamped to a steel welding table, gun tilted slightly forward in the direction of travel. Bright arc at the gun tip, small sparks, a finished section of fillet bead with even ripples behind the arc. Neutral grey shop background, soft focus. Correct anatomy, five fingers. No readable text, no logos.",
+      "alt": "Welder in auto-darkening helmet pushing a MIG gun at a 45 degree work angle along a T-joint fillet weld on mild steel plate"
+    },
+    {
+      "file": "mig-weld-defects-comparison.webp",
+      "prompt": "Overhead product-style photograph, 3:2, on a scuffed steel workbench. Three small mild steel test coupons laid side by side, each with one MIG weld bead: the left bead has visible surface porosity (small round pinholes), the middle bead sits tall and rounded on top of the plate with a sharp unfused edge (cold lap), the right bead is a smooth, evenly rippled, flat fillet that blends into the plate. A wire brush and a soapstone pencil beside them. Even diffused daylight, high detail on the metal textures and heat tint. No readable text, no labels, no logos.",
+      "alt": "Three mild steel MIG weld coupons side by side showing porosity, cold lap and a correct fillet weld for beginners to compare"
+    }
+  ]
+}

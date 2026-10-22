@@ -1,0 +1,28 @@
+{
+  "slug": "welder-salary-canada-2026",
+  "title": "Welder Salary in Canada (2026): Hourly Pay by Province",
+  "excerpt": "The median welder salary in Canada is $30 an hour, but Alberta pays $38 and Ontario $28. Here is the Job Bank wage data by province and what moves a welder's pay up.",
+  "seoTitle": "Welder Salary in Canada 2026: Pay by Province",
+  "seoDesc": "Welder salary in Canada by province: Job Bank median $30/hr, Alberta $38, Ontario $28. See low/high ranges and what raises welder pay in 2026.",
+  "seoKeywords": "welder salary Canada, welder wage Ontario, how much do welders make in Canada, welder pay Alberta, NOC 72106 wages, welder hourly rate Canada",
+  "category": "canada-market",
+  "tags": [
+    {"slug": "welder-salary", "name": "Welder Salary"},
+    {"slug": "canada", "name": "Canada"},
+    {"slug": "welding-careers", "name": "Welding Careers"}
+  ],
+  "coverAlt": "Canadian welder in a fabrication shop lifting his helmet to check a finished weld, illustrating welder salary in Canada",
+  "coverPrompt": "Documentary photograph, 16:9. A Canadian journeyperson welder in his 40s stands at a steel fabrication bench in a mid-size shop in Alberta, helmet flipped up, inspecting a finished multi-pass fillet weld on a heavy steel bracket with a gloved hand. FR cotton jacket, leather gloves, safety glasses under the helmet. Late afternoon light through an open overhead bay door; outside, a gravel yard with stacked pipe and a pickup truck, light snow on the ground. Warm and cool light mix, shallow depth of field, realistic skin and hands, no text, no logos, no brand names, no watermark.",
+  "images": [
+    {
+      "file": "pipe-welder-alberta-yard.webp",
+      "prompt": "Documentary photograph, 3:2. A pipe welder in full PPE (helmet down, leather jacket and gloves) stick welding the root pass on a large-diameter carbon steel pipe joint supported on pipe stands in an outdoor pipe yard in Alberta. A welding rig truck with an engine-driven welder is parked behind (no visible brand or text). Overcast prairie sky, cold weather, frost on the gravel, steam from breath. Bright arc glow, sparks, realistic, no text, no logos, no watermark.",
+      "alt": "Pipe welder on a rig truck at an Alberta pipe yard, one of the higher-paying welder jobs in Canada"
+    },
+    {
+      "file": "welder-reviewing-ticket-and-paystub.webp",
+      "prompt": "Documentary photograph, 3:2, close-up. On a worn steel shop workbench: a plain wallet-sized plastic qualification card with no readable text, a smartphone showing a blurred list of job ads, a tape measure, a pair of leather welding gloves and a soapstone marker. A welder's hands (five fingers each, clean nails with shop grime) hold a pen over a small notebook. Soft daylight from a shop window, shallow depth of field. No readable text anywhere, no logos, no watermark.",
+      "alt": "Welder at a workbench reviewing a CWB qualification card and job ads to plan a higher welder salary in Canada"
+    }
+  ]
+}

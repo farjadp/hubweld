@@ -1,0 +1,266 @@
+<div class="answer"><p>MIG welding for beginners comes down to four settings and two habits. Run solid ER70S-6 wire on DC electrode positive, shield it with 75% argon / 25% CO2 at about 20–30 CFH, keep roughly 3/8 in. of wire sticking out of the tip, and match voltage to wire feed speed from a chart. Then hold a steady 15° gun angle and travel speed. On a 120 V machine with 0.030 in. wire, that combination welds 18-gauge sheet to 3/16 in. plate.</p></div>
+
+<h2>Key takeaways</h2>
+<ul>
+<li>Solid MIG wire needs DC electrode positive (DCEP). Self-shielded flux-core wire usually runs on DC electrode negative, so check the polarity every time you change wire.</li>
+<li>For mild steel, 75/25 argon/CO2 (C25) is the all-purpose gas. Miller suggests 20 CFH as a starting flow for light work, and Lincoln lists 30–50 CFH for its S6 wire.</li>
+<li>Lincoln's S6 datasheet puts 0.030 in. wire at 75–300 in/min and 17–22 V in short-circuit transfer with 100% CO2. Subtract 1–2 V when you switch to C25.</li>
+<li>Wire feed speed sets your amperage. Voltage sets the arc length and the width of the bead. Change one at a time.</li>
+<li>Most beginner defects come from dirty steel, the wrong stickout and inconsistent travel speed, not from the machine.</li>
+<li>Once you can run sound fillets in every position, a CWB qualification test is the next step if you want paid structural work in Canada.</li>
+</ul>
+
+<p>MIG (gas metal arc welding, or GMAW) is usually the first process people learn, and for good reason. The wire feeds itself, the arc is easy to start, and you can lay a decent-looking bead on your first afternoon. The trouble is that a decent-looking bead and a sound weld are two different things. Cold lap on a MIG fillet can look fine from the top and peel off the plate with a hammer.</p>
+
+<p>This guide is written for Canadian beginners: hobbyists in a garage on a 120 V circuit, apprentices in their first year, and maintenance techs who need to fix a bracket without calling a contractor. It covers setup, settings, technique, defects and a four-week practice plan. The HubWeld team wrote it with shop-floor detail on purpose, because that is where people get stuck.</p>
+
+<h2>What you need before you strike an arc</h2>
+
+<p>A MIG setup has six parts, and each one affects the weld. The power source turns wall power into DC welding current. The wire feeder pushes wire through the gun liner at a set speed. The gun has a trigger, a contact tip that passes current to the wire, and a nozzle that directs the gas. A regulator and flowmeter control the shielding gas from the cylinder. The work clamp completes the circuit. And the wire itself determines how the weld metal behaves.</p>
+
+<p>For a first machine, buy one with a settings chart on the inside of the wire-compartment door. Every major brand prints one, and it is the fastest way to get close to the right numbers. If you are still choosing a machine, our <a href="/blog/welding-machine-buying-guide-canada">welding machine buying guide for Canada</a> covers input power, duty cycle and CSA certification before you spend money.</p>
+
+<h3>Consumables for mild steel</h3>
+<ul>
+<li><strong>Wire:</strong> ER70S-6 solid wire, 0.030 in. (0.8 mm) for a 120 V machine, or 0.035 in. (0.9 mm) if you have 240 V and weld 1/8 in. plate and up. Miller calls 0.030 in. "a good all-around choice" for small machines. ER70S-6 has extra silicon and manganese, which helps it wet out on steel that is not perfectly clean.</li>
+<li><strong>Gas:</strong> a cylinder of 75% argon / 25% CO2. Canadian gas suppliers sell it under names like C25 or 75/25 mix.</li>
+<li><strong>Contact tips:</strong> sized to the wire. A 0.030 in. tip with 0.035 in. wire will jam, and a 0.035 in. tip with 0.030 in. wire gives an erratic arc. Buy a bag of ten, because beginners burn through tips.</li>
+<li><strong>Nozzle gel or anti-spatter spray</strong>, a pair of MIG pliers, a wire brush and a 4-1/2 in. grinder with flap discs.</li>
+</ul>
+
+<p>You can find all of these in the <a href="/shop/c/mig-wire">MIG wire</a> and <a href="/shop/c/tips-nozzles">tips and nozzles</a> sections of the HubWeld shop, priced in Canadian dollars.</p>
+
+<h2>Safety and PPE for MIG welding</h2>
+
+<p>MIG produces more ultraviolet light than most beginners expect, because the arc runs continuously instead of in short bursts. A few minutes of exposure without a lens gives you "arc eye," a sunburn on the cornea that feels like sand in your eyes for a day. Exposed skin on your neck and wrists burns the same way.</p>
+
+<ul>
+<li><strong>Helmet:</strong> an auto-darkening helmet set to shade 10–12 for most short-circuit MIG. In Canada, eye and face protectors for workplaces are covered by <a href="https://www.csagroup.org/store/product/2427717/">CSA Z94.3</a>. The current 2020 edition updated the requirements for auto-darkening welding filters, so check that the helmet you buy is marked to it. Wear safety glasses under the helmet, because grinding and chipping happen with the helmet up. See the <a href="/shop/c/helmets">helmet range</a> if you need one.</li>
+<li><strong>Jacket:</strong> flame-resistant cotton or leather. Synthetic fleece and polyester melt into skin when spatter lands on them.</li>
+<li><strong>Gloves:</strong> MIG gloves are thinner than stick gauntlets so you can feel the trigger, but they still need leather palms.</li>
+<li><strong>Boots and pants:</strong> leather boots, and cuffless pants that cover the boot tops. Spatter finds every gap.</li>
+<li><strong>Ventilation:</strong> weld fume from mild steel contains iron oxide and manganese. Ontario's Regulation 833 sets an 8-hour limit of 0.2 mg/m³ for manganese, listed on the <a href="https://www.ontario.ca/page/current-occupational-exposure-limits-ontario-workplaces-under-regulation-833">province's exposure limits page</a>. In a closed garage, open the door and keep your head out of the plume. Never weld galvanized or painted steel without grinding the coating off first. Our article on <a href="/blog/welding-fume-rules-2026">welding fume rules</a> goes further into extraction and respirators.</li>
+</ul>
+
+<p>Clear the area of rags, cardboard and solvents before you start. Keep a fire extinguisher within reach, and check the area again 30 minutes after you finish, because sawdust and insulation can smoulder for a while before they flame.</p>
+
+<h2>How to set up a MIG welder step by step</h2>
+
+<p>Setting up a MIG welder means getting six things right: polarity, drive rolls, wire tension, liner and tip, gas, and the ground. Get these right once and most of your early problems disappear.</p>
+
+<h3>Step 1: Set the polarity</h3>
+<p>Solid MIG wire runs on <strong>DC electrode positive (DCEP)</strong>, also called reverse polarity. Miller states this directly in its beginner guidance, and Lincoln's datasheet for its ER70S-6 wire lists DC+ for every diameter. Most small machines have a polarity changeover terminal inside the wire compartment, with the gun lead on one stud and the work lead on the other.</p>
+<p>Self-shielded flux-core wire (FCAW-S, such as E71T-11 or E71T-GS) usually runs on <strong>DC electrode negative (DCEN)</strong>. If you switch from flux-core back to solid wire and forget to swap the leads, you get a harsh, spattery arc and almost no penetration. Gas-shielded flux-core wire generally runs DCEP. The wire box always states the polarity, so read it. If you are weighing flux-core against solid wire, our piece on the <a href="/blog/pros-cons-flux-cored-fcaw">pros and cons of flux-cored welding</a> lays out the trade-offs.</p>
+
+<h3>Step 2: Fit the right drive rolls</h3>
+<p>Solid steel wire uses <strong>V-groove</strong> drive rolls. Flux-core wire uses <strong>knurled</strong> rolls, which grip the softer tubular wire. Aluminum uses U-groove rolls. Most rolls have two grooves, for example 0.030 and 0.035 in., so flip the roll so the groove facing the wire matches your wire size. Replacement rolls are in the <a href="/shop/c/drive-rolls">drive rolls and liners</a> category.</p>
+
+<h3>Step 3: Set drive roll tension</h3>
+<p>Too little tension and the wire slips, so the arc stutters. Too much and the rolls flatten the wire, which then jams in the liner or the tip. A quick test is to feed the wire into a gloved hand or against a piece of wood about 5 cm from the tip. The rolls should keep pushing and the wire should curl. If the rolls slip, add a quarter turn. When the wire jams at the tip, it should stop and the rolls should slip, rather than the wire balling up behind the rolls into a "bird's nest."</p>
+
+<h3>Step 4: Check the liner, contact tip and nozzle</h3>
+<p>Thread the wire with the gun cable laid out as straight as you can. A tight loop in the cable adds drag. Trim the wire end square with pliers before it goes into the tip, because a hooked end can catch. Screw the contact tip in snug. A loose tip overheats and causes erratic arcs. For short-circuit MIG the contact tip usually sits flush with the nozzle or recessed about 1/8 in.</p>
+
+<figure><img src="/images/blog/mig-welding-for-beginners/mig-drive-rolls-setup.webp" alt="Open MIG welder wire compartment showing a V-groove drive roll, tension arm and spool of 0.030 inch ER70S-6 wire during beginner setup" width="1536" height="1024"><figcaption>Inside the wire compartment: match the drive-roll groove to the wire size, then set tension just high enough that the wire does not slip.</figcaption></figure>
+
+<h3>Step 5: Connect and set the gas</h3>
+<p>Before attaching the regulator, crack the cylinder valve for a second to blow out dust ("cracking" the cylinder), standing to the side of the outlet. Attach the regulator, open the cylinder valve slowly, then press the trigger with the wire feed off (or with the drive rolls released) and set the flowmeter.</p>
+<p>For flow rate, Miller's beginner guide suggests starting at about <strong>20 CFH</strong> for light-duty work. Lincoln's datasheet for its S6 ER70S-6 wire gives a range of <strong>30–50 CFH</strong>. Indoors with no draft, 20–30 CFH is a sensible place to begin. Raise it if you see porosity near a door or fan. More flow is not always better: above a certain rate the gas becomes turbulent and pulls air into the shield.</p>
+
+<h3>Step 6: Clean the ground</h3>
+<p>Put the work clamp on bare, clean metal as close to the weld as practical. A clamp on a rusty or painted surface adds resistance, which shows up as an unstable arc that you might blame on your settings.</p>
+
+<h2>MIG welding settings chart for mild steel</h2>
+
+<p>MIG settings come from two controls. <strong>Wire feed speed (WFS)</strong>, measured in inches per minute (in/min), controls how much wire you push into the puddle, and therefore your amperage. <strong>Voltage</strong> controls the arc length, which affects how wide and flat the bead lays. Machines with a "synergic" or auto-set mode tie the two together. Manual machines make you match them.</p>
+
+<p>The table below uses the published operating ranges from <a href="https://ch-delivery.lincolnelectric.com/api/public/content/88ffc5b6ed744fde82e6a9107a2ecdcd">Lincoln Electric's S6 (ER70S-6) datasheet</a>, publication C4.10.27, issued June 2026. Lincoln lists short-circuit values with 100% CO2 and notes that you reduce voltage by 1 to 2 V when using 75% argon / 25% CO2. The C25 column applies that adjustment. The "typical use" column reflects general shop practice and is not from Lincoln.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Wire diameter</th><th>Typical use (mild steel)</th><th>Wire feed speed (in/min)</th><th>Voltage, 100% CO2</th><th>Voltage, C25 (approx.)</th><th>Approx. amps</th><th>Contact tip to work</th></tr></thead>
+<tbody>
+<tr><td>0.025 in. (0.6 mm)</td><td>24–18 ga sheet, auto body</td><td>100–250</td><td>17–19 V</td><td>15–18 V</td><td>35–80 A</td><td>3/8–1/2 in.</td></tr>
+<tr><td>0.030 in. (0.8 mm)</td><td>22 ga to 3/16 in.; best all-round wire on 120 V</td><td>75–300</td><td>17–22 V</td><td>15–21 V</td><td>35–130 A</td><td>3/8–1/2 in.</td></tr>
+<tr><td>0.035 in. (0.9 mm)</td><td>18 ga to 1/4 in. and up (multi-pass) on 240 V</td><td>100–300</td><td>18–23 V</td><td>16–22 V</td><td>80–175 A</td><td>3/8–1/2 in.</td></tr>
+<tr><td>0.045 in. (1.1 mm)</td><td>3/16 in. and heavier, production work</td><td>135–275</td><td>18–25 V</td><td>16–24 V</td><td>150–210 A</td><td>3/8–1/2 in.</td></tr>
+</tbody>
+</table></div>
+
+<p>Treat these as starting points, not answers. The chart inside your machine's door was written for that machine's voltage taps and wire feeder, so it beats any generic chart. Use the ranges above to understand what the door chart is telling you.</p>
+
+<h3>How to tune by sound and bead shape</h3>
+<p>Set the chart values, run a 10 cm bead on scrap of the same thickness, and listen. A good short-circuit arc sounds like bacon frying: a steady, fine crackle. Then adjust one control at a time.</p>
+<ul>
+<li><strong>Loud popping, wire stubbing into the plate, pushing the gun back:</strong> voltage too low for the wire speed, or wire speed too high. Raise voltage one step or cut wire speed by about 10%.</li>
+<li><strong>Hissing, long arc, wire burning back to the tip, flat wide bead with spatter balls:</strong> voltage too high. Lower it one step.</li>
+<li><strong>Tall, ropey bead that sits on top of the plate:</strong> too little heat for the thickness, or travel too slow on top of the puddle. Increase both voltage and wire speed together, or speed up.</li>
+<li><strong>Holes in thin sheet:</strong> too much heat. Lower both settings and use short stitch welds.</li>
+</ul>
+
+<h2>Which shielding gas should a beginner use?</h2>
+
+<p>For mild steel, use <strong>75% argon / 25% CO2</strong>. Miller recommends it as the all-purpose gas for carbon steel, and it gives a stable short-circuit arc, low spatter and a flatter bead than straight CO2. It costs more per cylinder than CO2, but most beginners find the difference in bead quality worth it.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Gas</th><th>Use it for</th><th>What to expect</th></tr></thead>
+<tbody>
+<tr><td>75% Ar / 25% CO2 (C25)</td><td>Mild steel, short-circuit, all positions</td><td>Smooth arc, low spatter, good bead shape. The default choice.</td></tr>
+<tr><td>100% CO2</td><td>Mild steel where cost matters</td><td>Deeper penetration, harsher arc, more spatter. Cheaper gas.</td></tr>
+<tr><td>90% Ar / 10% CO2 (C10)</td><td>Spray transfer on thicker steel</td><td>Lincoln's datasheet uses it for spray-transfer procedures. Flat and horizontal only.</td></tr>
+<tr><td>100% argon</td><td>Aluminum</td><td>Do not use it on steel. The arc wanders and the bead is narrow and poorly fused.</td></tr>
+<tr><td>Tri-mix (He/Ar/CO2)</td><td>Stainless short-circuit</td><td>Specialty gas. Not a beginner priority.</td></tr>
+</tbody>
+</table></div>
+
+<p>Aluminum MIG is its own skill, usually done with a spool gun. Read our <a href="/blog/aluminum-welding-tips-common-mistakes">aluminum welding tips</a> before you try it.</p>
+
+<h2>How to prepare the joint</h2>
+
+<p>Solid MIG wire has very little tolerance for dirt. Miller's beginner guidance puts it plainly: the material needs to be clean, and grease or oil should be removed <em>before</em> you grind, so you don't push it into the surface. Stick electrodes and flux-core wire carry flux that deals with some contamination. Solid wire carries none.</p>
+
+<ol>
+<li>Wipe off oil with a solvent such as acetone, and let it evaporate fully. Never weld near wet solvent.</li>
+<li>Grind or flap-disc 2–3 cm back from the joint on both sides until you see bright metal. Hot-rolled steel has mill scale, a blue-grey skin that causes porosity and poor wetting.</li>
+<li>For butt joints thicker than about 3/16 in., bevel the edges so you can reach the root, and leave a small gap. For thinner sheet, a tight square butt is fine.</li>
+<li>Tack the pieces every 5–10 cm on sheet and at each end on plate, so heat does not pull the joint out of line.</li>
+</ol>
+
+<h2>MIG technique: gun angle, push or pull, and travel speed</h2>
+
+<p>Good MIG technique is mostly about consistency. Hold the same angle, the same stickout and the same speed for the whole bead.</p>
+
+<h3>Work angle and travel angle</h3>
+<p>The <strong>work angle</strong> is the angle between the gun and the plate, viewed from the end of the joint. The <strong>travel angle</strong> is the tilt of the gun forward or back along the joint. Miller's starting points are:</p>
+<ul>
+<li>Butt joint: work angle 90° to the plate.</li>
+<li>T-joint fillet: work angle 45°, splitting the two plates.</li>
+<li>Lap joint: about 60–70°, pointing slightly more at the bottom plate, because the edge of the top plate melts faster.</li>
+<li>Travel angle: about 15° in the direction you are travelling.</li>
+</ul>
+
+<h3>Push or pull?</h3>
+<p>With solid MIG wire, most welders <strong>push</strong>: the gun points ahead, in the direction of travel. Pushing gives a flatter, wider bead, a clear view of the joint ahead, and better gas coverage. <strong>Pulling</strong> (dragging) points the gun back at the finished weld and gives a narrower bead with a bit more penetration. With flux-core and stick, the usual rule is "if there's slag, you drag." With solid wire on thin sheet, push.</p>
+
+<h3>Stickout</h3>
+<p>Stickout is the length of wire between the end of the contact tip and the arc. Miller calls 3/8 in. typical for short-circuit MIG. Lincoln's datasheet specifies contact-tip-to-work distance (CTWD) of 3/8–1/2 in. for short-circuit, which comes to roughly the same thing once you allow for the tip's position inside the nozzle. When stickout grows, current drops, the arc gets colder and gas coverage weakens. Beginners tend to drift the gun away as they weld, so watch for it.</p>
+
+<figure><img src="/images/blog/mig-welding-for-beginners/mig-fillet-gun-angle.webp" alt="Welder in auto-darkening helmet pushing a MIG gun at a 45 degree work angle along a T-joint fillet weld on mild steel plate" width="1536" height="1024"><figcaption>A T-joint fillet: 45° work angle, about 15° push angle, short stickout.</figcaption></figure>
+
+<h3>Travel speed</h3>
+<p>Watch the puddle, not the arc. The arc should stay on the leading edge of the puddle. Miller's guidance is that too slow builds an oversized bead and too fast reduces penetration. On a fillet, the cue to watch is the toes: both edges of the bead should melt smoothly into the plates, with no sharp notch and no bead rolling over onto the surface. If you cannot read the puddle yet, run a 15 cm bead on 1/8 in. plate in about 10–15 seconds, then adjust from what you see. A tall, narrow bead usually needs more heat. A thin, wavy bead means you are moving too fast.</p>
+
+<h3>Weave or straight?</h3>
+<p>On thin steel, run straight stringer beads. On thicker fillets, a small side-to-side weave or tight circles help you tie in both toes. Pause very slightly at each side to fill the edges and avoid undercut. Keep the weave narrow, within the width of the nozzle. A wide weave lets the puddle cool between passes and invites cold lap.</p>
+
+<h2>Welding in other positions</h2>
+
+<p>Flat welding (1F/1G) is where everyone starts. Real repairs happen on fences, trailers and building steel, in whatever position the joint sits.</p>
+
+<ul>
+<li><strong>Horizontal (2F/2G):</strong> point the gun slightly upward, about 10° above the 45° fillet angle, so gravity does not sag the bead onto the bottom plate.</li>
+<li><strong>Vertical up (3F/3G uphill):</strong> lower the settings about 10–15% from flat. Use a small triangle or "Christmas tree" weave, pausing at the sides. Vertical up gives better penetration on plate over 1/8 in., and it is what structural procedures usually call for.</li>
+<li><strong>Vertical down (downhill):</strong> fast and shallow. It works on thin sheet but is prone to cold lap on thicker material, so many structural procedures do not allow it for short-circuit MIG.</li>
+<li><strong>Overhead (4F/4G):</strong> lower settings, short stickout, small beads, and a cap and leather sleeves. Stand to the side so spatter falls clear of your collar.</li>
+</ul>
+
+<h2>MIG transfer modes in plain language</h2>
+
+<p>Transfer mode describes how molten metal travels from the wire into the puddle. It is set by your gas, voltage and wire speed together.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Mode</th><th>How it works</th><th>Gas</th><th>Positions</th><th>Good for</th></tr></thead>
+<tbody>
+<tr><td>Short-circuit</td><td>The wire touches the puddle and shorts dozens of times a second. Low heat.</td><td>C25 or 100% CO2</td><td>All</td><td>Sheet metal, gaps, beginners, small 120 V machines</td></tr>
+<tr><td>Globular</td><td>Large drops form and fall across the arc. Lots of spatter.</td><td>CO2 or C25 at higher voltage</td><td>Flat, horizontal</td><td>Usually avoided. A sign you are between modes.</td></tr>
+<tr><td>Spray</td><td>A fine stream of droplets. High heat, deep penetration, little spatter.</td><td>High-argon mixes such as 90/10 (Lincoln lists 23–30 V for 0.035 in. spray)</td><td>Flat, horizontal fillet</td><td>Plate 1/4 in. and thicker on 240 V or three-phase machines</td></tr>
+<tr><td>Pulsed spray</td><td>The machine pulses between high and low current. Spray-like quality at lower average heat.</td><td>High-argon mixes</td><td>All</td><td>Production work, stainless, aluminum. Requires a pulse-capable machine.</td></tr>
+</tbody>
+</table></div>
+
+<p>As a beginner, stay in short-circuit. Spray transfer is a separate skill, and C25 does not produce true spray transfer because it contains too much CO2.</p>
+
+<h2>120 V or 240 V: what your shop power means for MIG</h2>
+
+<p>In Canada, houses and small shops have 120 V outlets and 240 V circuits for appliances like dryers and ranges. Industrial buildings often have three-phase power, commonly 600 V. Your circuit sets a hard limit on what you can weld.</p>
+
+<p>A typical dual-voltage hobby machine shows the difference. Hobart lists its <a href="https://www.hobartwelders.com/equipment/welders/mig-gmaw/handler-210mvp-mig-welder-m00229">Handler 210 MVP</a> at 25–140 A output on 115 V and 25–210 A on 230 V, with a 15 A plug for the lower voltage and a 50 A plug for the higher one. At 115 V that is enough for sheet metal and light plate. At 230 V the same machine is rated to single-pass 3/8 in. mild steel.</p>
+
+<ul>
+<li><strong>120 V:</strong> 0.023–0.030 in. wire, up to about 3/16 in. in one pass on a 140 A class machine. Use a dedicated 20 A circuit if you can. Running on a long, thin extension cord drops the voltage and makes the arc worse.</li>
+<li><strong>240 V:</strong> 0.030–0.035 in. wire, 1/4 in. and thicker with multiple passes. You need a 240 V receptacle installed by a licensed electrician, sized to the machine's input current.</li>
+</ul>
+
+<p>Also check the machine's duty cycle. A 20% duty cycle at 90 A means 2 minutes of arc in every 10 at that output before the machine needs to cool. Our guide to <a href="/blog/duty-cycle-sizing-a-welder">duty cycle and sizing a welder</a> explains how to read the rating.</p>
+
+<h2>Common MIG weld defects and how to fix them</h2>
+
+<p>Most MIG defects have three or four common causes, and the fix is usually in your prep or technique, not the machine.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Defect</th><th>What it looks like</th><th>Likely causes</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>Porosity</td><td>Pinholes or bubbles on the surface or inside the bead</td><td>No gas, empty cylinder, draft, spatter-clogged nozzle, oil or mill scale, stickout too long</td><td>Check flow at the nozzle, block drafts, clean the nozzle, grind to bright metal, shorten stickout</td></tr>
+<tr><td>Undercut</td><td>A groove melted into the plate along the edge of the bead, left unfilled</td><td>Voltage too high, travel too fast, wrong gun angle on fillets</td><td>Lower voltage a step, slow down, pause briefly at the toes of a weave</td></tr>
+<tr><td>Lack of fusion / cold lap</td><td>Bead sits on top of the plate with a sharp edge; can be lifted off with a chisel</td><td>Too little heat, travel too slow so the arc rides on the puddle, vertical-down on thick plate, long stickout</td><td>Increase wire speed and voltage, keep the arc on the leading edge, weld uphill, shorten stickout</td></tr>
+<tr><td>Burn-through</td><td>Holes melted through thin material</td><td>Too much heat for the thickness, slow travel, wide gap</td><td>Lower settings, use smaller wire, stitch weld, add a copper or aluminum backing bar</td></tr>
+<tr><td>Excess spatter</td><td>Balls of metal stuck around the weld</td><td>Voltage and wire speed mismatched, 100% CO2, dirty steel, wrong polarity</td><td>Retune voltage to wire speed, switch to C25, clean the plate, confirm DCEP for solid wire</td></tr>
+<tr><td>Wire burnback</td><td>Wire fuses to the contact tip</td><td>Voltage too high, tip too close to the work, wire feed hesitating</td><td>Lower voltage, keep proper CTWD, check drive roll tension and liner</td></tr>
+</tbody>
+</table></div>
+
+<p>To check your fillets properly, cut one through with a cutoff wheel, polish the face and etch it, or simply break a practice T-joint in a vise. If the fillet breaks along the weld root rather than tearing the plate, you have fusion problems. The visual inspection checks inspectors use are covered in <a href="/blog/weld-inspection-101-ndt-methods">our guide to weld inspection and NDT</a>.</p>
+
+<figure><img src="/images/blog/mig-welding-for-beginners/mig-weld-defects-comparison.webp" alt="Three mild steel MIG weld coupons side by side showing porosity, cold lap and a correct fillet weld for beginners to compare" width="1536" height="1024"><figcaption>Porosity, cold lap and a sound fillet: compare your practice coupons against these patterns.</figcaption></figure>
+
+<h2>A four-week MIG practice plan</h2>
+
+<p>Practice with a plan and you will improve faster than you would by laying random beads. Use scrap 1/8 in. and 1/4 in. mild steel, about 10 x 15 cm. Grind each piece clean before you weld it.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Week</th><th>Exercise</th><th>Goal</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Stringer beads on flat plate, 1/8 in. Change one setting at a time and note the result.</td><td>Hear and see what voltage and wire speed do. Keep stickout constant.</td></tr>
+<tr><td>2</td><td>Flat T-joint and lap-joint fillets. Break every third one in a vise.</td><td>Even legs, both toes fused, no cold lap at the start.</td></tr>
+<tr><td>3</td><td>Horizontal and vertical-up fillets on 1/4 in. plate. Multi-pass fillets (three beads).</td><td>Control the puddle against gravity, clean tie-ins between passes.</td></tr>
+<tr><td>4</td><td>Square and beveled butt joints with backing, then overhead fillets.</td><td>Full fusion at the root, consistent cap. Bend-test a butt joint if you can.</td></tr>
+</tbody>
+</table></div>
+
+<p>Keep a notebook: wire size, gas, flow, voltage, wire speed, position and what went wrong. After a month you will have your own settings chart for your machine, which is worth more than any printed one.</p>
+
+<h2>Where MIG welding can take you in Canada</h2>
+
+<p>MIG skills turn into paid work faster than most trades skills, but structural, pressure and heavy-equipment work in Canada usually needs proof. For steel structures, that proof is a CWB qualification under CSA W47.1, tested to a company's welding procedure and witnessed by a Canadian Welding Bureau representative. Our step-by-step <a href="/blog/cwb-certification-canada-guide">guide to CWB certification</a> explains how the test works, what it costs and how to keep your ticket current. Learning to read the procedure you will be tested on helps too, so see <a href="/blog/how-to-read-a-wps">how to read a WPS</a>.</p>
+
+<p>If you are still deciding which process to focus on, compare <a href="/blog/mig-vs-tig-vs-stick-2026">MIG vs TIG vs stick</a>. MIG is the fastest to learn, but stick and flux-core handle outdoor and dirty work better.</p>
+
+<h2>Getting started on HubWeld</h2>
+
+<p>HubWeld is a Canadian welding marketplace, and it can help at each stage of learning MIG:</p>
+<ul>
+<li><strong>Machines and consumables:</strong> browse <a href="/shop/c/mig-welders">MIG welders</a>, wire, tips and helmets in the HubWeld shop, priced in CAD with provincial sales tax estimated at checkout. Our guide to <a href="/blog/buy-welding-supplies-online-canada">buying welding supplies online in Canada</a> explains how ordering and payment work.</li>
+<li><strong>Paid work:</strong> once your fillets pass a break test and you have a ticket, create a welder profile and bid on jobs posted by Canadian customers. See <a href="/blog/find-welding-contracts-hubweld">how welders find contracts on HubWeld</a>.</li>
+</ul>
+
+<h2 id="faq">Frequently asked questions</h2>
+
+<h3>What is the best MIG wire size for a beginner?</h3>
+<p>For a 120 V machine, 0.030 in. ER70S-6 solid wire is the best all-round choice. It handles sheet metal and plate up to about 3/16 in. in one pass, and Miller recommends it as a general-purpose size. On a 240 V machine welding 1/8 in. plate and thicker, 0.035 in. wire gives you more deposition without changing technique.</p>
+
+<h3>What gas flow rate should I use for MIG welding?</h3>
+<p>Start at about 20–30 CFH with 75/25 argon/CO2 indoors. Miller suggests 20 CFH as a starting point for light-duty work, and Lincoln's S6 wire datasheet lists 30–50 CFH. Raise the flow if you see porosity in a drafty area, but avoid going very high, because turbulent gas pulls air into the weld.</p>
+
+<h3>Do you push or pull when MIG welding?</h3>
+<p>With solid wire and shielding gas, push the gun at about 15° in the direction of travel. Pushing gives a flatter bead, better gas coverage and a clear view of the joint. Pull (drag) when you weld with self-shielded flux-core wire, which leaves slag, or when you want a narrower bead with slightly deeper penetration.</p>
+
+<h3>What polarity does MIG welding use?</h3>
+<p>Solid MIG wire uses DC electrode positive (DCEP), also called reverse polarity. Self-shielded flux-core wire usually uses DC electrode negative (DCEN). Gas-shielded flux-core wire generally uses DCEP. Always check the wire box, and swap the leads on the machine's polarity terminals when you change wire type.</p>
+
+<h3>Why is my MIG weld full of holes?</h3>
+<p>Holes in a MIG weld are porosity, caused by gas coverage failing or contamination. Check that the cylinder is open and not empty, the flow rate is set, the nozzle is free of spatter, and no fan or open door is blowing across the weld. Grind mill scale, rust and oil off the steel, and keep stickout around 3/8 in.</p>
+
+<h3>Can I MIG weld 1/4 in. steel with a 120 V welder?</h3>
+<p>Some 140 A class 120 V machines are rated to 1/4 in. mild steel, but that usually means a beveled joint and multiple passes, with limited duty cycle. For regular work on 1/4 in. plate and thicker, a 240 V machine with 0.035 in. wire is the better tool, because it delivers enough heat to fuse the root reliably.</p>
+
+<h3>How long does it take to learn MIG welding?</h3>
+<p>Most people lay a passable flat bead within a few hours. Producing sound fillets in all positions, the level a CWB test requires, usually takes weeks of regular practice or a college welding program. Following a structured plan, such as the four-week schedule above, and break-testing your welds speeds that up considerably.</p>

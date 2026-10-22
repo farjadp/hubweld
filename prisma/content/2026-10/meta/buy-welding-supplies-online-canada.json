@@ -1,0 +1,37 @@
+{
+  "slug": "buy-welding-supplies-online-canada",
+  "title": "Buying Welding Supplies Online in Canada: How the HubWeld Shop Works",
+  "excerpt": "Buy welding supplies online in Canada with prices in CAD, flat CAD $15 shipping (free over $500) and provincial tax shown up front. Here is how the HubWeld shop and checkout work.",
+  "seoTitle": "Buy Welding Supplies Online in Canada",
+  "seoDesc": "Buy welding supplies online in Canada: CAD prices, CAD $15 flat shipping (free over $500), GST/HST/PST by province and Net 30 for approved accounts.",
+  "seoKeywords": "buy welding supplies online Canada, welding supply store Canada, welding equipment prices CAD, net 30 welding supplier, welding consumables online, HubWeld",
+  "category": "hubweld-guides",
+  "tags": [
+    {
+      "slug": "welding-supplies",
+      "name": "Welding Supplies"
+    },
+    {
+      "slug": "hubweld-guides",
+      "name": "HubWeld Guides"
+    },
+    {
+      "slug": "parts-sourcing",
+      "name": "Parts Sourcing"
+    }
+  ],
+  "coverAlt": "Shelves of welding wire spools, helmets and gloves in a Canadian welding supply storeroom",
+  "coverPrompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 16:9. A tidy welding supply storeroom with steel shelving holding spools of MIG wire, boxes of contact tips, welding helmets and leather gloves, a maintenance buyer in a plaid jacket checking a shelf, warm overhead light, unbranded packaging.",
+  "images": [
+    {
+      "file": "supplies-delivery.webp",
+      "prompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 3:2. Plain cardboard boxes opened on a steel workbench in a fabrication shop, showing spools of welding wire, bags of copper contact tips and a pair of welding gloves, unbranded, daylight from a window.",
+      "alt": "Boxes of welding wire spools, contact tips and gloves delivered to a Canadian fabrication shop after buying welding supplies online"
+    },
+    {
+      "file": "maintenance-buyer.webp",
+      "prompt": "Documentary photograph, natural light, realistic, no readable text, no logos, no brand names, no watermarks, correct PPE, hands with five fingers. 3:2. A plant maintenance worker counting boxes of welding consumables on a shelf in a parts crib, holding a tablet whose screen is turned away, fluorescent lighting, realistic industrial setting.",
+      "alt": "Plant maintenance buyer checking welding consumables stock on a shelf before ordering online"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "slug": "welding-jobs-canada-2026",
+  "title": "Welding Jobs in Canada 2026: Where the Demand Is",
+  "excerpt": "Welding jobs in Canada in 2026 depend on province and ticket: PEI and Nova Scotia rate good, Ontario very limited. See the Job Bank outlook, the projects hiring and the tariff effect.",
+  "seoTitle": "Welding Jobs in Canada 2026: Demand by Province",
+  "seoDesc": "Where are the welding jobs in Canada in 2026? Job Bank outlook by province, LNG Canada Phase 2, nuclear and shipbuilding demand, and how tariffs hit shops.",
+  "seoKeywords": "welding jobs Canada, welder shortage Canada, welder demand by province, welding jobs Ontario, LNG welding jobs, welding jobs 2026",
+  "category": "canada-market",
+  "tags": [
+    {"slug": "welding-jobs", "name": "Welding Jobs"},
+    {"slug": "canada", "name": "Canada"},
+    {"slug": "welding-careers", "name": "Welding Careers"}
+  ],
+  "coverAlt": "Welders on scaffolding at a large Canadian industrial construction site, showing where welding jobs in Canada are in 2026",
+  "coverPrompt": "Documentary photograph, 16:9, wide shot. A large industrial construction site on the British Columbia coast: steel pipe racks and structural steel modules under construction, forested mountains and low cloud in the background. Two welders in hard hats, helmets and FR coveralls work on a scaffold platform at a pipe rack joint, small bright arc glow, a crane in the distance. Overcast Pacific Northwest light, wet ground, realistic scale, no readable text, no logos, no brand names, no watermark.",
+  "images": [
+    {
+      "file": "lng-module-yard-welders.webp",
+      "prompt": "Documentary photograph, 3:2. Inside a large West Coast module fabrication yard, two welders in full PPE weld large-bore stainless and carbon steel pipe spools on rollers beside a partly built steel module frame. Overhead crane, heavy steel structures, overcast daylight through open hall doors, realistic, no readable text, no logos, no watermark.",
+      "alt": "Welders working on large steel pipe modules in a West Coast fabrication yard, the kind of welding jobs in Canada created by LNG projects"
+    },
+    {
+      "file": "fabrication-shop-steel-stock-tariffs.webp",
+      "prompt": "Documentary photograph, 3:2. An Ontario steel fabrication shop: in the foreground, horizontal racks of structural steel stock (wide-flange beams, HSS tubes, angle iron, plate); in the middle ground a worker in safety glasses and gloves cuts a steel plate with a plasma torch on a cutting table, sparks. Cool overhead LED lighting, slightly quiet shop with few people, realistic, no readable text, no logos, no watermark.",
+      "alt": "Racks of structural steel stock in an Ontario fabrication shop with a welder cutting plate, illustrating tariff pressure on welding jobs in Canada"
+    }
+  ]
+}
