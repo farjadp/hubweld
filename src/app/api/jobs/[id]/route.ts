@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 import { parseGallery, toBid, toReview } from "@/lib/api-dto";
+import { hiddenUserIds } from "@/lib/blocks";
 import type { JobDetail } from "@/lib/api-types";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +27,11 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   });
   if (!job) return NextResponse.json({ error: "Job not found" }, { status: 404 });
 
-  const bids = job.bids.map(toBid);
+  // Blocked either way: the job disappears, and so do bids and reviews from
+  // anyone the viewer blocked.
+  const hidden = new Set(await hiddenUserIds(me?.id));
+  if (hidden.has(job.customerId)) return NextResponse.json({ error: "Job not found" }, { status: 404 });
+  const bids = job.bids.filter((b) => !hidden.has(b.welderId)).map(toBid);
   const isOwner = !!me && me.id === job.customerId;
   const isWelder = me?.role === "WELDER";
   const accepted = bids.find((b) => b.status === "ACCEPTED");
@@ -46,7 +51,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
     createdAt: job.createdAt.toISOString(),
     customer: job.customer,
     bids,
-    reviews: job.reviews.map(toReview),
+    reviews: job.reviews.filter((r) => !hidden.has(r.authorId)).map(toReview),
     viewer: {
       isOwner,
       isAssignedWelder: isWelder && accepted?.welderId === me!.id,

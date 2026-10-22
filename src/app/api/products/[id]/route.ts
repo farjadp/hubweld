@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 import { toProductSummary } from "@/lib/api-dto";
+import { hiddenUserIds } from "@/lib/blocks";
 import type { ProductDetail } from "@/lib/api-types";
 
 const patchSchema = z.object({
@@ -39,10 +40,11 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
     include: { supplier: { include: { supplierProfile: true } }, category: true },
   });
   if (!p) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  const me = await getCurrentUser();
   if (p.status !== "ACTIVE") {
-    const me = await getCurrentUser();
     if (!me || (me.id !== p.supplierId && me.role !== "ADMIN")) return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+  if ((await hiddenUserIds(me?.id)).includes(p.supplierId)) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const related = await prisma.product.findMany({
     where: { categoryId: p.categoryId, status: "ACTIVE", NOT: { id: p.id } },

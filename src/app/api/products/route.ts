@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 import { contains } from "@/lib/search";
+import { hiddenUserIds } from "@/lib/blocks";
 import { pageParam, toProductSummary } from "@/lib/api-dto";
 import type { Paged, ProductSummary } from "@/lib/api-types";
 
@@ -42,8 +43,10 @@ export async function GET(req: Request) {
     categoryIds = [cat.id, ...cat.children.map((c) => c.id)];
   }
 
+  const hidden = await hiddenUserIds((await getCurrentUser())?.id);
   const where = {
     status: "ACTIVE",
+    ...(hidden.length ? { supplierId: { notIn: hidden } } : {}),
     ...(featuredOnly ? { featured: true } : {}),
     ...(categoryIds ? { categoryId: { in: categoryIds } } : {}),
     ...(q ? { OR: [{ name: contains(q) }, { brand: contains(q) }, { description: contains(q) }] } : {}),

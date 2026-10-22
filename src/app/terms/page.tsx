@@ -100,6 +100,8 @@ const sections: LegalSection[] = [
     id: "conduct",
     title: "What is not allowed",
     body: (
+      <>
+      <p>There is no tolerance for objectionable content or abusive users. Content that breaks this section is removed and the account behind it may be closed without notice.</p>
       <ul className={ul}>
         <li>False or misleading information, including fake certifications, fake reviews or listings for products you do not have.</li>
         <li>Harassment, threats or discrimination in messages or anywhere else.</li>
@@ -107,6 +109,8 @@ const sections: LegalSection[] = [
         <li>Anything illegal, including selling prohibited or stolen goods.</li>
         <li>Interfering with the service: probing for vulnerabilities, scraping it in bulk, or accessing accounts or data that are not yours.</li>
       </ul>
+      <p>You can report a job, bid, review, message, profile or product from the app, and block any user so that neither of you sees the other&rsquo;s content or can message the other. We review reports within 24 hours.</p>
+      </>
     ),
   },
   {

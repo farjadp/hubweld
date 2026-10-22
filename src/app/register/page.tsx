@@ -12,7 +12,7 @@ function RegisterInner() {
   const router = useRouter();
   const params = useSearchParams();
   const initialRole = (() => { const r = params.get("role"); return r === "WELDER" || r === "SUPPLIER" ? r : "CUSTOMER"; })();
-  const [form, setForm] = useState({ name: "", email: "", password: "", city: "", role: initialRole, businessName: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "", city: "", role: initialRole, businessName: "", acceptTerms: false });
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -50,6 +50,13 @@ function RegisterInner() {
         <div><label className="label">Email</label><input className="input" type="email" value={form.email} onChange={(e) => set("email", e.target.value)} required /></div>
         <div><label className="label">Password</label><input className="input" type="password" minLength={6} value={form.password} onChange={(e) => set("password", e.target.value)} required /></div>
         <div><label className="label">City</label><input className="input" value={form.city} onChange={(e) => set("city", e.target.value)} placeholder="e.g. Toronto" /></div>
+        <label className="flex items-start gap-2 text-sm text-slate-700">
+          <input type="checkbox" className="mt-1" checked={form.acceptTerms} onChange={(e) => set("acceptTerms", e.target.checked)} required />
+          <span>
+            I agree to the <Link href="/terms" target="_blank" className="text-brand hover:underline">Terms of Service</Link> and have read the{" "}
+            <Link href="/privacy" target="_blank" className="text-brand hover:underline">Privacy Policy</Link>. Objectionable content and abuse are not tolerated.
+          </span>
+        </label>
         {err && <p className="text-sm text-brand">{err}</p>}
         <button className="btn-primary w-full" disabled={loading}>{loading ? "Creating account..." : "Create account"}</button>
         <p className="text-center text-sm text-slate-600">Already have an account? <Link href="/login" className="text-brand hover:underline">Sign in</Link></p>
