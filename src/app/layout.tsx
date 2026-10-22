@@ -4,6 +4,8 @@ import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navbar";
+import { FooterStoreLinks } from "@/components/StoreBadges";
+import { getAppLinks } from "@/lib/app-links";
 import { getDisplayCurrency } from "@/lib/currency.server";
 import { SITE_URL } from "@/lib/site";
 
@@ -54,6 +56,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const currency = getDisplayCurrency();
+  const appLinks = getAppLinks();
   const orgLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -143,6 +146,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <p className="mt-4 max-w-[26ch] text-sm leading-relaxed text-slate-600">
                     The industrial welding parts and fabrication network — built for real-world deadlines.
                   </p>
+                  <div className="mt-6">
+                    <h3 className="font-mono text-[11px] font-semibold uppercase tracking-machine text-slate-500">Get the app</h3>
+                    <div className="mt-3">
+                      <FooterStoreLinks links={appLinks} />
+                    </div>
+                  </div>
                 </div>
                 {footerCols.map((col) => (
                   <nav key={col.title} aria-label={col.title}>
