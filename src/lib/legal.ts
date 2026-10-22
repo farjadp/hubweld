@@ -1,13 +1,14 @@
 /**
  * Facts the privacy policy and terms state about the business.
  *
- * TODO(owner): these are placeholders. Fill them in, have the two pages read
- * by someone qualified, and only then link them from the app stores. Every
- * value here is printed verbatim on /privacy and /terms.
+ * TODO(owner): `address` and `contactEmail` are still placeholders. Fill them
+ * in, have the two pages read by someone qualified, and only then link them
+ * from the app stores. Every value here is printed verbatim on /privacy and
+ * /terms.
  */
 export const LEGAL = {
-  /** The registered legal name of the business that operates HubWeld. */
-  entity: "[Legal entity name]",
+  /** Registered legal name, from the Certificate of Incorporation (Ontario, June 10, 2024). */
+  entity: "HubWeld Ltd. (Ontario Corporation No. 1000918163)",
   /** Registered business address, as it should appear on a legal notice. */
   address: "[Registered business address]",
   /** An inbox someone reads: privacy requests and legal notices go here. */
