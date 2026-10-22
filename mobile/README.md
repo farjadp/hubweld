@@ -19,6 +19,10 @@ This is a **development build**, not Expo Go: push notifications, the camera and
 
 The API address comes from `EXPO_PUBLIC_API_URL` (see `.env.example`). When it isn't set in development, the app uses port 3000 on the machine running Metro, which works from a simulator and from a phone on the same Wi-Fi. The Android emulator needs `http://10.0.2.2:3000`.
 
+**Android:** Gradle runs on Android Studio's bundled Java (`JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"`, with `ANDROID_HOME=~/Library/Android/sdk`). With the API on `localhost`, map the emulator's ports to your Mac: `adb reverse tcp:3000 tcp:3000` (the API port) and `adb reverse tcp:8081 tcp:8081` (Metro).
+
+Forms scroll with `FormScroll` (`react-native-keyboard-controller`), not `KeyboardAvoidingView`. On Android 15+ the window no longer resizes for the keyboard, and fields near the bottom ended up under it.
+
 If `pod install` fails with `Unicode Normalization not appropriate for ASCII-8BIT`, your shell isn't UTF-8: `export LANG=en_US.UTF-8`.
 
 ## Who sees what
