@@ -45,14 +45,15 @@ async function userFromBearer(token: string): Promise<CurrentUser | null> {
   // sign-outs apply at once instead of after the token's 15 minutes run out.
   const session = await prisma.mobileSession.findUnique({
     where: { id: claims.sessionId },
-    include: { user: { select: { id: true, role: true, email: true, name: true, banned: true } } },
+    include: { user: { select: { id: true, role: true, email: true, name: true, banned: true, accessExpiresAt: true } } },
   });
   if (
     !session ||
     session.userId !== claims.userId ||
     session.revokedAt ||
     session.expiresAt < new Date() ||
-    session.user.banned
+    session.user.banned ||
+    (session.user.accessExpiresAt && session.user.accessExpiresAt < new Date())
   ) {
     return null;
   }

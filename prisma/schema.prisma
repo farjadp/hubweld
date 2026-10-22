@@ -18,6 +18,9 @@ model User {
   banned        Boolean  @default(false)
   /// When the user agreed to the Terms. Null for accounts created before sign-up asked.
   termsAcceptedAt DateTime?
+  /// After this moment the account can't sign in and its sessions stop working
+  /// (time-boxed accounts, e.g. for app store review). Null = no expiry.
+  accessExpiresAt DateTime?
   createdAt     DateTime @default(now())
 
   welderProfile   WelderProfile?

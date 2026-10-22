@@ -25,7 +25,8 @@ export async function POST(req: Request) {
   const { email, password, deviceName, platform } = parsed.data;
 
   const user = await prisma.user.findUnique({ where: { email } });
-  const ok = !!user && !user.banned && (await bcrypt.compare(password, user.passwordHash));
+  const expired = !!user?.accessExpiresAt && user.accessExpiresAt < new Date();
+  const ok = !!user && !user.banned && !expired && (await bcrypt.compare(password, user.passwordHash));
   if (!user || !ok) return NextResponse.json({ error: "Incorrect email or password" }, { status: 401 });
 
   const tokens = await openMobileSession(user.id, { deviceName, platform });

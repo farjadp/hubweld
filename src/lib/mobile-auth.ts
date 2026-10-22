@@ -87,9 +87,11 @@ export async function openMobileSession(
 export async function rotateMobileSession(refreshToken: string): Promise<TokenPair | null> {
   const session = await prisma.mobileSession.findUnique({
     where: { refreshHash: hashRefresh(refreshToken) },
-    include: { user: { select: { banned: true } } },
+    include: { user: { select: { banned: true, accessExpiresAt: true } } },
   });
-  if (!session || session.revokedAt || session.expiresAt < new Date() || session.user.banned) {
+  const now = new Date();
+  const userExpired = !!session?.user.accessExpiresAt && session.user.accessExpiresAt < now;
+  if (!session || session.revokedAt || session.expiresAt < now || session.user.banned || userExpired) {
     return null;
   }
 

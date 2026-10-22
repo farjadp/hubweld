@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import UserRow from "./UserRow";
+import ReviewAccounts from "./ReviewAccounts";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,7 @@ export default async function AdminUsersPage() {
         </div>
         <Link href="/admin/users/new" className="btn-primary shrink-0">+ New User</Link>
       </div>
+      <ReviewAccounts />
       <div className="grid gap-2">
         {users.map((u) => <UserRow key={u.id} user={{ id: u.id, name: u.name, email: u.email, role: u.role, banned: u.banned, approved: u.welderProfile?.approved ?? null }} />)}
         {users.length === 0 && <div className="rounded-xl border border-slate-200 bg-white p-10 text-center text-sm text-slate-400">No users yet.</div>}
