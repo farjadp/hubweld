@@ -1,7 +1,8 @@
 import "../global.css";
 
 import { useEffect, useState } from "react";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
+import { Pressable } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -16,7 +17,7 @@ import { IBMPlexMono_500Medium } from "@expo-google-fonts/ibm-plex-mono/500Mediu
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { usePushNotifications } from "@/lib/push";
 import { ApiError } from "@/lib/api";
-import { colors } from "@/components/ui";
+import { Text, colors } from "@/components/ui";
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -62,6 +63,17 @@ const detailHeader = {
   headerStyle: { backgroundColor: colors.ground },
 };
 
+/** Modals get an explicit way out; a swipe-down is not obvious to everyone, and Android has none. */
+const modalHeader = {
+  ...detailHeader,
+  presentation: "modal" as const,
+  headerLeft: () => (
+    <Pressable onPress={() => router.back()} hitSlop={10} accessibilityRole="button">
+      <Text className="font-body-semibold text-[16px] text-brand">Cancel</Text>
+    </Pressable>
+  ),
+};
+
 function RootStack() {
   const { status } = useAuth();
   const signedIn = status === "signedIn";
@@ -89,14 +101,14 @@ function RootStack() {
 
       <Stack.Protected guard={signedIn}>
         <Stack.Screen name="job/[id]/chat" options={{ ...detailHeader, headerTitle: "Messages" }} />
-        <Stack.Screen name="job/new" options={{ ...detailHeader, presentation: "modal", headerTitle: "Post a job" }} />
+        <Stack.Screen name="job/new" options={{ ...modalHeader, headerTitle: "Post a job" }} />
         <Stack.Screen name="checkout" options={{ ...detailHeader, headerTitle: "Checkout" }} />
         <Stack.Screen name="orders" options={{ ...detailHeader, headerTitle: "My orders" }} />
         <Stack.Screen name="order/[id]" options={detailHeader} />
         <Stack.Screen name="account/details" options={{ ...detailHeader, headerTitle: "Account details" }} />
         <Stack.Screen name="account/welder-profile" options={{ ...detailHeader, headerTitle: "Welder profile" }} />
         <Stack.Screen name="account/delete" options={{ ...detailHeader, headerTitle: "Delete account" }} />
-        <Stack.Screen name="supplier/product" options={{ ...detailHeader, presentation: "modal", headerTitle: "Product" }} />
+        <Stack.Screen name="supplier/product" options={{ ...modalHeader, headerTitle: "Product" }} />
       </Stack.Protected>
     </Stack>
   );

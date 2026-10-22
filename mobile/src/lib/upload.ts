@@ -1,6 +1,7 @@
 import { Alert, Linking } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
+import { File } from "expo-file-system";
 import { api } from "@/lib/api";
 
 /**
@@ -15,14 +16,17 @@ export type UploadKind = "avatar" | "gallery" | "product" | "job";
 
 const MAX_EDGE = 2000;
 
-async function ensurePermission(source: "camera" | "library"): Promise<boolean> {
-  const res =
-    source === "camera"
-      ? await ImagePicker.requestCameraPermissionsAsync()
-      : await ImagePicker.requestMediaLibraryPermissionsAsync();
+/**
+ * Only the camera needs permission. Picking from the library goes through the
+ * system photo picker, which hands over just the photos the user chose — asking
+ * for "full access to your photo library" would be a request we do not need,
+ * and one that App Review questions.
+ */
+async function ensureCameraPermission(): Promise<boolean> {
+  const res = await ImagePicker.requestCameraPermissionsAsync();
   if (res.granted) return true;
   Alert.alert(
-    source === "camera" ? "Camera access is off" : "Photo access is off",
+    "Camera access is off",
     "You can turn it on for HubWeld in Settings.",
     [
       { text: "Not now", style: "cancel" },
@@ -37,7 +41,7 @@ export async function pickImages(
   source: "camera" | "library",
   opts: { multiple?: boolean; limit?: number; square?: boolean } = {}
 ): Promise<ImagePicker.ImagePickerAsset[]> {
-  if (!(await ensurePermission(source))) return [];
+  if (source === "camera" && !(await ensureCameraPermission())) return [];
   const options: ImagePicker.ImagePickerOptions = {
     mediaTypes: ["images"],
     quality: 0.9,
@@ -72,8 +76,10 @@ export async function uploadImage(asset: ImagePicker.ImagePickerAsset, kind: Upl
   const saved = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
 
   const form = new FormData();
-  // React Native's FormData takes a { uri, name, type } descriptor for files.
-  form.append("file", { uri: saved.uri, name: `${kind}-${Date.now()}.jpg`, type: "image/jpeg" } as unknown as Blob);
+  // Expo's fetch (the global since SDK 52) does not take React Native's old
+  // { uri, name, type } descriptor; it wants a Blob-like part. expo-file-system's
+  // File is one, with its name and MIME type taken from the saved .jpg.
+  form.append("file", new File(saved.uri) as unknown as Blob);
   form.append("kind", kind);
   const { url } = await api<{ url: string }>("/api/profile/upload", { method: "POST", form });
   return url;

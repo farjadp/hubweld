@@ -36,7 +36,7 @@ export default function OrderScreen() {
   return (
     <ScrollView contentContainerClassName="gap-5 px-5 pb-16 pt-2">
       <Stack.Screen options={{ headerTitle: `Order ${o.reference}` }} />
-      {placed ? (
+      {placed && o.status !== "CANCELLED" ? (
         <Notice title="Order request received">
           Your order is recorded and the stock reserved, and a confirmation is on its way to your inbox. Nothing has been charged — our team will contact you to confirm and arrange payment.
         </Notice>

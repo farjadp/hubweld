@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient, type QueryKey } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, useQueryClient, type QueryKey } from "@tanstack/react-query";
 import type {
   CartResponse,
   CategoryDto,
@@ -88,6 +88,9 @@ export function useCart(dest?: { country: string; region: string }) {
     queryKey: keys.cart(d),
     queryFn: () => api<CartResponse>(`/api/cart${dest ? qs(dest) : ""}`),
     enabled: status === "signedIn",
+    // A new province is a new key; keep showing the last estimate meanwhile
+    // instead of dropping the checkout form for a spinner.
+    placeholderData: keepPreviousData,
   });
 }
 
