@@ -1,5 +1,6 @@
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, useQueryClient, type QueryKey } from "@tanstack/react-query";
 import type {
+  BlockedUser,
   CartResponse,
   CategoryDto,
   JobDetail,
@@ -10,6 +11,8 @@ import type {
   OrderDetail,
   OrderSummary,
   Paged,
+  ReportReason,
+  ReportTargetType,
   ProductDetail,
   ProductSummary,
   SupplierOrderLine,
@@ -40,6 +43,7 @@ export const keys = {
   order: (id: string) => ["order", id] as const,
   supplierLines: ["supplierLines"] as const,
   supplierProducts: ["supplierProducts"] as const,
+  blocked: ["blocked"] as const,
   welders: (q: string, verified: boolean) => ["welders", q, verified] as const,
   welder: (id: string) => ["welder", id] as const,
 };
@@ -304,4 +308,25 @@ export function useSaveAccount() {
     mutationFn: (v: Record<string, string | undefined>) => api("/api/account", { method: "PATCH", body: v }),
     onSuccess: () => void qc.invalidateQueries({ queryKey: keys.me }),
   });
+}
+
+// ── Safety ────────────────────────────────────────────────────────────────
+
+export function useReport() {
+  return useMutation({
+    mutationFn: (v: { targetType: ReportTargetType; targetId: string; reason: ReportReason; details?: string }) =>
+      api("/api/reports", { method: "POST", body: v }),
+  });
+}
+
+export const useBlockedUsers = () => useQuery({ queryKey: keys.blocked, queryFn: () => api<BlockedUser[]>("/api/blocks") });
+
+/** Block or unblock. Either changes what every list shows, so refetch everything. */
+export function useBlockMutations() {
+  const qc = useQueryClient();
+  const onSuccess = () => void qc.invalidateQueries();
+  return {
+    block: useMutation({ mutationFn: (userId: string) => api("/api/blocks", { method: "POST", body: { userId } }), onSuccess }),
+    unblock: useMutation({ mutationFn: (userId: string) => api(`/api/blocks/${userId}`, { method: "DELETE" }), onSuccess }),
+  };
 }

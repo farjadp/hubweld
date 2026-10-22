@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Alert, ScrollView, View } from "react-native";
 import { FormScroll } from "@/components/FormScroll";
-import { router, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import { BadgeCheck, MapPin, MessageSquare } from "lucide-react-native";
 import type { BidDto, JobDetail } from "@shared/api-types";
 import { RemoteImage } from "@/components/RemoteImage";
+import { ReportButton } from "@/components/ReportButton";
 import { Stars } from "@/components/Stars";
 import { Badge, Button, Card, ErrorState, Field, Heading, Label, Loading, Notice, Seam, Text, colors } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
@@ -43,6 +44,7 @@ function JobView({ job }: { job: JobDetail }) {
 
   return (
     <FormScroll className="flex-1" contentContainerClassName="gap-6 px-5 pb-16 pt-2">
+        <Stack.Screen options={{ headerRight: () => <ReportButton look="header" type="JOB" id={job.id} userId={job.customer.id} name={job.customer.name} /> }} />
         <View className="gap-2">
           <Badge {...st} />
           <Heading className="text-[28px] leading-[30px]">{job.title}</Heading>
@@ -128,6 +130,7 @@ function JobView({ job }: { job: JobDetail }) {
                 <Badge {...BID_STATUS[b.status]} />
                 <Text className="text-[12px] text-slate-400">{timeAgo(b.createdAt)}</Text>
               </View>
+              <ReportButton type="BID" id={b.id} userId={b.welderId} name={b.welderName} />
               {v.isOwner && job.status !== "CANCELLED" ? (
                 <View className="mt-1 flex-row gap-2">
                   {job.status === "OPEN" && b.status === "PENDING" ? (
@@ -154,6 +157,7 @@ function JobView({ job }: { job: JobDetail }) {
                 <Stars value={r.rating} />
                 {r.comment ? <Text className="text-slate-700">{r.comment}</Text> : null}
                 <Text className="text-[12px] text-slate-500">— {r.authorName}, {formatDate(r.createdAt)}</Text>
+                <ReportButton type="REVIEW" id={r.id} userId={r.authorId} name={r.authorName} />
               </Card>
             ))}
           </View>

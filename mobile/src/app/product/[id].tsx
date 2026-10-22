@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Alert, ScrollView, View } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import { BadgeCheck } from "lucide-react-native";
 import { ProductCard } from "@/components/ProductCard";
 import { QtyStepper } from "@/components/QtyStepper";
 import { RemoteImage } from "@/components/RemoteImage";
+import { ReportButton } from "@/components/ReportButton";
 import { Badge, Button, Card, ErrorState, Heading, Label, Loading, Seam, Text, colors } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { errorMessage } from "@/lib/api";
@@ -40,6 +41,7 @@ export default function ProductScreen() {
 
   return (
     <ScrollView contentContainerClassName="pb-16">
+      <Stack.Screen options={{ headerRight: () => <ReportButton look="header" type="PRODUCT" id={p.id} userId={p.supplier.id} name={p.supplier.name} /> }} />
       <RemoteImage uri={p.imageUrl} label={p.name} className="aspect-square w-full bg-panel" />
       <View className="gap-2 px-5 pt-5">
         <Label>{[p.brand, p.category.name].filter(Boolean).join(" · ")}</Label>

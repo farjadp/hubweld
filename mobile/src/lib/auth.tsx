@@ -15,6 +15,7 @@ type RegisterInput = {
   role: Exclude<Role, "ADMIN">;
   city?: string;
   businessName?: string;
+  acceptTerms: true;
 };
 
 type AuthContextValue = {

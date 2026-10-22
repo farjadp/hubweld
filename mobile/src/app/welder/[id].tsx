@@ -1,7 +1,8 @@
 import { ScrollView, View } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { BadgeCheck, MapPin, User } from "lucide-react-native";
 import { RemoteImage } from "@/components/RemoteImage";
+import { ReportButton } from "@/components/ReportButton";
 import { Stars } from "@/components/Stars";
 import { Card, ErrorState, Heading, Label, Loading, Text, colors } from "@/components/ui";
 import { useWelder } from "@/lib/queries";
@@ -29,6 +30,7 @@ export default function WelderScreen() {
 
   return (
     <ScrollView contentContainerClassName="gap-6 px-5 pb-16 pt-2">
+      <Stack.Screen options={{ headerRight: () => <ReportButton look="header" type="USER" id={w.id} userId={w.id} name={w.name} /> }} />
       <View className="flex-row items-center gap-4">
         {w.avatarUrl ? (
           <RemoteImage uri={w.avatarUrl} label={w.name} className="h-20 w-20 rounded-full" />
@@ -94,6 +96,7 @@ export default function WelderScreen() {
               <Stars value={r.rating} />
               {r.comment ? <Text className="text-slate-700">{r.comment}</Text> : null}
               <Text className="text-[12px] text-slate-500">— {r.authorName}, {formatDate(r.createdAt)}</Text>
+              <ReportButton type="REVIEW" id={r.id} userId={r.authorId} name={r.authorName} />
             </Card>
           ))
         )}

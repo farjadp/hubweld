@@ -114,6 +114,8 @@ function RootStack() {
         <Stack.Screen name="account/details" options={{ ...detailHeader, headerTitle: "Account details" }} />
         <Stack.Screen name="account/welder-profile" options={{ ...detailHeader, headerTitle: "Welder profile" }} />
         <Stack.Screen name="account/delete" options={{ ...detailHeader, headerTitle: "Delete account" }} />
+        <Stack.Screen name="account/blocked" options={{ ...detailHeader, headerTitle: "Blocked users" }} />
+        <Stack.Screen name="report" options={{ ...modalHeader, headerTitle: "Report" }} />
         <Stack.Screen name="supplier/product" options={{ ...modalHeader, headerTitle: "Product" }} />
       </Stack.Protected>
     </Stack>

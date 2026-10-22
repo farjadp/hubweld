@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Platform, Pressable, View } from "react-native";
+import { Linking, Platform, Pressable, View } from "react-native";
 import { FormScroll } from "@/components/FormScroll";
 import { router } from "expo-router";
-import { HardHat, Store, Wrench, X } from "lucide-react-native";
+import { Check, HardHat, Store, Wrench, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, Field, Heading, Label, Notice, Seam, Text, colors } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { errorMessage } from "@/lib/api";
+import { API_URL } from "@/lib/config";
 
 type Role = "CUSTOMER" | "WELDER" | "SUPPLIER";
 
@@ -21,6 +22,7 @@ export default function SignUp() {
   const insets = useSafeAreaInsets();
   const [role, setRole] = useState<Role>("CUSTOMER");
   const [form, setForm] = useState({ name: "", email: "", password: "", city: "", businessName: "" });
+  const [agreed, setAgreed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const set = (k: keyof typeof form) => (v: string) => setForm((f) => ({ ...f, [k]: v }));
@@ -29,6 +31,7 @@ export default function SignUp() {
     if (form.name.trim().length < 2) return setError("Enter your name.");
     if (!/^\S+@\S+\.\S+$/.test(form.email.trim())) return setError("Enter a valid email address.");
     if (form.password.length < 8) return setError("Use at least 8 characters for your password.");
+    if (!agreed) return setError("Agree to the Terms of Service to create an account.");
     setBusy(true);
     setError(null);
     try {
@@ -39,6 +42,7 @@ export default function SignUp() {
         password: form.password,
         city: form.city.trim() || undefined,
         businessName: role === "SUPPLIER" ? form.businessName.trim() || undefined : undefined,
+        acceptTerms: true,
       });
     } catch (e) {
       setError(errorMessage(e));
@@ -85,6 +89,23 @@ export default function SignUp() {
           <Field label="Email" value={form.email} onChangeText={set("email")} autoCapitalize="none" keyboardType="email-address" autoComplete="email" textContentType="emailAddress" />
           <Field label="Password" value={form.password} onChangeText={set("password")} secureTextEntry autoComplete="new-password" textContentType="newPassword" hint="At least 8 characters." />
           <Field label="City" value={form.city} onChangeText={set("city")} textContentType="addressCity" hint={role === "WELDER" ? "Where you mostly work." : undefined} />
+          <Pressable
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: agreed }}
+            onPress={() => setAgreed((a) => !a)}
+            className="flex-row items-start gap-3"
+          >
+            <View className={`mt-0.5 h-5 w-5 items-center justify-center rounded-sm border ${agreed ? "border-brand bg-brand" : "border-slate-400 bg-panel"}`}>
+              {agreed ? <Check size={14} color="#fff" strokeWidth={3} /> : null}
+            </View>
+            <Text className="flex-1 text-[14px] leading-5 text-slate-700">
+              I agree to the{" "}
+              <Text className="font-body-semibold text-brand" onPress={() => void Linking.openURL(`${API_URL}/terms`)}>Terms of Service</Text>
+              {" "}and have read the{" "}
+              <Text className="font-body-semibold text-brand" onPress={() => void Linking.openURL(`${API_URL}/privacy`)}>Privacy Policy</Text>
+              . Objectionable content and abusive behaviour are not tolerated.
+            </Text>
+          </Pressable>
           {error ? <Notice tone="error">{error}</Notice> : null}
           <Button title="Create account" loading={busy} onPress={submit} className="mt-2" />
         </View>
