@@ -162,6 +162,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="border-t border-slate-200">
               <div className="mx-auto flex w-[min(1180px,calc(100%-32px))] flex-wrap items-center justify-between gap-2 py-5 font-mono text-[11px] uppercase tracking-wider text-slate-500">
                 <span>© {new Date().getFullYear()} HubWeld · Certified Welding &amp; Fabrication Network</span>
+                <span className="flex gap-4">
+                  <Link href="/privacy" className="hover:text-slate-900">Privacy</Link>
+                  <Link href="/terms" className="hover:text-slate-900">Terms</Link>
+                </span>
                 <span className="hidden md:block">EST. 2024 · Serving US · CA · UK · EU · UAE</span>
               </div>
             </div>
