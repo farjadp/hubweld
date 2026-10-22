@@ -10,6 +10,7 @@
     "userInterfaceStyle": "light",
     "ios": {
       "bundleIdentifier": "ca.hubweld.app",
+      "appleTeamId": "JN57DU6B4M",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -23,7 +24,8 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "blockedPermissions": ["android.permission.SYSTEM_ALERT_WINDOW"]
     },
     "web": {
       "bundler": "metro",
