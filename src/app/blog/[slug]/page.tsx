@@ -6,7 +6,8 @@ import { sanitizeArticleHtml } from "@/lib/sanitize";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Calendar, Clock, FolderOpen, Tag, ArrowLeft, ArrowRight, Eye } from "lucide-react";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, url } from "@/lib/site";
+import { extractFaq } from "@/lib/blog-faq";
 
 export const dynamic = "force-dynamic";
 
@@ -49,13 +50,16 @@ async function recordView(id: string): Promise<void> {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getPost(params.slug);
   if (!post) return {};
+  // The root layout's title template already appends "| HubWeld"; older posts
+  // carry it in seoTitle too, which doubled the brand in the browser tab.
+  const title = (post.seoTitle || post.title).replace(/\s*[|–-]\s*HubWeld\s*$/i, "");
   return {
-    title: post.seoTitle || post.title,
+    title,
     description: post.seoDesc || post.excerpt,
     keywords: post.seoKeywords ? post.seoKeywords.split(",").map((k: string) => k.trim()) : undefined,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
-      title: post.seoTitle || post.title,
+      title,
       description: post.seoDesc || post.excerpt,
       url: `${SITE_URL}/blog/${post.slug}`,
       siteName: "HubWeld",
@@ -96,6 +100,22 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "2-digit",
   });
 
+  // Covers can be site-relative (/images/blog/...); structured data needs an absolute URL.
+  const coverUrl = post.coverImage.startsWith("/") ? url(post.coverImage) : post.coverImage;
+
+  const faq = extractFaq(post.body);
+  const faqLd = faq.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faq.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      }
+    : null;
+
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -106,7 +126,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     datePublished: post.publishedAt?.toISOString(),
     dateModified: post.updatedAt?.toISOString(),
     url: `${SITE_URL}/blog/${post.slug}`,
-    ...(post.coverImage ? { image: post.coverImage } : {}),
+    ...(post.coverImage ? { image: coverUrl } : {}),
     articleSection: post.category.name,
     keywords: post.seoKeywords || post.tags.map((t: any) => t.tag.name).join(", "),
     inLanguage: "en-US",
@@ -132,6 +152,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
 
       <div className="mx-auto max-w-[720px] pb-24 pt-10">
         {/* Breadcrumb */}

@@ -245,6 +245,13 @@ textarea {
   padding-left: 1.5em;
   margin-bottom: 1.4em;
 }
+/* Tailwind's preflight strips list markers; the ::marker colour below needs them back. */
+.prose-blog ul {
+  list-style: disc;
+}
+.prose-blog ol {
+  list-style: decimal;
+}
 .prose-blog li {
   margin-bottom: 0.4em;
 }
@@ -321,4 +328,35 @@ textarea {
 .prose-blog td {
   border-bottom: 1px solid #eaedf1;
   padding: 0.7em 1em;
+}
+.prose-blog figure {
+  margin: 1.75em 0;
+}
+.prose-blog figure img {
+  margin: 0;
+}
+.prose-blog figcaption {
+  margin-top: 0.6em;
+  color: #6b7280;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+/* Wide tables scroll inside the column instead of the page on a phone. */
+.prose-blog .table-wrap {
+  overflow-x: auto;
+  margin-bottom: 1.6em;
+}
+.prose-blog .table-wrap table {
+  margin-bottom: 0;
+  min-width: 480px;
+}
+/* The short answer an article opens with — what AI overviews quote. */
+.prose-blog .answer {
+  border-left: 3px solid #c22127;
+  background: #ffffff;
+  padding: 1em 1.25em;
+  margin-bottom: 1.6em;
+}
+.prose-blog .answer p:last-child {
+  margin-bottom: 0;
 }
