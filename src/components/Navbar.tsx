@@ -283,6 +283,7 @@ export function Navbar({ currency = "CAD" }: { currency?: Currency }) {
             <NavLink href="/shop">Shop</NavLink>
             <NavLink href="/jobs">Jobs</NavLink>
             <NavLink href="/directory">Welders</NavLink>
+            <NavLink href="/app">App</NavLink>
           </nav>
 
           {/* Right actions */}
@@ -342,7 +343,7 @@ export function Navbar({ currency = "CAD" }: { currency?: Currency }) {
                 </Link>
               ))}
               <div className="my-1 h-px bg-slate-100" />
-              {[{ href: "/blog", label: "Blog" }, { href: "/shop", label: "Shop" }, { href: "/jobs", label: "Jobs" }, { href: "/directory", label: "Welders" }].map(({ href, label }) => (
+              {[{ href: "/blog", label: "Blog" }, { href: "/shop", label: "Shop" }, { href: "/jobs", label: "Jobs" }, { href: "/directory", label: "Welders" }, { href: "/app", label: "Mobile App" }].map(({ href, label }) => (
                 <Link key={href} href={href} className="rounded-sm px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900">
                   {label}
                 </Link>

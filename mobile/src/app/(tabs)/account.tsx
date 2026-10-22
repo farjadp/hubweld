@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Alert, Linking, Pressable, ScrollView, View } from "react-native";
 import { router } from "expo-router";
 import Constants from "expo-constants";
-import { ChevronRight, FileText, LogOut, Package, Settings, Shield, Trash2, User, Users, Wrench } from "lucide-react-native";
+import { Ban, ChevronRight, FileText, LogOut, Package, Settings, Shield, Trash2, User, Users, Wrench } from "lucide-react-native";
 import { SignInPrompt } from "@/components/SignInPrompt";
 import { RemoteImage } from "@/components/RemoteImage";
 import { TabHeader } from "@/components/TabHeader";
@@ -99,6 +99,8 @@ export default function Account() {
 
         <Group title="Settings">
           <Item icon={icon(Settings)} label="Account details & password" onPress={() => router.push("/account/details")} />
+          <Divider />
+          <Item icon={icon(Ban)} label="Blocked users" onPress={() => router.push("/account/blocked")} />
           <Divider />
           <Item icon={icon(LogOut)} label="Sign out" onPress={confirmSignOut} />
           {user.role !== "ADMIN" ? (

@@ -5,6 +5,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SendHorizontal } from "lucide-react-native";
 import { Chips } from "@/components/Chips";
+import { ReportButton } from "@/components/ReportButton";
 import { Empty, ErrorState, Loading, Notice, Text, colors } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { errorMessage } from "@/lib/api";
@@ -50,6 +51,7 @@ export default function Chat() {
   }, [thread.length]);
 
   const title = isOwner ? bidders.find((b) => b.value === peer)?.label ?? name ?? "Messages" : job.data?.customer.name ?? "Messages";
+  const peerId = isOwner ? peer : job.data?.customer.id ?? "";
   const needsPeer = isOwner && !peer;
 
   function submit() {
@@ -67,7 +69,12 @@ export default function Chat() {
 
   return (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={insets.top + (Platform.OS === "ios" ? 44 : 56)} style={{ flex: 1 }}>
-      <Stack.Screen options={{ headerTitle: title }} />
+      <Stack.Screen
+        options={{
+          headerTitle: title,
+          headerRight: () => (peerId ? <ReportButton look="header" type="USER" id={peerId} userId={peerId} name={title} /> : null),
+        }}
+      />
       {isOwner && !hired && bidders.length > 1 ? (
         <View className="border-b border-slate-200 py-2">
           <Chips value={peer} onChange={setPeer} options={bidders} allLabel={null} />
@@ -86,6 +93,7 @@ export default function Chat() {
             <View className={`max-w-[82%] gap-1 rounded-sm px-3.5 py-2.5 ${mine ? "self-end bg-slate-900" : "self-start border border-slate-200 bg-panel"}`}>
               <Text className={mine ? "text-white" : "text-slate-800"}>{item.body}</Text>
               <Text className={`text-[11px] ${mine ? "text-slate-300" : "text-slate-400"}`}>{timeAgo(item.createdAt)}</Text>
+              {mine ? null : <ReportButton type="MESSAGE" id={item.id} userId={item.fromId} name={item.from.name} />}
             </View>
           );
         }}

@@ -66,7 +66,7 @@ export function toBid(b: Bid & { welder: Pick<User, "name"> & { welderProfile: P
 }
 
 export function toReview(r: Review & { author: Pick<User, "name"> }): ReviewDto {
-  return { id: r.id, rating: r.rating, comment: r.comment, authorName: r.author.name, createdAt: r.createdAt.toISOString() };
+  return { id: r.id, rating: r.rating, comment: r.comment, authorId: r.authorId, authorName: r.author.name, createdAt: r.createdAt.toISOString() };
 }
 
 export function toWelderProfile(p: WelderProfile): WelderProfileDto {

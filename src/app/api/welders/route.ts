@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { contains } from "@/lib/search";
+import { getCurrentUser } from "@/lib/current-user";
+import { hiddenUserIds } from "@/lib/blocks";
 import { pageParam, toWelderSummary } from "@/lib/api-dto";
 import type { Paged, WelderSummary } from "@/lib/api-types";
 
@@ -14,10 +16,12 @@ export async function GET(req: Request) {
   const q = url.searchParams.get("q")?.trim() ?? "";
   const city = url.searchParams.get("city")?.trim() ?? "";
   const verifiedOnly = url.searchParams.get("verified") === "1";
+  const hidden = await hiddenUserIds((await getCurrentUser())?.id);
 
   const where = {
     role: "WELDER",
     banned: false,
+    ...(hidden.length ? { id: { notIn: hidden } } : {}),
     ...(verifiedOnly ? { welderProfile: { approved: true } } : {}),
     AND: [
       q ? { OR: [{ name: contains(q) }, { welderProfile: { skills: contains(q) } }, { welderProfile: { certifications: contains(q) } }] } : {},

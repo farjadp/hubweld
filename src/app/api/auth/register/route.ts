@@ -10,12 +10,18 @@ const schema = z.object({
   role: z.enum(["CUSTOMER", "WELDER", "SUPPLIER"]),
   city: z.string().optional(),
   businessName: z.string().optional(),
+  // The Terms forbid objectionable content and abuse; the stores require users
+  // to agree to them before they can post anything.
+  acceptTerms: z.literal(true, { errorMap: () => ({ message: "Agree to the Terms of Service to create an account." }) }),
 });
 
 export async function POST(req: Request) {
   const body = await req.json();
   const parsed = schema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
+  if (!parsed.success) {
+    const terms = parsed.error.flatten().fieldErrors.acceptTerms?.[0];
+    return NextResponse.json({ error: terms ?? "Invalid input", details: parsed.error.flatten() }, { status: 400 });
+  }
   const { email, password, name, role, city, businessName } = parsed.data;
   const exists = await prisma.user.findUnique({ where: { email } });
   if (exists) return NextResponse.json({ error: "Email already registered" }, { status: 409 });
@@ -23,6 +29,7 @@ export async function POST(req: Request) {
   const user = await prisma.user.create({
     data: {
       email, passwordHash, name, role, city,
+      termsAcceptedAt: new Date(),
       welderProfile: role === "WELDER" ? { create: {} } : undefined,
       supplierProfile: role === "SUPPLIER" ? { create: { businessName: businessName || name } } : undefined,
     },

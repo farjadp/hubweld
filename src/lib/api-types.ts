@@ -150,7 +150,7 @@ export type BidDto = {
   createdAt: string;
 };
 
-export type ReviewDto = { id: string; rating: number; comment: string; authorName: string; createdAt: string };
+export type ReviewDto = { id: string; rating: number; comment: string; authorId: string; authorName: string; createdAt: string };
 
 export type JobDetail = JobSummary & {
   description: string;
@@ -207,3 +207,10 @@ export type WelderSummary = {
 };
 
 export type WelderDetail = WelderSummary & { profile: WelderProfileDto | null; reviews: ReviewDto[] };
+
+// ── Safety ──────────────────────────────────────────────────────────────────
+
+export type ReportTargetType = "JOB" | "BID" | "REVIEW" | "MESSAGE" | "USER" | "PRODUCT";
+export type ReportReason = "SPAM" | "HARASSMENT" | "INAPPROPRIATE" | "SCAM" | "OTHER";
+
+export type BlockedUser = { id: string; name: string; role: Role; blockedAt: string };

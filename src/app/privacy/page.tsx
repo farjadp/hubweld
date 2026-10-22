@@ -111,10 +111,11 @@ const sections: LegalSection[] = [
     title: "How long we keep it",
     body: (
       <>
-        <p>We keep your information while your account is open. When you delete your account, we remove what identifies you (see the next section), with two exceptions:</p>
+        <p>We keep your information while your account is open. When you delete your account, we remove what identifies you (see the next section), with these exceptions:</p>
         <ul className={ul}>
           <li><strong>Order records</strong>, including the delivery details given at checkout, are kept for as long as tax law requires (in Canada, generally six years).</li>
           <li>Messages and reviews you wrote stay with the job they belong to, so the other person keeps their side of the record. They show as written by &ldquo;Deleted user&rdquo;.</li>
+          <li>Jobs that were already assigned, completed or cancelled, with their photos, and bids that were accepted, declined or withdrawn, stay for the same reason, also shown as &ldquo;Deleted user&rdquo;. Your open jobs are cancelled and your pending bids are deleted. Products you listed are archived and no longer shown.</li>
         </ul>
         <p>Server logs are kept for a limited period by our hosting provider.</p>
       </>

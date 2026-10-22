@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 import { contains } from "@/lib/search";
+import { hiddenUserIds } from "@/lib/blocks";
 import { pageParam } from "@/lib/api-dto";
 import type { JobSummary, Paged } from "@/lib/api-types";
 
@@ -34,9 +35,11 @@ export async function GET(req: Request) {
   const q = url.searchParams.get("q")?.trim() ?? "";
   const city = url.searchParams.get("city")?.trim() ?? "";
   const category = url.searchParams.get("category")?.trim() ?? "";
+  const hidden = await hiddenUserIds((await getCurrentUser())?.id);
 
   const where = {
     status: "OPEN",
+    ...(hidden.length ? { customerId: { notIn: hidden } } : {}),
     ...(category ? { category } : {}),
     ...(city ? { city: contains(city) } : {}),
     ...(q ? { OR: [{ title: contains(q) }, { description: contains(q) }] } : {}),

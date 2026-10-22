@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 import { notifyUsers, preview } from "@/lib/push";
+import { hiddenUserIds, isBlockedBetween } from "@/lib/blocks";
 
 // GET — fetch messages for this job (only participants: owner or assigned welder)
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
@@ -30,10 +31,13 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   }
 
   // A welder sees only their own correspondence, never other bidders'.
+  // Nobody sees messages from someone they blocked or who blocked them.
+  const hidden = isAdmin ? [] : await hiddenUserIds(me.id);
   const messages = await prisma.message.findMany({
     where: {
       jobId: params.id,
       ...(isOwner || isAdmin ? {} : { OR: [{ fromId: me.id }, { toId: me.id }] }),
+      ...(hidden.length ? { fromId: { notIn: hidden }, toId: { notIn: hidden } } : {}),
     },
     include: { from: { select: { id: true, name: true } } },
     orderBy: { createdAt: "asc" },
@@ -112,6 +116,9 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     toId = job.customerId;
   }
   if (!toId) return NextResponse.json({ error: "No recipient found" }, { status: 400 });
+  if (await isBlockedBetween(me.id, toId)) {
+    return NextResponse.json({ error: "You can't message this person." }, { status: 403 });
+  }
 
   const message = await prisma.message.create({
     data: { jobId: params.id, fromId: me.id, toId, body: parsed.data.body },

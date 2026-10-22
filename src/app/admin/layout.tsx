@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Briefcase, Store, ShoppingBag, Package, ChevronRight, BookOpen, KanbanSquare } from "lucide-react";
+import { LayoutDashboard, Users, Briefcase, Store, ShoppingBag, Package, ChevronRight, BookOpen, KanbanSquare, Flag } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
   { href: "/admin/users", label: "Users", icon: Users },
+  { href: "/admin/reports", label: "Reports", icon: Flag },
   { href: "/admin/jobs", label: "Jobs", icon: Briefcase },
   { href: "/admin/suppliers", label: "Suppliers", icon: Store },
   { href: "/admin/products", label: "Products", icon: Package },
