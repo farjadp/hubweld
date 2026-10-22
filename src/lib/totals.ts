@@ -30,7 +30,7 @@ const CA_TAX_RATES: Record<string, number> = {
   MB: 0.12,
   NB: 0.15,
   NL: 0.15,
-  NS: 0.15,
+  NS: 0.14, // HST cut from 15% on April 1, 2025
   NT: 0.05,
   NU: 0.05,
   ON: 0.13,
