@@ -101,7 +101,8 @@ function ProfileForm({ profile: p }: { profile: WelderProfileDto | null }) {
         <View className="gap-1.5">
           <Label>Skills</Label>
           <View className="flex-row flex-wrap gap-2">
-            {SKILLS.map((s) => {
+            {/* Skills typed on the website may not be in the list; show them so they can be removed. */}
+            {[...SKILLS, ...skills.filter((x) => !SKILLS.includes(x))].map((s) => {
               const on = skills.includes(s);
               return (
                 <Pressable key={s} onPress={() => toggle(s)} accessibilityRole="checkbox" accessibilityState={{ checked: on }} className={`rounded-sm border px-3 py-1.5 ${on ? "border-slate-900 bg-slate-900" : "border-slate-300 bg-panel"}`}>
