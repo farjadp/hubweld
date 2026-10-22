@@ -190,6 +190,10 @@ textarea {
     transform: none;
     transition: none;
   }
+  /* App demo on /app: each scene shows its resting state, no movement. */
+  .demo-anim {
+    animation: none !important;
+  }
 }
 
 /* TipTap editor placeholder */

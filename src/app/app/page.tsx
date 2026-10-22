@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight, Bell, Camera, CheckCircle2, Gavel, MessageSquare, ShieldCheck, ShoppingCart, Smartphone, Store, UserCog,
 } from "lucide-react";
+import { AppHeroDemo } from "@/components/AppHeroDemo";
 import { Reveal } from "@/components/Reveal";
 import { StoreBadge, StoreBadges } from "@/components/StoreBadges";
 import { getAppLinks } from "@/lib/app-links";
@@ -98,22 +98,6 @@ const faqs = [
   { q: "Can welders and suppliers use the app too?", a: "Yes. Customers post jobs and order parts, welders bid and message, and suppliers manage products and incoming orders. The app adapts its tabs to your role." },
   { q: "Can I use HubWeld without the app?", a: "Yes. Everything in the app is also available on hubweld.ca in any browser." },
 ];
-
-function PhoneMock() {
-  return (
-    <div className="relative mx-auto hidden w-[270px] shrink-0 md:block" aria-hidden>
-      <div className="rounded-[2.6rem] border border-slate-300 bg-slate-950 p-2.5 shadow-plate">
-        <div className="relative flex aspect-[9/19] flex-col items-center justify-center overflow-hidden rounded-[2.1rem] bg-ink-900">
-          <div className="absolute left-1/2 top-2.5 h-5 w-20 -translate-x-1/2 rounded-full bg-slate-950" />
-          <Image src="/images/app-icon.png" alt="" width={96} height={96} className="rounded-[22px] shadow-plate-sm" />
-          <span className="mt-5 font-display text-2xl font-bold uppercase tracking-machine text-slate-900">HubWeld</span>
-          <span className="mt-1.5 font-mono text-[10px] uppercase tracking-machine text-slate-500">Jobs · Parts · Welders</span>
-          <div className="absolute inset-x-0 bottom-0 h-1.5 hazard opacity-70" />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function PlatformSection({ p, href }: { p: Platform; href: string | null }) {
   return (
@@ -215,7 +199,7 @@ export default function AppPage() {
             <span className="inline-flex items-center gap-1.5"><ShieldCheck size={13} className="text-brand-light" /> Free to download</span>
           </div>
         </div>
-        <PhoneMock />
+        <AppHeroDemo />
       </section>
 
       {/* ── FEATURES ── */}
