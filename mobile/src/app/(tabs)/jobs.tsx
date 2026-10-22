@@ -9,6 +9,7 @@ import { TabHeader } from "@/components/TabHeader";
 import { Button, Empty, ErrorState, Loading, Text, colors } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { useJobs, useMyJobs } from "@/lib/queries";
+import { useRefetchOnFocus } from "@/lib/focus";
 import { JOB_CATEGORIES } from "@/lib/format";
 
 /** Customers see the jobs they posted; welders and guests browse open jobs. */
@@ -19,6 +20,7 @@ export default function Jobs() {
 
 function MyJobs() {
   const jobs = useMyJobs();
+  useRefetchOnFocus(jobs.refetch);
   return (
     <View className="flex-1 bg-ground">
       <TabHeader
@@ -54,6 +56,7 @@ function OpenJobs({ welder }: { welder: boolean }) {
   const [q, setQ] = useState("");
   const [category, setCategory] = useState("");
   const jobs = useJobs(q, category);
+  useRefetchOnFocus(jobs.refetch);
   const items = jobs.data?.pages.flatMap((p) => p.items) ?? [];
   const total = jobs.data?.pages[0]?.total ?? 0;
   const onSearch = useCallback((v: string) => setQ(v), []);

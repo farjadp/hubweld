@@ -16,6 +16,7 @@ import { BarlowCondensed_700Bold } from "@expo-google-fonts/barlow-condensed/700
 import { IBMPlexMono_500Medium } from "@expo-google-fonts/ibm-plex-mono/500Medium";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { usePushNotifications } from "@/lib/push";
+import "@/lib/focus";
 import { ApiError } from "@/lib/api";
 import { Text, colors } from "@/components/ui";
 

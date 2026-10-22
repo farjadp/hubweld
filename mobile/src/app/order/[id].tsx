@@ -3,11 +3,13 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { Badge, Button, Card, ErrorState, Heading, Label, Loading, Notice, Seam, Text } from "@/components/ui";
 import { errorMessage } from "@/lib/api";
 import { useOrder, useOrderAction } from "@/lib/queries";
+import { useRefetchOnFocus } from "@/lib/focus";
 import { LINE_STATUS, ORDER_STATUS, formatCents, formatDate } from "@/lib/format";
 
 export default function OrderScreen() {
   const { id, placed } = useLocalSearchParams<{ id: string; placed?: string }>();
   const order = useOrder(id);
+  useRefetchOnFocus(order.refetch);
   const action = useOrderAction(id);
 
   if (order.isPending) return <Loading />;

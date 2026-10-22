@@ -9,6 +9,7 @@ import { TabHeader } from "@/components/TabHeader";
 import { Badge, Button, Card, Empty, ErrorState, Loading, Text, colors } from "@/components/ui";
 import { errorMessage } from "@/lib/api";
 import { useLineStatus, useSupplierLines, useSupplierProducts } from "@/lib/queries";
+import { useRefetchOnFocus } from "@/lib/focus";
 import { LINE_STATUS, formatCents, formatDate } from "@/lib/format";
 
 /** Supplier workspace: order lines to fulfil, and the product list. */
@@ -31,6 +32,7 @@ export default function Sales() {
 
 function Orders() {
   const lines = useSupplierLines();
+  useRefetchOnFocus(lines.refetch);
   const update = useLineStatus();
 
   const act = (line: SupplierOrderLine, status: "FULFILLED" | "CANCELLED") => {
@@ -82,6 +84,7 @@ function Orders() {
 
 function Products() {
   const products = useSupplierProducts();
+  useRefetchOnFocus(products.refetch);
   if (products.isPending) return <Loading />;
   if (products.isError) return <ErrorState error={products.error} onRetry={() => void products.refetch()} />;
   return (

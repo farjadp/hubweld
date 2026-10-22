@@ -7,6 +7,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { JobCard } from "@/components/JobCard";
 import { useAuth } from "@/lib/auth";
 import { useFeatured, useJobs, useMe, useMyBids, useMyJobs, useOrders, useSupplierLines, useSupplierProducts } from "@/lib/queries";
+import { useRefetchOnFocus } from "@/lib/focus";
 import { BID_STATUS, JOB_STATUS, ORDER_STATUS, formatCents, formatDollars } from "@/lib/format";
 
 export default function Home() {
@@ -67,6 +68,7 @@ function Scroll({ children, refreshing, onRefresh }: { children: React.ReactNode
 function GuestHome() {
   const featured = useFeatured();
   const jobs = useJobs("", "");
+  useRefetchOnFocus(featured.refetch, jobs.refetch);
   const openJobs = jobs.data?.pages[0]?.items.slice(0, 3) ?? [];
   return (
     <Scroll refreshing={featured.isRefetching} onRefresh={() => { void featured.refetch(); void jobs.refetch(); }}>
@@ -109,6 +111,7 @@ function GuestHome() {
 function CustomerHome() {
   const jobs = useMyJobs();
   const orders = useOrders();
+  useRefetchOnFocus(jobs.refetch, orders.refetch);
   const list = jobs.data ?? [];
   const active = list.filter((j) => j.status !== "COMPLETED" && j.status !== "CANCELLED");
   return (
@@ -153,6 +156,7 @@ function CustomerHome() {
 function WelderHome() {
   const me = useMe();
   const bids = useMyBids();
+  useRefetchOnFocus(bids.refetch, me.refetch);
   const list = bids.data ?? [];
   const active = list.filter((b) => b.status === "ACCEPTED" && (b.job.status === "ASSIGNED" || b.job.status === "IN_PROGRESS"));
   const pending = list.filter((b) => b.status === "PENDING");
@@ -224,6 +228,7 @@ function SupplierHome() {
   const me = useMe();
   const lines = useSupplierLines();
   const products = useSupplierProducts();
+  useRefetchOnFocus(lines.refetch, products.refetch);
   const toShip = (lines.data ?? []).filter((l) => l.status === "PENDING" && l.orderStatus !== "CANCELLED");
   const live = (products.data ?? []).filter((p) => p.status === "ACTIVE");
   const lowStock = live.filter((p) => p.stock <= 3);

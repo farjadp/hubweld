@@ -9,11 +9,13 @@ import { Badge, Button, Card, ErrorState, Field, Heading, Label, Loading, Notice
 import { useAuth } from "@/lib/auth";
 import { errorMessage } from "@/lib/api";
 import { useJob, useJobMutations } from "@/lib/queries";
+import { useRefetchOnFocus } from "@/lib/focus";
 import { BID_STATUS, JOB_STATUS, categoryLabel, formatDate, formatDollars, timeAgo } from "@/lib/format";
 
 export default function JobScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const job = useJob(id);
+  useRefetchOnFocus(job.refetch);
   if (job.isPending) return <Loading />;
   if (job.isError) return <ErrorState error={job.error} onRetry={() => void job.refetch()} />;
   return <JobView job={job.data} />;

@@ -2,10 +2,12 @@ import { FlatList, RefreshControl, View } from "react-native";
 import { router } from "expo-router";
 import { Badge, Button, Card, Empty, ErrorState, Loading, Text, colors } from "@/components/ui";
 import { useOrders } from "@/lib/queries";
+import { useRefetchOnFocus } from "@/lib/focus";
 import { ORDER_STATUS, formatCents, formatDate } from "@/lib/format";
 
 export default function Orders() {
   const orders = useOrders();
+  useRefetchOnFocus(orders.refetch);
   if (orders.isPending) return <Loading />;
   if (orders.isError) return <ErrorState error={orders.error} onRetry={() => void orders.refetch()} />;
   return (

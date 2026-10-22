@@ -10,6 +10,7 @@ import { Button, Card, Empty, ErrorState, Loading, Text, colors } from "@/compon
 import { useAuth } from "@/lib/auth";
 import { errorMessage } from "@/lib/api";
 import { useCart, useCartMutations } from "@/lib/queries";
+import { useRefetchOnFocus } from "@/lib/focus";
 import { formatCents } from "@/lib/format";
 
 const FREE_SHIPPING_CENTS = 50_000;
@@ -18,6 +19,7 @@ export default function Cart() {
   const { user } = useAuth();
   // Canada, province not chosen yet: the server returns shipping and leaves tax for checkout.
   const cart = useCart({ country: "CA", region: "" });
+  useRefetchOnFocus(cart.refetch);
   const { setQty, remove } = useCartMutations();
 
   if (!user) {
