@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, BadgeCheck, Clock3, Factory, HardHat, MapPin, Package, ShieldCheck, Truck } from "lucide-react";
+import { ArrowRight, BadgeCheck, Clock3, Factory, HardHat, MapPin, Package, ShieldCheck, Smartphone, Truck } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { Reveal } from "@/components/Reveal";
+import { StoreBadge } from "@/components/StoreBadges";
+import { getAppLinks } from "@/lib/app-links";
 import { formatCents, formatDollars } from "@/lib/money";
 import { getDisplayCurrency } from "@/lib/currency.server";
 import { SITE_URL } from "@/lib/site";
@@ -83,6 +85,7 @@ function SectionHead({ title, href, hrefLabel }: { title: string; href?: string;
 
 export default async function HomePage() {
   const currency = getDisplayCurrency();
+  const appLinks = getAppLinks();
   const [latestProducts, latestJobs] = await Promise.all([
     prisma.product.findMany({
       where: { status: "ACTIVE" },
@@ -257,6 +260,29 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+      </Reveal>
+
+      {/* ── MOBILE APP ── */}
+      <Reveal>
+      <section className="mt-20 grid items-center gap-8 rounded-sm border border-slate-200 bg-ink-700 px-8 py-10 shadow-plate-sm md:grid-cols-[auto_1fr_auto] md:px-12">
+        <Image src="/images/app-icon.png" alt="HubWeld app icon" width={88} height={88} className="rounded-[20px] shadow-plate-sm" />
+        <div>
+          <span className="section-label"><Smartphone size={14} /> Mobile app</span>
+          <h2 className="mt-3 font-display text-3xl font-bold uppercase leading-none tracking-tight text-slate-900 md:text-4xl">
+            Take HubWeld to the job site
+          </h2>
+          <p className="mt-3 max-w-[56ch] text-sm leading-relaxed text-slate-600">
+            Post jobs with photos, get notified the moment a bid or message lands, and reorder parts from your phone. Available for iPhone and Android.
+          </p>
+          <Link href="/app" className="group mt-4 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-slate-600 transition-colors hover:text-brand-light">
+            Install guide for iOS &amp; Android <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+          </Link>
+        </div>
+        <div className="flex flex-col gap-3">
+          <StoreBadge platform="ios" href={appLinks.ios} />
+          <StoreBadge platform="android" href={appLinks.android} />
         </div>
       </section>
       </Reveal>

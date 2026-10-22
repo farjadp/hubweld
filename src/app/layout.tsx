@@ -91,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         { label: "Job Board", href: "/jobs" },
         { label: "Welder Directory", href: "/directory" },
         { label: "Blog", href: "/blog" },
+        { label: "Mobile App", href: "/app" },
       ],
     },
     {
