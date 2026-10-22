@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
+import { FormScroll } from "@/components/FormScroll";
 import { router } from "expo-router";
 import { HardHat, Store, Wrench, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -46,8 +47,7 @@ export default function SignUp() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="flex-1 bg-ground">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="px-6 pb-12" contentContainerStyle={{ paddingTop: Platform.OS === "android" ? insets.top + 12 : 20 }}>
+    <FormScroll contentContainerClassName="px-6 pb-12" contentContainerStyle={{ paddingTop: Platform.OS === "android" ? insets.top + 12 : 20 }}>
         <View className="mb-6 flex-row justify-end">
           <Pressable accessibilityLabel="Close" hitSlop={12} onPress={() => router.back()}>
             <X size={24} color={colors.slate700} />
@@ -95,7 +95,6 @@ export default function SignUp() {
             <Text className="font-body-semibold text-brand">Sign in</Text>
           </Pressable>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </FormScroll>
   );
 }

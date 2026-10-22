@@ -1,5 +1,6 @@
 import { useRef, useState, type ComponentRef } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, TextInput, View } from "react-native";
+import { Platform, Pressable, TextInput, View } from "react-native";
+import { FormScroll } from "@/components/FormScroll";
 import { router } from "expo-router";
 import { X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -34,8 +35,7 @@ export default function SignIn() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="flex-1 bg-ground">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="px-6 pb-10" contentContainerStyle={{ paddingTop: Platform.OS === "android" ? insets.top + 12 : 20 }}>
+    <FormScroll contentContainerClassName="px-6 pb-10" contentContainerStyle={{ paddingTop: Platform.OS === "android" ? insets.top + 12 : 20 }}>
         <View className="mb-8 flex-row items-center justify-between">
           <View className="flex-row items-center gap-2.5">
             <LogoMark size={28} />
@@ -85,7 +85,6 @@ export default function SignIn() {
             <Text className="font-body-semibold text-brand">Create an account</Text>
           </Pressable>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </FormScroll>
   );
 }

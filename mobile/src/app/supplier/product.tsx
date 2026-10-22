@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { CategoryDto, ProductDetail } from "@shared/api-types";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { FormScroll } from "@/components/FormScroll";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { Chips } from "@/components/Chips";
 import { PhotoPicker } from "@/components/PhotoPicker";
@@ -73,9 +74,9 @@ function ProductForm({ product: p, categories: top }: { product: ProductDetail |
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="flex-1 bg-ground">
+    <>
       <Stack.Screen options={{ headerTitle: editing ? "Edit product" : "New product" }} />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 py-5 pb-16">
+      <FormScroll contentContainerClassName="gap-5 py-5 pb-16">
         <View className="gap-5 px-5">
           <PhotoPicker label="Photo" kind="product" value={photos} onChange={setPhotos} max={1} onBusyChange={setUploading} />
           <Field label="Name" value={form.name} onChangeText={set("name")} maxLength={160} />
@@ -114,7 +115,7 @@ function ProductForm({ product: p, categories: top }: { product: ProductDetail |
           {error ? <Notice tone="error">{error}</Notice> : null}
           <Button title={uploading ? "Uploading photo…" : editing ? "Save changes" : "List product"} loading={save.isPending} disabled={uploading} onPress={submit} />
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </FormScroll>
+    </>
   );
 }

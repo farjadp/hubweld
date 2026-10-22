@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
+import { FormScroll } from "@/components/FormScroll";
 import { router, useLocalSearchParams } from "expo-router";
 import { BadgeCheck, MapPin, MessageSquare } from "lucide-react-native";
 import type { BidDto, JobDetail } from "@shared/api-types";
@@ -41,8 +42,7 @@ function JobView({ job }: { job: JobDetail }) {
     ]);
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} keyboardVerticalOffset={90} className="flex-1">
-      <ScrollView contentContainerClassName="gap-6 px-5 pb-16 pt-2" keyboardShouldPersistTaps="handled">
+    <FormScroll className="flex-1" contentContainerClassName="gap-6 px-5 pb-16 pt-2">
         <View className="gap-2">
           <Badge {...st} />
           <Heading className="text-[28px] leading-[30px]">{job.title}</Heading>
@@ -158,8 +158,7 @@ function JobView({ job }: { job: JobDetail }) {
             ))}
           </View>
         ) : null}
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </FormScroll>
   );
 }
 

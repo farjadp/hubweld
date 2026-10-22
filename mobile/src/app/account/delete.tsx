@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { FormScroll } from "@/components/FormScroll";
 import { Button, Field, Heading, Notice, Text } from "@/components/ui";
 import { api, errorMessage } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
@@ -25,8 +26,7 @@ export default function DeleteAccount() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} keyboardVerticalOffset={90} className="flex-1 bg-ground">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 px-5 pb-16 pt-4">
+    <FormScroll contentContainerClassName="gap-5 px-5 pb-16 pt-4">
         <Heading className="text-[26px]">Delete your account</Heading>
         <View className="gap-2">
           <Text className="leading-6 text-slate-700">This permanently removes:</Text>
@@ -39,7 +39,6 @@ export default function DeleteAccount() {
         <Field label="Your password" value={password} onChangeText={setPassword} secureTextEntry textContentType="password" />
         {error ? <Notice tone="error">{error}</Notice> : null}
         <Button title="Permanently delete" loading={busy} onPress={submit} />
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </FormScroll>
   );
 }

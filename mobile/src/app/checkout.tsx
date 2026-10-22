@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Me } from "@shared/api-types";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { FormScroll } from "@/components/FormScroll";
 import { router } from "expo-router";
 import { Chips } from "@/components/Chips";
 import { TotalsBlock } from "@/components/TotalsBlock";
@@ -70,8 +71,7 @@ function CheckoutForm({ me }: { me: Me }) {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} keyboardVerticalOffset={90} className="flex-1 bg-ground">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 py-5 pb-16">
+    <FormScroll contentContainerClassName="gap-5 py-5 pb-16">
         <View className="px-5">
           <Notice title="No payment is taken in the app">
             Your order is recorded and the stock reserved. Our team contacts you to confirm it and arrange payment — nothing is charged now.
@@ -146,7 +146,6 @@ function CheckoutForm({ me }: { me: Me }) {
             <Button title="Place order" loading={checkout.isPending} onPress={submit} />
           </Card>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </FormScroll>
   );
 }

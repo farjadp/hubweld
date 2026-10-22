@@ -28,6 +28,10 @@ export default function TabsLayout() {
       tintColor={colors.brand}
       backgroundColor={colors.panel}
       labelStyle={{ fontFamily: "Barlow_600SemiBold", fontSize: 11 }}
+      // Android: Material shows only the selected tab's label by default, which
+      // leaves four bare icons; and its default indicator is off-brand lavender.
+      labelVisibilityMode="labeled"
+      indicatorColor={colors.pressed}
     >
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>

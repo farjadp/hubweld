@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { FormScroll } from "@/components/FormScroll";
 import { router } from "expo-router";
 import { Chips } from "@/components/Chips";
 import { PhotoPicker } from "@/components/PhotoPicker";
@@ -46,8 +47,7 @@ export default function NewJob() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="flex-1 bg-ground">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 py-5 pb-16">
+    <FormScroll contentContainerClassName="gap-5 py-5 pb-16">
         <View className="gap-5 px-5">
           <Field label="Title" value={form.title} onChangeText={set("title")} placeholder="e.g. Repair cracked trailer hitch" maxLength={120} />
           <Field label="Description" value={form.description} onChangeText={set("description")} multiline placeholder="Material, thickness, process if you know it (MIG/TIG/stick), access, deadline…" />
@@ -63,7 +63,6 @@ export default function NewJob() {
           {error ? <Notice tone="error">{error}</Notice> : null}
           <Button title={uploading ? "Uploading photos…" : "Post job"} loading={post.isPending} disabled={uploading} onPress={submit} />
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </FormScroll>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FlatList, KeyboardAvoidingView, Platform, Pressable, TextInput, View } from "react-native";
+import { FlatList, Platform, Pressable, TextInput, View } from "react-native";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SendHorizontal } from "lucide-react-native";
@@ -65,7 +66,7 @@ export default function Chat() {
   if (messages.isError) return <ErrorState error={messages.error} onRetry={() => void messages.refetch()} />;
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} keyboardVerticalOffset={Platform.OS === "ios" ? insets.top + 44 : 0} className="flex-1 bg-ground">
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={insets.top + (Platform.OS === "ios" ? 44 : 56)} style={{ flex: 1 }}>
       <Stack.Screen options={{ headerTitle: title }} />
       {isOwner && !hired && bidders.length > 1 ? (
         <View className="border-b border-slate-200 py-2">

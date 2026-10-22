@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { WelderProfileDto } from "@shared/api-types";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { FormScroll } from "@/components/FormScroll";
 import { Camera, User } from "lucide-react-native";
 import { PhotoPicker } from "@/components/PhotoPicker";
 import { RemoteImage } from "@/components/RemoteImage";
@@ -80,8 +81,7 @@ function ProfileForm({ profile: p }: { profile: WelderProfileDto | null }) {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} keyboardVerticalOffset={90} className="flex-1 bg-ground">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 px-5 pb-16 pt-4">
+    <FormScroll contentContainerClassName="gap-5 px-5 pb-16 pt-4">
         <Pressable onPress={changeAvatar} accessibilityRole="button" accessibilityLabel="Change profile photo" className="flex-row items-center gap-4">
           {avatar ? (
             <RemoteImage uri={avatar} label="Profile photo" className="h-20 w-20 rounded-full" />
@@ -129,7 +129,6 @@ function ProfileForm({ profile: p }: { profile: WelderProfileDto | null }) {
 
         {msg ? <Notice tone={msg.tone}>{msg.text}</Notice> : null}
         <Button title="Save profile" loading={save.isPending} disabled={busy} onPress={submit} />
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </FormScroll>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Me } from "@shared/api-types";
-import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { FormScroll } from "@/components/FormScroll";
 import { Button, Field, Label, Loading, Notice, Seam } from "@/components/ui";
 import { errorMessage } from "@/lib/api";
 import { useMe, useSaveAccount } from "@/lib/queries";
@@ -49,8 +50,7 @@ function DetailsForm({ me }: { me: Me }) {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} keyboardVerticalOffset={90} className="flex-1 bg-ground">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 px-5 pb-16 pt-4">
+    <FormScroll contentContainerClassName="gap-4 px-5 pb-16 pt-4">
         <Field label="Email" value={me.email} editable={false} hint="Contact HubWeld to change the email on your account." />
         <Field label="Full name" value={form.name} onChangeText={set("name")} textContentType="name" />
         <Field label="Phone" value={form.phone} onChangeText={set("phone")} keyboardType="phone-pad" textContentType="telephoneNumber" />
@@ -76,7 +76,6 @@ function DetailsForm({ me }: { me: Me }) {
         <View className="mt-2">
           <Button title="Save changes" loading={save.isPending} onPress={submit} />
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </FormScroll>
   );
 }
