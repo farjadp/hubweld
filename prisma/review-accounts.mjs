@@ -12,9 +12,14 @@
  * the accounts' mobile sessions. Passwords are printed once and stored hashed.
  */
 import { randomBytes } from "crypto";
-import bcrypt from "bcryptjs";
+import { createRequire } from "module";
 import pkg from "@prisma/client";
 const { PrismaClient } = pkg;
+
+// bcryptjs is inlined into the Next bundle, so the package is not resolvable
+// from here in the production image. A vendored copy (same version, MIT) sits
+// beside this script; hashes match what the login route checks.
+const bcrypt = createRequire(import.meta.url)("./vendor/bcrypt.cjs");
 
 const prisma = new PrismaClient();
 const DAYS = 30;
