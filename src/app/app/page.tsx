@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  ArrowRight, Bell, Camera, CheckCircle2, Gavel, MessageSquare, ShieldCheck, ShoppingCart, Smartphone, Store, UserCog,
+  ArrowRight, Bell, Camera, CheckCircle2, Download, Gavel, MessageSquare, ShieldCheck, ShoppingCart, Smartphone, Store, UserCog,
 } from "lucide-react";
 import { AppHeroDemo } from "@/components/AppHeroDemo";
 import { Reveal } from "@/components/Reveal";
@@ -99,7 +99,7 @@ const faqs = [
   { q: "Can I use HubWeld without the app?", a: "Yes. Everything in the app is also available on hubweld.ca in any browser." },
 ];
 
-function PlatformSection({ p, href }: { p: Platform; href: string | null }) {
+function PlatformSection({ p, href, apkHref }: { p: Platform; href: string | null; apkHref?: string | null }) {
   return (
     <article id={p.id} className="scroll-mt-24 overflow-hidden rounded-sm border border-slate-200 bg-ink-700 shadow-plate-sm">
       <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-ink-800 px-6 py-5 md:px-8">
@@ -158,6 +158,22 @@ function PlatformSection({ p, href }: { p: Platform; href: string | null }) {
               <p key={n} className="text-sm leading-relaxed text-slate-500">{n}</p>
             ))}
           </div>
+
+          {apkHref ? (
+            <div className="mt-7 rounded-sm border border-slate-200 bg-ink-800 p-5">
+              <h3 className="label">No Play Store? Install the APK</h3>
+              <p className="text-sm leading-relaxed text-slate-700">
+                Download the app file directly, open it, and allow your browser or file manager to install unknown apps when Android asks. It is the same signed app as on Google Play, so Play can update it later.
+              </p>
+              <a
+                href={apkHref}
+                className="mt-4 inline-flex h-11 items-center gap-2 rounded-md bg-slate-950 px-4 text-sm font-semibold text-white shadow-plate-sm transition-colors hover:bg-slate-800"
+              >
+                <Download size={16} /> Download APK
+              </a>
+              <p className="mt-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">About 110 MB · Android 7.0 or later</p>
+            </div>
+          ) : null}
         </section>
       </div>
     </article>
@@ -196,6 +212,9 @@ export default function AppPage() {
           <div className="forge-rise-3 mt-6 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wider text-slate-600">
             <a href="#ios" className="inline-flex items-center gap-1.5 hover:text-brand-light">iPhone guide <ArrowRight size={12} /></a>
             <a href="#android" className="inline-flex items-center gap-1.5 hover:text-brand-light">Android guide <ArrowRight size={12} /></a>
+            {links.apk ? (
+              <a href={links.apk} className="inline-flex items-center gap-1.5 hover:text-brand-light"><Download size={12} /> Android APK</a>
+            ) : null}
             <span className="inline-flex items-center gap-1.5"><ShieldCheck size={13} className="text-brand-light" /> Free to download</span>
           </div>
         </div>
@@ -225,7 +244,7 @@ export default function AppPage() {
       <section className="space-y-8 pt-20">
         {platforms.map((p) => (
           <Reveal key={p.id}>
-            <PlatformSection p={p} href={links[p.id]} />
+            <PlatformSection p={p} href={links[p.id]} apkHref={p.id === "android" ? links.apk : null} />
           </Reveal>
         ))}
       </section>
