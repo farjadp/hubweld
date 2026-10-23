@@ -35,7 +35,21 @@ function password(): string {
  */
 export async function POST() {
   const me = await requireAdmin();
-  if (!me) return forbidden();
+  if (!me) {
+    console.warn("[review-accounts] refused: no admin session");
+    return forbidden();
+  }
+  try {
+    return await createAccounts();
+  } catch (e) {
+    // Surface the real cause in the admin's alert and in the Railway logs.
+    console.error("[review-accounts] failed", e);
+    const message = e instanceof Error ? e.message.split("\n").filter(Boolean).pop() : String(e);
+    return NextResponse.json({ error: `Review accounts failed: ${message}` }, { status: 500 });
+  }
+}
+
+async function createAccounts() {
 
   const accessExpiresAt = new Date(Date.now() + DAYS * 24 * 60 * 60 * 1000);
   const issued: { role: string; email: string; password: string }[] = [];
