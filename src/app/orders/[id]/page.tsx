@@ -6,6 +6,7 @@ import Link from "next/link";
 import { formatCents } from "@/lib/money";
 import ConfirmReceiptButton from "./ConfirmReceiptButton";
 import CancelOrderButton from "./CancelOrderButton";
+import { PAYMENT_METHOD_LABEL, type PaymentMethod } from "@/lib/invoices";
 
 export const dynamic = "force-dynamic";
 
@@ -15,10 +16,15 @@ export default async function OrderDetailPage({ params, searchParams }: { params
   const me = session.user as any;
   const order = await prisma.order.findUnique({
     where: { id: params.id },
-    include: { items: { include: { supplier: { include: { supplierProfile: true } } } } },
+    include: {
+      items: { include: { supplier: { include: { supplierProfile: true } } } },
+      invoices: { where: { status: { not: "VOID" } }, include: { payments: { orderBy: { paidAt: "asc" } } } },
+    },
   });
   if (!order) notFound();
   if (order.buyerId !== me.id && me.role !== "ADMIN") redirect("/orders");
+  const invoice = order.invoices[0];
+  const paidCents = invoice?.payments.reduce((a, p) => a + p.amountCents, 0) ?? 0;
 
   return (
     <div>
@@ -79,6 +85,27 @@ export default async function OrderDetailPage({ params, searchParams }: { params
                 ? "Net 30 invoice requested (subject to account approval)"
                 : "We contact you to arrange payment"}
             </div>
+            {invoice && (
+              <div className="mt-2 rounded-sm border border-slate-200 bg-slate-50 p-2.5">
+                <div className="flex justify-between font-semibold text-slate-900">
+                  <span className="font-mono">{invoice.number}</span>
+                  <span>{formatCents(invoice.amountCents)}</span>
+                </div>
+                <div>
+                  {invoice.status === "PAID"
+                    ? "Paid in full"
+                    : `Issued ${invoice.issuedAt.toLocaleDateString("en-CA")}${invoice.dueAt ? ` · due ${invoice.dueAt.toLocaleDateString("en-CA")}` : ""} · ${formatCents(invoice.amountCents - paidCents)} outstanding`}
+                </div>
+                {invoice.notes && <div className="mt-1">{invoice.notes}</div>}
+                {invoice.payments.map((p) => (
+                  <div key={p.id} className="mt-1.5 border-t border-slate-200 pt-1.5">
+                    Received {formatCents(p.amountCents)} on {p.paidAt.toLocaleDateString("en-CA")} ·{" "}
+                    {p.method === "EXCHANGE" ? `${p.exchangeName}${p.exchangeBranch ? `, ${p.exchangeBranch}` : ""}` : PAYMENT_METHOD_LABEL[p.method as PaymentMethod] ?? p.method}
+                    {p.reference && <span className="font-mono"> · ref {p.reference}</span>}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Closes the loop: suppliers ship, the buyer confirms, the order ends. */}
