@@ -378,6 +378,10 @@ async function main() {
     if (j.outcome === "CANCELLED") {
       check(`${owner.name} cancels "${j.title}"`, await api("POST", `/api/jobs/${jobId}/status`, owner.token, { status: "CANCELLED" }), 200);
       check(`no messages on cancelled "${j.title}"`, await api("POST", `/api/jobs/${jobId}/messages`, owner.token, { body: "Never mind" }), 400);
+      for (const [w] of j.bids) {
+        const mine = (await api("GET", "/api/me/bids", P[w].token)).json?.find((x) => x.job.id === jobId);
+        check(`${P[w].name}'s bid on cancelled "${j.title}" is closed`, { status: mine?.status === "REJECTED" ? 200 : 0, json: { error: mine?.status } }, 200);
+      }
     }
     jobLog.push({ jobId, ...j, bidIds });
   }
@@ -410,6 +414,27 @@ async function main() {
 
   // 6. Orders
   await adminSignIn();
+  // Admin cancellation paths close pending bids too: the jobs edit form, and
+  // taking a reported job down from the reports queue.
+  for (const [how, title, description] of [
+    ["admin edit", "Railing posts for townhouse complex", "Six rusted railing posts to cut out and replace at grade."],
+    ["report removal", "Cash-only rush weld, no permit", "Need a gas line bracket welded tonight, cash only, no permit or inspection."],
+  ]) {
+    const job = await api("POST", "/api/jobs", P.kaveh.token, { title, description, city: "Thornhill", category: "repair", budget: 900 });
+    check(`post job for ${how} cancel`, job, 200);
+    for (const w of ["navid", "farhad"]) check(`${P[w].name} bids on "${title}"`, await api("POST", `/api/jobs/${job.json.id}/bids`, P[w].token, { amount: 850, message: "Can start next week." }), 200);
+    if (how === "admin edit") {
+      check(`admin cancels "${title}"`, await adminApi("PATCH", `/api/admin/jobs/${job.json.id}`, { status: "CANCELLED" }), 200);
+    } else {
+      const rep = await api("POST", "/api/reports", P.farhad.token, { targetType: "JOB", targetId: job.json.id, reason: "SCAM", details: "Asked to weld without a permit, cash only." });
+      check(`Farhad reports "${title}"`, rep, 200);
+      const reportId = (await prisma.report.findFirst({ where: { targetType: "JOB", targetId: job.json.id }, select: { id: true } })).id;
+      check(`admin removes reported "${title}"`, await adminApi("POST", `/api/admin/reports/${reportId}`, { action: "remove" }), 200);
+    }
+    const open = await prisma.bid.count({ where: { jobId: job.json.id, status: "PENDING" } });
+    check(`no pending bids left after ${how} cancel`, { status: open === 0 ? 200 : 0, json: { error: `${open} still pending` } }, 200);
+  }
+
   check("customer cannot issue an invoice", await api("POST", `/api/admin/orders/x/invoices`, P.jalal.token, {}), 403);
   const orderLog = [];
   for (const o of orders) {
