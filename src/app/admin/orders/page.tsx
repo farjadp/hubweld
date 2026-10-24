@@ -15,7 +15,11 @@ export default async function AdminOrdersPage() {
   if (me.role !== "ADMIN") redirect("/dashboard");
 
   const orders = await prisma.order.findMany({
-    include: { buyer: true, _count: { select: { items: true } } },
+    include: {
+      buyer: true,
+      _count: { select: { items: true } },
+      invoices: { where: { status: { not: "VOID" } }, select: { number: true, status: true } },
+    },
     orderBy: { createdAt: "desc" },
     take: 100,
   });
@@ -41,12 +45,21 @@ export default async function AdminOrdersPage() {
             <li key={o.id} className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-5 py-4 hover:border-slate-300 transition-colors">
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Link href={`/orders/${o.id}`} className="font-black text-slate-900 hover:text-brand transition-colors">
+                  <Link href={`/admin/orders/${o.id}`} className="font-black text-slate-900 hover:text-brand transition-colors">
                     #{o.id.slice(-8).toUpperCase()}
                   </Link>
                   <span className={`inline-flex items-center rounded border px-2 py-0.5 text-[10px] font-black uppercase tracking-widest ${statusColor[o.status] ?? "bg-slate-100 text-slate-500 border-slate-200"}`}>
                     {o.status}
                   </span>
+                  {o.invoices[0] ? (
+                    <span className={`inline-flex items-center rounded border px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-widest ${o.invoices[0].status === "PAID" ? "border-green-600/30 bg-green-600/10 text-green-700" : "border-amber-600/25 bg-amber-600/10 text-amber-700"}`}>
+                      {o.invoices[0].number} · {o.invoices[0].status === "PAID" ? "paid" : "unpaid"}
+                    </span>
+                  ) : o.status !== "CANCELLED" ? (
+                    <span className="inline-flex items-center rounded border border-slate-200 px-2 py-0.5 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                      Not invoiced
+                    </span>
+                  ) : null}
                   {o.paymentMethod === "net30" && (
                     <span className="inline-flex items-center rounded border border-blue-600/25 bg-blue-600/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-widest text-blue-700">
                       Net 30
