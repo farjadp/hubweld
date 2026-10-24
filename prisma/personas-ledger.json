@@ -1,0 +1,394 @@
+{
+  "generatedAt": "2026-10-24T00:19:00.952Z",
+  "password": "Hubweld#Persona26",
+  "exchanges": {
+    "dxbDeira": {
+      "name": "Sarrafi Kish Exchange",
+      "branch": "Deira, Dubai",
+      "country": "UAE"
+    },
+    "dxbRas": {
+      "name": "Sarrafi Pars Exchange",
+      "branch": "Al Ras, Dubai",
+      "country": "UAE"
+    },
+    "istLaleli": {
+      "name": "Sarrafi Golestan",
+      "branch": "Laleli, Istanbul",
+      "country": "Turkey"
+    },
+    "istAksaray": {
+      "name": "Sarrafi Mehrgan",
+      "branch": "Aksaray, Istanbul",
+      "country": "Turkey"
+    },
+    "suli": {
+      "name": "Sarrafi Zagros",
+      "branch": "Salim Street, Sulaymaniyah",
+      "country": "Iraq"
+    },
+    "erbil": {
+      "name": "Sarrafi Arvand",
+      "branch": "Bakhtiari, Erbil",
+      "country": "Iraq"
+    },
+    "basra": {
+      "name": "Sarrafi Karun",
+      "branch": "Ashar, Basra",
+      "country": "Iraq"
+    }
+  },
+  "rates": {
+    "AED": 2.66,
+    "USD": 0.724,
+    "TRY": 30.4,
+    "IQD": 948
+  },
+  "orders": [
+    {
+      "reference": "#0LT7DXV8",
+      "orderId": "cmvlniazc00b7dbog0lt7dxv8",
+      "buyer": "Jalal Heidari",
+      "buyerCity": "Dubai",
+      "totalCAD": 8347,
+      "lifecycle": "delivered",
+      "invoice": {
+        "number": "INV-2026-0001",
+        "issued": "2026-08-16",
+        "terms": "Due in 7 days",
+        "amount": 8347
+      },
+      "payment": {
+        "exchange": "Sarrafi Kish Exchange",
+        "branch": "Deira, Dubai",
+        "country": "UAE",
+        "paidOn": "2026-08-18",
+        "currency": "AED",
+        "amountLocal": 22203.02,
+        "exchangeFeeLocal": 266.44,
+        "rateCADtoLocal": 2.66,
+        "reference": "DXB-260818-2837",
+        "transfers": 2,
+        "settledCAD": 8347
+      },
+      "finalStatus": "COMPLETED"
+    },
+    {
+      "reference": "#KLE3DUOX",
+      "orderId": "cmvlnib0100bqdbogkle3duox",
+      "buyer": "Masoud Kamali",
+      "buyerCity": "Sharjah",
+      "totalCAD": 3480,
+      "lifecycle": "shipped",
+      "invoice": {
+        "number": "INV-2026-0002",
+        "issued": "2026-08-22",
+        "terms": "Due in 7 days",
+        "amount": 3480
+      },
+      "payment": {
+        "exchange": "Sarrafi Pars Exchange",
+        "branch": "Al Ras, Dubai",
+        "country": "UAE",
+        "paidOn": "2026-08-24",
+        "currency": "AED",
+        "amountLocal": 9256.8,
+        "exchangeFeeLocal": 111.08,
+        "rateCADtoLocal": 2.66,
+        "reference": "DXB-260824-8146",
+        "transfers": 1,
+        "settledCAD": 3480
+      },
+      "finalStatus": "SHIPPED"
+    },
+    {
+      "reference": "#FTMSU375",
+      "orderId": "cmvlnib0s00ccdbogftmsu375",
+      "buyer": "Majid Pourmand",
+      "buyerCity": "Istanbul",
+      "totalCAD": 5440,
+      "lifecycle": "delivered",
+      "invoice": {
+        "number": "INV-2026-0003",
+        "issued": "2026-08-25",
+        "terms": "Due in 7 days",
+        "amount": 5440
+      },
+      "payment": {
+        "exchange": "Sarrafi Golestan",
+        "branch": "Laleli, Istanbul",
+        "country": "Turkey",
+        "paidOn": "2026-08-27",
+        "currency": "USD",
+        "amountLocal": 3938.56,
+        "exchangeFeeLocal": 47.26,
+        "rateCADtoLocal": 0.724,
+        "reference": "IST-260827-5480",
+        "transfers": 2,
+        "settledCAD": 5440
+      },
+      "finalStatus": "COMPLETED"
+    },
+    {
+      "reference": "#H5G70ZM6",
+      "orderId": "cmvlnib1h00cvdbogh5g70zm6",
+      "buyer": "Ebrahim Asadi",
+      "buyerCity": "Izmir",
+      "totalCAD": 1524,
+      "lifecycle": "paid",
+      "invoice": {
+        "number": "INV-2026-0004",
+        "issued": "2026-09-17",
+        "terms": "Due in 7 days",
+        "amount": 1524
+      },
+      "payment": {
+        "exchange": "Sarrafi Mehrgan",
+        "branch": "Aksaray, Istanbul",
+        "country": "Turkey",
+        "paidOn": "2026-09-19",
+        "currency": "TRY",
+        "amountLocal": 46329.6,
+        "exchangeFeeLocal": 555.96,
+        "rateCADtoLocal": 30.4,
+        "reference": "IST-260919-4050",
+        "transfers": 1,
+        "settledCAD": 1524
+      },
+      "finalStatus": "PAID"
+    },
+    {
+      "reference": "#XUZ0PRE5",
+      "orderId": "cmvlnib2700dhdbogxuz0pre5",
+      "buyer": "Kamran Ardalan",
+      "buyerCity": "Sulaymaniyah",
+      "totalCAD": 2785,
+      "lifecycle": "shipped",
+      "invoice": {
+        "number": "INV-2026-0005",
+        "issued": "2026-09-02",
+        "terms": "Due in 7 days",
+        "amount": 2785
+      },
+      "payment": {
+        "exchange": "Sarrafi Zagros",
+        "branch": "Salim Street, Sulaymaniyah",
+        "country": "Iraq",
+        "paidOn": "2026-09-04",
+        "currency": "USD",
+        "amountLocal": 2016.34,
+        "exchangeFeeLocal": 24.2,
+        "rateCADtoLocal": 0.724,
+        "reference": "SUL-260904-8809",
+        "transfers": 1,
+        "settledCAD": 2785
+      },
+      "finalStatus": "SHIPPED"
+    },
+    {
+      "reference": "#AXT1FI6L",
+      "orderId": "cmvlnib2y00e4dbogaxt1fi6l",
+      "buyer": "Morteza Ghasemi",
+      "buyerCity": "Erbil",
+      "totalCAD": 6950,
+      "lifecycle": "invoiced-unpaid",
+      "invoice": {
+        "number": "INV-2026-0006",
+        "issued": "2026-09-06",
+        "terms": "Due in 7 days",
+        "amount": 6950
+      },
+      "finalStatus": "PENDING"
+    },
+    {
+      "reference": "#203P2W78",
+      "orderId": "cmvlnib3j00endbog203p2w78",
+      "buyer": "Abbas Rahmani",
+      "buyerCity": "Basra",
+      "totalCAD": 3286,
+      "lifecycle": "partial-cancel",
+      "invoice": {
+        "number": "INV-2026-0007",
+        "issued": "2026-09-13",
+        "terms": "Due in 7 days",
+        "amount": 3286
+      },
+      "payment": {
+        "exchange": "Sarrafi Karun",
+        "branch": "Ashar, Basra",
+        "country": "Iraq",
+        "paidOn": "2026-09-15",
+        "currency": "IQD",
+        "amountLocal": 3115128,
+        "exchangeFeeLocal": 37381.54,
+        "rateCADtoLocal": 948,
+        "reference": "BAS-260915-5811",
+        "transfers": 1,
+        "settledCAD": 3286
+      },
+      "finalStatus": "COMPLETED"
+    },
+    {
+      "reference": "#GV3VK6DL",
+      "orderId": "cmvlnib4800f9dboggv3vk6dl",
+      "buyer": "Pedram Saberi",
+      "buyerCity": "Abu Dhabi",
+      "totalCAD": 5080,
+      "lifecycle": "delivered",
+      "invoice": {
+        "number": "INV-2026-0008",
+        "issued": "2026-09-23",
+        "terms": "Due in 7 days",
+        "amount": 5080
+      },
+      "payment": {
+        "exchange": "Sarrafi Kish Exchange",
+        "branch": "Deira, Dubai",
+        "country": "UAE",
+        "paidOn": "2026-09-25",
+        "currency": "AED",
+        "amountLocal": 13512.8,
+        "exchangeFeeLocal": 162.15,
+        "rateCADtoLocal": 2.66,
+        "reference": "DXB-260925-2065",
+        "transfers": 2,
+        "settledCAD": 5080
+      },
+      "finalStatus": "COMPLETED"
+    },
+    {
+      "reference": "#2PJ3IK4J",
+      "orderId": "cmvlnib4v00fsdbog2pj3ik4j",
+      "buyer": "Houman Daneshvar",
+      "buyerCity": "Istanbul",
+      "totalCAD": 6150,
+      "lifecycle": "paid",
+      "invoice": {
+        "number": "INV-2026-0009",
+        "issued": "2026-09-25",
+        "terms": "Due in 7 days",
+        "amount": 6150
+      },
+      "payment": {
+        "exchange": "Sarrafi Golestan",
+        "branch": "Laleli, Istanbul",
+        "country": "Turkey",
+        "paidOn": "2026-09-27",
+        "currency": "USD",
+        "amountLocal": 4452.6,
+        "exchangeFeeLocal": 53.43,
+        "rateCADtoLocal": 0.724,
+        "reference": "IST-260927-8983",
+        "transfers": 2,
+        "settledCAD": 6150
+      },
+      "finalStatus": "PAID"
+    },
+    {
+      "reference": "#GDSPCYB8",
+      "orderId": "cmvlnib5h00gadboggdspcyb8",
+      "buyer": "Azadeh Khosravi",
+      "buyerCity": "Dubai",
+      "totalCAD": 2068,
+      "lifecycle": "shipped",
+      "invoice": {
+        "number": "INV-2026-0010",
+        "issued": "2026-09-29",
+        "terms": "Due in 7 days",
+        "amount": 2068
+      },
+      "payment": {
+        "exchange": "Sarrafi Pars Exchange",
+        "branch": "Al Ras, Dubai",
+        "country": "UAE",
+        "paidOn": "2026-10-01",
+        "currency": "AED",
+        "amountLocal": 5500.88,
+        "exchangeFeeLocal": 66.01,
+        "rateCADtoLocal": 2.66,
+        "reference": "DXB-261001-2741",
+        "transfers": 1,
+        "settledCAD": 2068
+      },
+      "finalStatus": "SHIPPED"
+    },
+    {
+      "reference": "#JUDGC4B9",
+      "orderId": "cmvlnib6400gsdbogjudgc4b9",
+      "buyer": "Taha Rezvani",
+      "buyerCity": "Najaf",
+      "totalCAD": 2349,
+      "lifecycle": "pending",
+      "finalStatus": "PENDING"
+    },
+    {
+      "reference": "#QG4PKJBH",
+      "orderId": "cmvlnib6q00hadbogqg4pkjbh",
+      "buyer": "Nima Esfandiari",
+      "buyerCity": "Toronto",
+      "totalCAD": 322.05,
+      "lifecycle": "delivered",
+      "finalStatus": "COMPLETED"
+    },
+    {
+      "reference": "#KP8TPSRR",
+      "orderId": "cmvlnib7n00hwdbogkp8tpsrr",
+      "buyer": "Golnaz Mousavi",
+      "buyerCity": "Mississauga",
+      "totalCAD": 8870.5,
+      "lifecycle": "net30-delivered",
+      "invoice": {
+        "number": "INV-2026-0011",
+        "issued": "2026-08-30",
+        "terms": "Net 30",
+        "amount": 8870.5
+      },
+      "finalStatus": "COMPLETED"
+    },
+    {
+      "reference": "#PUH6QAN0",
+      "orderId": "cmvlnib8i00ifdbogpuh6qan0",
+      "buyer": "Vahid Karami",
+      "buyerCity": "Surrey",
+      "totalCAD": 2731.68,
+      "lifecycle": "shipped",
+      "finalStatus": "SHIPPED"
+    },
+    {
+      "reference": "#3UK1KP6J",
+      "orderId": "cmvlnib9100itdbog3uk1kp6j",
+      "buyer": "Siavash Fallahi",
+      "buyerCity": "Montreal",
+      "totalCAD": 303.53,
+      "lifecycle": "pending",
+      "finalStatus": "PENDING"
+    },
+    {
+      "reference": "#KGVUE8IW",
+      "orderId": "cmvlnib9w00jedbogkgvue8iw",
+      "buyer": "Babak Nouri",
+      "buyerCity": "Newmarket",
+      "totalCAD": 2535.72,
+      "lifecycle": "delivered",
+      "finalStatus": "COMPLETED"
+    },
+    {
+      "reference": "#8QQ07GEA",
+      "orderId": "cmvlnibak00jxdbog8qq07gea",
+      "buyer": "Ehsan Partovi",
+      "buyerCity": "Toronto",
+      "totalCAD": 646.36,
+      "lifecycle": "shipped",
+      "finalStatus": "SHIPPED"
+    },
+    {
+      "reference": "#6J04PRSX",
+      "orderId": "cmvlnibb100kbdbog6j04prsx",
+      "buyer": "Shahin Darvish",
+      "buyerCity": "Richmond Hill",
+      "totalCAD": 2587.7,
+      "lifecycle": "buyer-cancel",
+      "finalStatus": "CANCELLED"
+    }
+  ]
+}
