@@ -63,6 +63,7 @@ The database has several interconnected entities:
 ## 6. Money, Orders & Tax
 - **CAD is the settlement currency.** Every `priceCents` and order total is Canadian dollars. USD/EUR are display-only conversions (`src/lib/currency.ts`) and must always be labelled indicative.
 - **No payment gateway is connected.** Checkout records an order as `PENDING`, says plainly that nothing was charged, and emails buyer + ops + suppliers. Do not add a UI that implies a card was taken.
+- **Invoices and payments** (`Invoice`, `Payment`, `src/lib/invoices.ts`) are the only record that money arrived. Ops issues one live invoice per order and records each payment in `/admin/orders/[id]` — usually a transfer through an exchange house (sarrafi) in the UAE, Turkey or Iraq, with the house, branch, local currency, counter amount, fee, rate and havaleh reference. When payments cover the invoice it becomes PAID and a PENDING order moves to PAID. A voided invoice frees the order; one with payments cannot be voided.
 - `paymentMethod` on `Order` is the buyer's request: `contact` or `net30`. Ops acts on it, so it must stay visible in the admin list and the order detail.
 - **Stock is reserved at checkout.** Anything that cancels must give it back — use `restoreStockFor()` in `src/lib/orders.ts`. Order status rolls up from its items via `orderStatusFromItems()`.
 - **Sales tax** comes from the destination province (`src/lib/totals.ts`) and is an estimate, confirmed on the follow-up call. Shipping: flat CAD $15, free over CAD $500.

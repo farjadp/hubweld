@@ -40,6 +40,7 @@ model User {
   reportsFiled  Report[]    @relation("ReportsFiled")
   blocking      UserBlock[] @relation("Blocker")
   blockedBy     UserBlock[] @relation("Blocked")
+  paymentsRecorded Payment[] @relation("PaymentRecorder")
 }
 
 model WelderProfile {
@@ -208,6 +209,56 @@ model Order {
   notes         String   @default("")
   createdAt     DateTime @default(now())
   items         OrderItem[]
+  invoices      Invoice[]
+}
+
+// ============ Invoicing ============
+
+// An invoice ops issues after the follow-up call, in CAD. No gateway is
+// connected, so this and its payments are the only record that money arrived.
+// VOID frees the order for a corrected invoice; a paid invoice cannot be voided.
+model Invoice {
+  id          String    @id @default(cuid())
+  number      String    @unique // INV-2026-0001
+  orderId     String
+  order       Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  amountCents Int       // CAD
+  status      String    @default("ISSUED") // ISSUED | PAID | VOID
+  issuedAt    DateTime  @default(now())
+  dueAt       DateTime?
+  notes       String    @default("")
+  createdAt   DateTime  @default(now())
+  payments    Payment[]
+
+  @@index([orderId])
+}
+
+// Money received against an invoice. Buyers abroad usually pay through an
+// exchange house (sarrafi) in the UAE, Turkey or Iraq, which settles to us in
+// CAD: amountCents is what we were credited, the local* fields are what the
+// buyer handed over at the counter. Local amounts are floats because IQD totals
+// overflow a 32-bit count of fils; they are a record, never summed for the ledger.
+model Payment {
+  id              String   @id @default(cuid())
+  invoiceId       String
+  invoice         Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  method          String   // EXCHANGE | BANK_TRANSFER | CARD | CASH | OTHER
+  amountCents     Int      // CAD credited
+  paidAt          DateTime
+  exchangeName    String   @default("")
+  exchangeBranch  String   @default("")
+  exchangeCountry String   @default("")
+  localCurrency   String   @default("") // AED | USD | TRY | IQD | EUR …
+  localAmount     Float?
+  localFee        Float?
+  rate            Float?   // 1 CAD = rate localCurrency
+  reference       String   @default("") // havaleh / transfer reference
+  notes           String   @default("")
+  recordedById    String
+  recordedBy      User     @relation("PaymentRecorder", fields: [recordedById], references: [id])
+  createdAt       DateTime @default(now())
+
+  @@index([invoiceId])
 }
 
 model OrderItem {

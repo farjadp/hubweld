@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin, forbidden } from "@/lib/admin-guard";
 import { z } from "zod";
+import { rejectPendingBids, notifyBidsClosed } from "@/lib/jobs";
 
 const patchSchema = z.object({
   title: z.string().min(3).optional(),
@@ -19,7 +20,12 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (!job) return NextResponse.json({ error: "Not found" }, { status: 404 });
   const parsed = patchSchema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: "Invalid input" }, { status: 400 });
-  await prisma.job.update({ where: { id: params.id }, data: parsed.data });
+  const cancelling = parsed.data.status === "CANCELLED" && job.status !== "CANCELLED";
+  const closed = await prisma.$transaction(async (tx) => {
+    await tx.job.update({ where: { id: params.id }, data: parsed.data });
+    return cancelling ? rejectPendingBids(tx, [job.id]) : [];
+  });
+  notifyBidsClosed(closed);
   return NextResponse.json({ ok: true });
 }
 

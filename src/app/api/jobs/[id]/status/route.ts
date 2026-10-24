@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 import { notifyUsers } from "@/lib/push";
+import { rejectPendingBids, notifyBidsClosed } from "@/lib/jobs";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const me = await getCurrentUser();
@@ -27,7 +28,11 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
   if (!allowed) return NextResponse.json({ error: "Transition not allowed" }, { status: 403 });
 
-  await prisma.job.update({ where: { id: params.id }, data: { status } });
+  const closed = await prisma.$transaction(async (tx) => {
+    await tx.job.update({ where: { id: params.id }, data: { status } });
+    return status === "CANCELLED" ? rejectPendingBids(tx, [job.id]) : [];
+  });
+  notifyBidsClosed(closed);
 
   // Tell the other side of the job, never the person who made the change.
   const label: Record<string, string> = { IN_PROGRESS: "is in progress", COMPLETED: "is complete", CANCELLED: "was cancelled" };

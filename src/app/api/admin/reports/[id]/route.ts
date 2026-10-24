@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin, forbidden } from "@/lib/admin-guard";
+import { rejectPendingBids, notifyBidsClosed } from "@/lib/jobs";
 
 /**
  * POST { action } — close a report.
@@ -24,7 +25,14 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   const id = report.targetId;
   switch (report.targetType) {
     // Jobs and products have history (bids, orders) hanging off them: hide, don't delete.
-    case "JOB": await prisma.job.updateMany({ where: { id }, data: { status: "CANCELLED" } }); break;
+    case "JOB": {
+      const closed = await prisma.$transaction(async (tx) => {
+        const { count } = await tx.job.updateMany({ where: { id, status: { not: "CANCELLED" } }, data: { status: "CANCELLED" } });
+        return count ? rejectPendingBids(tx, [id]) : [];
+      });
+      notifyBidsClosed(closed);
+      break;
+    }
     case "PRODUCT": await prisma.product.updateMany({ where: { id }, data: { status: "ARCHIVED" } }); break;
     case "BID": await prisma.bid.deleteMany({ where: { id } }); break;
     case "REVIEW": await prisma.review.deleteMany({ where: { id } }); break;
