@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/current-user";
 import { prisma } from "@/lib/prisma";
 import { deleteUpload } from "@/lib/uploads";
 import { parseGallery } from "@/lib/api-dto";
+import { notifyBidsClosed } from "@/lib/jobs";
 
 /**
  * Account self-service for every signed-in role.
@@ -118,6 +119,12 @@ export async function DELETE(req: Request) {
         .filter((u) => u.startsWith("/api/files/") || u.startsWith("/uploads/"))
     : [];
 
+  // Bidders on the jobs being cancelled below, to tell them once it commits.
+  const closingBids = await prisma.bid.findMany({
+    where: { status: "PENDING", job: { customerId: me.id, status: "OPEN" } },
+    select: { welderId: true, jobId: true, job: { select: { title: true } } },
+  });
+
   await prisma.$transaction([
     prisma.user.update({
       where: { id: me.id },
@@ -139,11 +146,15 @@ export async function DELETE(req: Request) {
     // Off the shelves, but kept so past order lines still point somewhere.
     prisma.product.updateMany({ where: { supplierId: me.id }, data: { status: "ARCHIVED", featured: false } }),
     // Nobody is left to award open jobs or to do the work for pending bids.
+    // Bids first: the filter relies on the jobs still being OPEN.
+    prisma.bid.updateMany({ where: { status: "PENDING", job: { customerId: me.id, status: "OPEN" } }, data: { status: "REJECTED" } }),
     prisma.job.updateMany({ where: { customerId: me.id, status: "OPEN" }, data: { status: "CANCELLED" } }),
     prisma.bid.deleteMany({ where: { welderId: me.id, status: "PENDING" } }),
     prisma.cart.deleteMany({ where: { userId: me.id } }),
     prisma.mobileSession.deleteMany({ where: { userId: me.id } }),
   ]);
+
+  notifyBidsClosed(closingBids.map((b) => ({ welderId: b.welderId, jobId: b.jobId, title: b.job.title })));
 
   // After the commit: a failed unlink must not undo the deletion.
   await Promise.all(files.map((url) => deleteUpload(url)));
